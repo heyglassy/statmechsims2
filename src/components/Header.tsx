@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Menu, Switch } from "@headlessui/react";
+import { Menu } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import Head from "next/head";
 import Link from "next/link";
 
 interface MyLinkProps {
