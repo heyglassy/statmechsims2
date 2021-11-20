@@ -10,9 +10,7 @@ const Layout = ({ children }: AppProps) => {
   return (
     <div>
       <Header />
-      <main className="flex">
-        <div>{children}</div>
-      </main>
+      <main className="flex">{children}</main>
     </div>
   );
 };

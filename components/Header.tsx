@@ -35,7 +35,7 @@ const ModelsList: Array<Models> = [
 
 const Header = () => {
   return (
-    <header className="flex flex-row items-center justify-stretch py-2.5 bg-gray-100 w-screen">
+    <header className="flex flex-row items-center justify-stretch py-1.5 bg-gray-100 w-screen">
       <h1 className="text-xl mx-3">Ising Model Sims & Exp. Suite</h1>
       <h2 className="text-sm mr-3 text-black text-opacity-50">
         Choose Algorithim:
