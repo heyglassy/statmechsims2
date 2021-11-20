@@ -54,7 +54,9 @@ const Header = () => {
           ))}
         </Menu.Items>
       </Menu>
-      <h1 className="mx-4">Set Freeplay:</h1>
+      <h2 className="text-sm mx-3 text-black text-opacity-50">
+        Set Freeplay Mode:{" "}
+      </h2>
       <Switch
         checked={enabled}
         onChange={setEnabled}
