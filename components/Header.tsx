@@ -1,4 +1,5 @@
-import { Menu } from "@headlessui/react";
+import { useState } from "react";
+import { Menu, Switch } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 
@@ -34,8 +35,9 @@ const ModelsList: Array<Models> = [
 ];
 
 const Header = () => {
+  const [enabled, setEnabled] = useState(false);
   return (
-    <header className="flex flex-row items-center justify-stretch py-1.5 bg-gray-100 w-screen">
+    <header className="flex flex-row items-center justify-start py-1.5 bg-gray-100 w-screen">
       <h1 className="text-xl mx-3">Ising Model Sims & Exp. Suite</h1>
       <h2 className="text-sm mr-3 text-black text-opacity-50">
         Choose Algorithim:
@@ -52,6 +54,21 @@ const Header = () => {
           ))}
         </Menu.Items>
       </Menu>
+      <h1 className="mx-4">Set Freeplay:</h1>
+      <Switch
+        checked={enabled}
+        onChange={setEnabled}
+        className={`${
+          enabled ? "bg-blue-600" : "bg-gray-200"
+        } relative inline-flex items-center h-6 rounded-full w-11`}
+      >
+        <span className="sr-only">Set Freeplay</span>
+        <span
+          className={`${
+            enabled ? "translate-x-6" : "translate-x-1"
+          } inline-block w-4 h-4 transform bg-white rounded-full`}
+        ></span>
+      </Switch>
     </header>
   );
 };
