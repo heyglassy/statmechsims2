@@ -36,20 +36,4 @@ declare namespace Settings {
       spin: Boolean;
     };
   };
-
-  type State = {
-    settings: settings;
-    dashboard: dashboard;
-    spins: Array<Array<number>>;
-    context?: CanvasRenderingContext2D;
-    setSettings: (newSettings: settings) => void;
-    resetSettings: () => void;
-    initSpins: () => void;
-    setContext: (context: CanvasRenderingContext2D) => void;
-    resetDashboard: () => void;
-    initDashboard: () => void;
-    setDashboard: (newDashboard: dashboard) => void;
-    incSteps: () => void;
-    incCycles: () => void;
-  };
 }

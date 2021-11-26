@@ -1,6 +1,9 @@
 import create from "zustand/vanilla";
 import type { dashboard } from "./dashboard";
-import type { settings, State } from "./settings";
+import type { graphData, plotPoint } from "./graphs";
+import type { settings } from "./settings";
+import type { state } from "./state";
+import Chart from "chart.js/auto";
 
 const defaultSettings: settings = {
   freePlay: false,
@@ -57,18 +60,52 @@ const defaultDashboard: dashboard = {
   sigmaMagnetisation: 0,
 };
 
-const TSStore = create<State>((set) => ({
+const defaultGraphData: graphData = [
+  { x: 1, y: 1 },
+  { x: 2, y: 2 },
+];
+
+const TSStore = create<state>((set) => ({
   settings: defaultSettings,
   dashboard: defaultDashboard,
+  graph: new Chart("temp_vs_mag_graph", {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Sales",
+          data: [],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  }),
+  graphData: defaultGraphData,
   spins: [],
   context: undefined,
+  updateGraph: (plotPoint: plotPoint) =>
+    set((state: state) => {
+      console.log(plotPoint);
+      state.graph.data.datasets.forEach((dataset: any) => {
+        dataset.data.push(plotPoint);
+      });
+      state.graph.update();
+      return { graphData: state.graphData.concat(plotPoint) };
+    }),
   setSettings: (newSettings: settings) =>
     set(() => ({
       settings: { ...newSettings },
     })),
   resetSettings: () => set({ settings: defaultSettings }),
   initSpins: () =>
-    set((state: State) => {
+    set((state: state) => {
       let s = new Array<Array<number>>(state.settings.latticeSize);
       for (let i = 0; i < state.settings.latticeSize; i++) {
         s[i] = new Array<number>(state.settings.latticeSize);
@@ -80,50 +117,89 @@ const TSStore = create<State>((set) => ({
       return { spins: s };
     }),
   setContext: (context: CanvasRenderingContext2D) =>
-    set((state: State) => {
+    set((state: state) => {
       state.context = context;
     }),
-  resetDashboard: () => set({ dashboard: { ...defaultDashboard } }),
+  resetDashboard: () => {
+    set((state: state) => ({
+      dashboard: {
+        ...state.dashboard,
+        steps: 0,
+        averageEnergy: 0,
+        sigmaEnergy: 0,
+        averageMagnetization: 0,
+        sigmaMagnetisation: 0,
+      },
+    }));
+  },
   initDashboard: () =>
-    set((state: State) => {
+    set((state: state) => {
       return {
         dashboard: {
           ...defaultDashboard,
           cycles: {
-            ...defaultDashboard.cycles,
+            currentCycle: 1,
             totalCycles: state.settings.numberOfCycles!,
           },
+          temperature: state.settings.initialTemp!,
           frames: {
             ...defaultDashboard.frames,
             totalFrames:
-              ((state.settings.maxTemp! - state.settings.initialTemp!) /
-                state.settings.tempStep!) *
-              state.settings.numberOfCycles!,
+              (state.settings.maxTemp != 0
+                ? (state.settings.maxTemp! - state.settings.initialTemp!) /
+                  state.settings.tempStep!
+                : 1) * state.settings.numberOfCycles!,
           },
         },
       };
     }),
   setDashboard: (newDashboard: dashboard) => {
-    set((state: State) => ({
+    set((state: state) => ({
       dashboard: { ...state.dashboard, ...newDashboard },
     }));
   },
   incSteps: () => {
-    set((state: State) => ({
+    set((state: state) => ({
       dashboard: {
         ...state.dashboard,
         steps: state.dashboard.steps + 1,
       },
     }));
   },
+  incFrames: () => {
+    set((state: state) => ({
+      dashboard: {
+        ...state.dashboard,
+        frames: {
+          ...state.dashboard.frames,
+          savedFrames: state.dashboard.frames.savedFrames + 1,
+        },
+        temperature:
+          Math.round(
+            (state.dashboard.temperature + state.settings.tempStep!) * 10000
+          ) / 10000,
+      },
+    }));
+  },
+
   incCycles: () => {
-    set((state: State) => ({
+    set((state: state) => ({
       dashboard: {
         ...state.dashboard,
         cycles: {
           ...state.dashboard.cycles,
           currentCycle: state.dashboard.cycles.currentCycle + 1,
         },
+        temperature: 0,
+      },
+    }));
+  },
+
+  endSimulation: () => {
+    set((state: state) => ({
+      settings: {
+        ...state.settings,
+        simulation: false,
       },
     }));
   },

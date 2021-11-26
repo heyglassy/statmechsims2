@@ -4,9 +4,15 @@ import runner from "../models/runner";
 import { metropolisSetup } from "../models/setup";
 
 const Sidebar = () => {
-  let { settings, setSettings, initDashboard, initSpins } = Store(
-    (state) => state
-  );
+  let {
+    settings,
+    setSettings,
+    initDashboard,
+    initSpins,
+    updateGraph,
+    graph,
+    graphData,
+  } = Store((state) => state);
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -141,11 +147,12 @@ const Sidebar = () => {
             <option>1</option>
             <option>0.1</option>
             <option selected>0.01</option>
-            <option>0.01</option>
+            <option>0.001</option>
           </select>
         </div>
         <div className="bg-white my-2 w-full h-px"></div>
-        <div className="inline-flex items-center">
+        {/* TODO: Depricate Fixed Temperature */}
+        {/* <div className="inline-flex items-center">
           <h1>Fixed Temperature</h1>
           <input
             className="ml-5 w-4 h-4 bg-gray-100 border border-black rounded"
@@ -156,7 +163,7 @@ const Sidebar = () => {
             }
             name="temp"
           />
-        </div>
+        </div> */}
         <div className="bg-white my-2 w-full h-px"></div>
         <div>
           <h1>Equilibriation Delay(ms)</h1>
@@ -571,7 +578,11 @@ const Sidebar = () => {
           }
           onClick={() => {
             setSettings({ ...settings, simulation: !settings.simulation });
-            initDashboard();
+            console.log(settings.simulation);
+            if (!settings.simulation) {
+              initDashboard();
+              graph.clear();
+            } // console.log(settings.stepsPerFrame!);
             runner();
           }}
           disabled={settings.freePlay ? true : false}

@@ -8,7 +8,6 @@ const Canvas = () => {
 
   useEffect(() => {
     let context = canvas.current?.getContext("2d", { alpha: false });
-    console.log("test");
     if (context != null || context != undefined) {
       initSpins();
       setContext(context);
