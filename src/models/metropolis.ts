@@ -18,23 +18,6 @@ const metropolis = (timestamp: any) => {
 
   let width = 500 / settings.latticeSize;
 
-  // const deltaU = (
-  //   i: number,
-  //   j: number,
-  //   spins: Array<Array<number>>,
-  //   settings: settings
-  // ) => {
-  //   let left = getLeft(i, j, spins);
-  //   let right = getRight(i, j, spins);
-  //   let top = getTop(i, j, spins);
-  //   let bottom = getBottom(i, j, spins);
-  //   let spin = spins[i][j];
-  //   return (
-  //     2.0 * 1 * spin * (top + bottom + left + right) +
-  //     2.0 * spin * settings.magneticField!
-  //   ); // the one changes based on CouplingConstant
-  // };
-
   const deltaUofM = (
     i: number,
     j: number,
@@ -50,12 +33,12 @@ const metropolis = (timestamp: any) => {
       2.0 * 1 * spin * (top + bottom + left + right) +
       2.0 * spin * settings.magneticField! +
       0
-    ); // 0 needs to be the BfieldM shit
+    ); // 0 is BfieldM (set by sidebar, check v1)
   };
 
   const getLeft = (i: number, j: number, spins: Array<Array<number>>) => {
     if (j == 0) {
-      // stuff
+      // TODO: Add different boundary settings
       return spins[i][settings.latticeSize - 1];
     } else {
       return spins[i][j - 1];
@@ -64,7 +47,7 @@ const metropolis = (timestamp: any) => {
 
   const getRight = (i: number, j: number, spins: Array<Array<number>>) => {
     if (j == settings.latticeSize - 1) {
-      // stuff
+      // TODO: Add different boundary settings
       return spins[i][0];
     } else {
       return spins[i][j + 1];
@@ -73,7 +56,7 @@ const metropolis = (timestamp: any) => {
 
   const getTop = (i: number, j: number, spins: Array<Array<number>>) => {
     if (i == 0) {
-      // stuff
+      // TODO: Add different boundary settings
       return spins[settings.latticeSize - 1][j];
     } else {
       return spins[i - 1][j];
@@ -116,8 +99,7 @@ const metropolis = (timestamp: any) => {
   let model = () => {
     let i = Math.floor(Math.random() * settings.latticeSize);
     let j = Math.floor(Math.random() * settings.latticeSize);
-    //set new
-    let curr_spins: any = spins[i][j];
+    let curr_spins = spins[i][j];
     let _EdiffforM = deltaUofM(i, j, spins, settings);
 
     if (dashboard.temperature == 0) {
@@ -138,29 +120,25 @@ const metropolis = (timestamp: any) => {
     }
   };
 
-  if (settings.simulation && !settings.freePlay) {
-    if (settings.initialTemp == settings.maxTemp) {
-      for (let a = 0; a < settings.stepsPerFrame!; a++) {
-        // for (let a = 0; a < 1000; a++) {
-        model();
-      }
-    } else {
-      for (let a = 0; a < settings.stepsPerFrame!; a++) {
-        model();
-      }
-    }
-  } else if (settings.freePlay && !settings.simulation) {
-    for (let a = 0; a < 1000; a++) {
-      model();
-    }
-  }
-
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
+      if (settings.initialTemp == settings.maxTemp) {
+        // this code runs the model
+        for (let a = 0; a < settings.stepsPerFrame!; a++) {
+          // for (let a = 0; a < 1000; a++) {
+          model();
+        }
+      } else {
+        for (let a = 0; a < settings.stepsPerFrame!; a++) {
+          model();
+        }
+      }
+
       if (
         dashboard.steps % settings.stepsPerFrame! == 0 &&
         dashboard.steps != 0
       ) {
+        // this code updaetes the dashboard and resets values to continue the experiment
         incFrames(); // This increments the temperature as well.
         if (dashboard.temperature == settings.maxTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
@@ -195,6 +173,9 @@ const metropolis = (timestamp: any) => {
       window.requestAnimationFrame(metropolis);
     }
     if (settings.freePlay) {
+      for (let a = 0; a < 1000; a++) {
+        model();
+      }
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
       setDashboard({
         magnetization: Mcurrent / 10000,
