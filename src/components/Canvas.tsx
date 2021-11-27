@@ -17,9 +17,9 @@ const Canvas = () => {
 
   return (
     <canvas
-      className="w-650 h-650 bg-white ml-5 mt-5"
-      width="500px"
-      height="500px"
+      className="w-600 h-600 bg-white ml-5 mt-5"
+      width="600px"
+      height="600px"
       ref={canvas}
     ></canvas>
   );

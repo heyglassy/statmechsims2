@@ -19,7 +19,7 @@ const metropolis = (timestamp: number) => {
     canvas,
   } = create(TSStore).getState();
 
-  let width = 500 / settings.latticeSize;
+  let width = 600 / settings.latticeSize;
 
   const deltaUofM = (
     i: number,

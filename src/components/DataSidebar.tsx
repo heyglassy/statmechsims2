@@ -3,7 +3,7 @@ import useStore from "../types/store";
 const DataSidebar = () => {
   const { dashboard, initDashboard } = useStore();
   return (
-    <div className="flex flex-wrap m-3 items-center">
+    <div className="flex flex-wrap m-3 items-center w-full">
       <h1 className="text-2xl font-bold">Data</h1>
       <div className="bg-black my-1 w-full h-px"></div>
       <div className="w-24 h-16 p-2 text-center text-xs bg-white rounded m-2">
@@ -53,7 +53,7 @@ const DataSidebar = () => {
       <input
         type="button"
         value="Reset Stats"
-        className="text-white bg-blue-500 h-10 w-24"
+        className="text-white bg-blue-500 h-10 w-24 rounded"
         onClick={initDashboard}
       />
     </div>

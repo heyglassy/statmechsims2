@@ -3,7 +3,7 @@ import create from "zustand";
 
 const metropolisSetup = () => {
   let { settings, context, spins } = create(TSStore).getState();
-  let width = 500 / settings.latticeSize;
+  let width = 600 / settings.latticeSize;
   for (let a = 0; a < settings.latticeSize; a++) {
     for (let j = 0; j < settings.latticeSize; j++) {
       if (spins[a][j] == 1) context!.fillStyle = "yellow";
