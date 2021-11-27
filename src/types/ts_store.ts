@@ -3,6 +3,7 @@ import type { dashboard } from "./dashboard";
 import type { graphData, plotPoint } from "./graphs";
 import type { settings } from "./settings";
 import type { state } from "./state";
+import type { payload } from "./payload";
 import Chart from "chart.js/auto";
 
 const defaultSettings: settings = {
@@ -67,7 +68,9 @@ const defaultGraphData: graphData = [
 
 const TSStore = create<state>((set) => ({
   settings: defaultSettings,
+  payloads: [],
   dashboard: defaultDashboard,
+  canvas: null,
   graph: new Chart("temp_vs_mag_graph", {
     type: "scatter",
     data: {
@@ -89,10 +92,9 @@ const TSStore = create<state>((set) => ({
   }),
   graphData: defaultGraphData,
   spins: [],
-  context: undefined,
+  context: null,
   updateGraph: (plotPoint: plotPoint) =>
     set((state: state) => {
-      console.log(plotPoint);
       state.graph.data.datasets.forEach((dataset: any) => {
         dataset.data.push(plotPoint);
       });
@@ -116,10 +118,11 @@ const TSStore = create<state>((set) => ({
       }
       return { spins: s };
     }),
-  setContext: (context: CanvasRenderingContext2D) =>
-    set((state: state) => {
-      state.context = context;
-    }),
+  setContext: (canvas: HTMLCanvasElement) =>
+    set((state: state) => ({
+      canvas: canvas,
+      context: canvas.getContext("2d"),
+    })),
   resetDashboard: () => {
     set((state: state) => ({
       dashboard: {
@@ -201,6 +204,12 @@ const TSStore = create<state>((set) => ({
         ...state.settings,
         simulation: false,
       },
+    }));
+  },
+
+  updatePayload: (payload: payload) => {
+    set((state: state) => ({
+      payloads: state.payloads.concat(payload),
     }));
   },
 }));

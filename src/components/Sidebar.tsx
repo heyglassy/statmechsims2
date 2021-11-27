@@ -4,15 +4,9 @@ import runner from "../models/runner";
 import { metropolisSetup } from "../models/setup";
 
 const Sidebar = () => {
-  let {
-    settings,
-    setSettings,
-    initDashboard,
-    initSpins,
-    updateGraph,
-    graph,
-    graphData,
-  } = Store((state) => state);
+  let { settings, setSettings, initDashboard, initSpins, graph } = Store(
+    (state) => state
+  );
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -578,11 +572,10 @@ const Sidebar = () => {
           }
           onClick={() => {
             setSettings({ ...settings, simulation: !settings.simulation });
-            console.log(settings.simulation);
             if (!settings.simulation) {
               initDashboard();
               graph.clear();
-            } // console.log(settings.stepsPerFrame!);
+            }
             runner();
           }}
           disabled={settings.freePlay ? true : false}

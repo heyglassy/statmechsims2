@@ -1,4 +1,5 @@
 import type { graph, graphs, plotPoint } from "./graphs";
+import type { payload } from "./payload";
 import type { settings } from "./settings";
 
 export = State;
@@ -8,13 +9,15 @@ declare namespace State {
     settings: settings;
     dashboard: dashboard;
     spins: Array<Array<number>>;
-    context?: CanvasRenderingContext2D;
+    context: CanvasRenderingContext2D | null;
+    canvas: HTMLCanvasElement | null;
     graphData: graphData;
     graph: graph;
+    payloads: payloads;
     setSettings: (newSettings: settings) => void;
     resetSettings: () => void;
     initSpins: () => void;
-    setContext: (context: CanvasRenderingContext2D) => void;
+    setContext: (canvs: HTMLCanvasElement) => void;
     resetDashboard: () => void;
     initDashboard: () => void;
     setDashboard: (newDashboard: dashboard) => void;
@@ -23,5 +26,6 @@ declare namespace State {
     incFrames: () => void;
     endSimulation: () => void;
     updateGraph: (plotPoint: plotPoint) => void;
+    updatePayload: (payload: payload) => void;
   };
 }

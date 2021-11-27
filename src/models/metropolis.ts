@@ -2,11 +2,12 @@ import type { settings } from "../types/settings";
 import create from "zustand";
 import TSStore from "../types/ts_store";
 
-const metropolis = (timestamp: any) => {
+const metropolis = (timestamp: number) => {
   let {
     settings,
     spins,
     context,
+    payloads,
     dashboard,
     setDashboard,
     updateGraph,
@@ -14,6 +15,8 @@ const metropolis = (timestamp: any) => {
     incFrames,
     incCycles,
     endSimulation,
+    updatePayload,
+    canvas,
   } = create(TSStore).getState();
 
   let width = 500 / settings.latticeSize;
@@ -139,10 +142,11 @@ const metropolis = (timestamp: any) => {
         dashboard.steps != 0
       ) {
         // this code updaetes the dashboard and resets values to continue the experiment
+        let frame = canvas!.toDataURL();
+        updatePayload({ settings: settings, data: dashboard, frames: frame });
         incFrames(); // This increments the temperature as well.
         if (dashboard.temperature == settings.maxTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
-            console.log("done");
             endSimulation();
           } else {
             incCycles(); // This also resets temperature to start the next cycle.
