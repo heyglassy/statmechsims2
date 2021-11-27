@@ -1,17 +1,19 @@
 import { useEffect, useRef } from "react";
 import Store from "../types/store";
-import { metropolisSetup } from "../models/setup";
+import setup from "../models/setup";
+import { useRouter } from "next/router";
 
 const Canvas = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
   let { initSpins, setContext } = Store((state) => state);
+  let router = useRouter();
 
   useEffect(() => {
     let context = canvas.current?.getContext("2d", { alpha: false });
     if (context != null || context != undefined) {
       initSpins();
       setContext(canvas.current!);
-      metropolisSetup();
+      setup(router.pathname);
     }
   }, []);
 

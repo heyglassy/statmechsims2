@@ -8,15 +8,19 @@ declare namespace State {
   type state = {
     settings: settings;
     dashboard: dashboard;
+    nearestneighs: Object;
     spins: Array<Array<number>>;
+    wall: Array<Array<number>>;
     context: CanvasRenderingContext2D | null;
     canvas: HTMLCanvasElement | null;
     graphData: graphData;
     graph: graph;
     payloads: payloads;
+    setNearestNeighs: (newneighs: Object) => void;
     setSettings: (newSettings: settings) => void;
     resetSettings: () => void;
     initSpins: () => void;
+    setWall: (wall: wall) => void;
     setContext: (canvs: HTMLCanvasElement) => void;
     resetDashboard: () => void;
     initDashboard: () => void;

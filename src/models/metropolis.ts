@@ -7,7 +7,6 @@ const metropolis = (timestamp: number) => {
     settings,
     spins,
     context,
-    payloads,
     dashboard,
     setDashboard,
     updateGraph,

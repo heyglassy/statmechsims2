@@ -69,6 +69,7 @@ const defaultGraphData: graphData = [
 const TSStore = create<state>((set) => ({
   settings: defaultSettings,
   payloads: [],
+  nearestneighs: [],
   dashboard: defaultDashboard,
   canvas: null,
   graph: new Chart("temp_vs_mag_graph", {
@@ -92,7 +93,9 @@ const TSStore = create<state>((set) => ({
   }),
   graphData: defaultGraphData,
   spins: [],
+  wall: [],
   context: null,
+  setNearestNeighs: (newneighs: Object) => set({ nearestneighs: newneighs }),
   updateGraph: (plotPoint: plotPoint) =>
     set((state: state) => {
       state.graph.data.datasets.forEach((dataset: any) => {
@@ -106,6 +109,11 @@ const TSStore = create<state>((set) => ({
       settings: { ...newSettings },
     })),
   resetSettings: () => set({ settings: defaultSettings }),
+  setWall: (wall: Array<Array<number>>) => {
+    set((state: state) => ({
+      wall: wall,
+    }));
+  },
   initSpins: () =>
     set((state: state) => {
       let s = new Array<Array<number>>(state.settings.latticeSize);

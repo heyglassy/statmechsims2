@@ -1,12 +1,14 @@
 import Store from "../types/store";
 import { Switch } from "@headlessui/react";
 import runner from "../models/runner";
-import { metropolisSetup } from "../models/setup";
+import setup from "../models/setup";
+import { useRouter } from "next/router";
 
 const Sidebar = () => {
   let { settings, setSettings, initDashboard, initSpins, graph } = Store(
     (state) => state
   );
+  let router = useRouter();
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -130,6 +132,41 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
+        {router.pathname === "/models/q-potts" ? (
+          <>
+            <div className="bg-white my-2 w-full h-px"></div>
+            <div>
+              <h1>Q Potts</h1>
+              <input
+                type="range"
+                name="temp"
+                min="0"
+                max="5"
+                value={settings.maxTemp}
+                onChange={(e) =>
+                  setSettings({ ...settings, maxTemp: Number(e.target.value) })
+                }
+              />
+              <input
+                type="number"
+                name="temp"
+                min="0"
+                max="5"
+                value={settings.maxTemp}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    maxTemp: e.target.value
+                      ? Number(e.target.value)
+                      : undefined,
+                  })
+                }
+                step="0.1"
+                className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
+              />
+            </div>
+          </>
+        ) : null}
         <div className="bg-white my-2 w-full h-px"></div>
         <div className="inline-flex">
           <h1>Temperature Step</h1>
@@ -553,7 +590,7 @@ const Sidebar = () => {
               value="Randomize"
               onClick={() => {
                 initSpins();
-                metropolisSetup();
+                setup(router.pathname);
               }}
             />
           </div>
