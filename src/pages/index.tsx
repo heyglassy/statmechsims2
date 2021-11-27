@@ -1,23 +1,10 @@
-import { ReactElement } from "react";
-import Layout from "../components/Layouts";
-import Sidebar from "../components/Sidebar";
-import Canvas from "../components/Canvas";
-import DataSidebar from "../components/DataSidebar";
-import Graphs from "../components/Graphs";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className="w-screen bg-red-500 flex">
-      <Sidebar />
-      <Canvas />
-      <div className="flex flex-col">
-        <DataSidebar />
-        <Graphs />
-      </div>
-    </div>
-  );
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/models/metropolis");
+  }, []);
+  return <div>Redirect</div>;
 }
-
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
