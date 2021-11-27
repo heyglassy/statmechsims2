@@ -3,7 +3,7 @@ import useStore from "../types/store";
 const DataSidebar = () => {
   const { dashboard, initDashboard } = useStore();
   return (
-    <div className="flex flex-wrap m-3 items-center w-full">
+    <div className="flex flex-wrap m-3 items-center w-5/6">
       <h1 className="text-2xl font-bold">Data</h1>
       <div className="bg-black my-1 w-full h-px"></div>
       <div className="w-24 h-16 p-2 text-center text-xs bg-white rounded m-2">
