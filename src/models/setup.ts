@@ -154,6 +154,18 @@ const setup = (model: string) => {
     window.requestAnimationFrame(qpotts);
   } else if (model == "/models/wolff") {
     window.requestAnimationFrame(wolff);
+  } else if (model == "/models/xy") {
+    let s = new Array(settings.latticeSize);
+    for (let i = 0; i < settings.latticeSize; i++) {
+      s[i] = new Array(settings.latticeSize);
+      for (let j = 0; j < settings.latticeSize; j++) {
+        s[i][j] = Math.random() * 2 * Math.PI;
+        var c = Math.random() * 360;
+        context!.fillStyle = `hsl(${c}, 100%, 50%)`;
+        context!.fillRect(i * width, j * width, width, width);
+      }
+    }
+    setSpins(s);
   }
 };
 

@@ -27,7 +27,7 @@ const Sidebar = () => {
                 simulation: false,
               });
               initDashboard();
-              runner();
+              runner(router.pathname);
             }}
             className={`${
               settings.freePlay ? "bg-green-400" : "bg-gray-500"
@@ -613,7 +613,7 @@ const Sidebar = () => {
               initDashboard();
               graph.clear();
             }
-            runner();
+            runner(router.pathname);
           }}
           disabled={settings.freePlay ? true : false}
           className={`${
