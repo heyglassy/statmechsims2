@@ -34,8 +34,8 @@ const defaultSettings: settings = {
   },
   fixedSpin: false,
   proportionSpin: {
-    positive: 0,
-    negative: 0,
+    positive: 0.33,
+    negative: 0.33,
   },
   simulation: false,
 };
@@ -98,6 +98,10 @@ const TSStore = create<state>((set) => ({
   spins: [],
   wall: [],
   context: null,
+  setSpins: (spins: Array<Array<number>>) =>
+    set({
+      spins: spins,
+    }),
   setNearestNeighs: (newneighs: Object) => set({ nearestneighs: newneighs }),
   updateGraph: (plotPoint: plotPoint) =>
     set((state: state) => {

@@ -4,7 +4,7 @@ import qpotts from "./q-potts";
 import wolff from "./wolff";
 
 const setup = (model: string) => {
-  let { settings, context, spins, setWall, setNearestNeighs } =
+  let { settings, context, spins, setWall, setNearestNeighs, setSpins } =
     create(TSStore).getState();
   let width = 600 / settings.latticeSize;
 
@@ -78,6 +78,43 @@ const setup = (model: string) => {
         }
       }
       setNearestNeighs(nearestneighs);
+    }
+  } else if (model == "/models/blume-capel") {
+    let local_spins = new Array(settings.latticeSize);
+    for (let i = 0; i < settings.latticeSize; i++) {
+      local_spins[i] = new Array(settings.latticeSize);
+      for (var j = 0; j < settings.latticeSize; j++) {
+        let randy = Math.random();
+        if (randy <= settings.proportionSpin.positive!) {
+          local_spins[i][j] = 1;
+        } else if (
+          randy >= settings.proportionSpin.positive! &&
+          randy <=
+            settings.proportionSpin.negative! +
+              settings.proportionSpin.positive!
+        ) {
+          local_spins[i][j] = -1;
+        } else {
+          local_spins[i][j] = 0;
+        }
+      }
+    }
+
+    setSpins(local_spins);
+
+    for (let a = 0; a < settings.latticeSize; a++) {
+      for (let b = 0; b < settings.latticeSize; b++) {
+        if (local_spins[a][b] == 1) {
+          context!.fillStyle = "#FE0105"; // purple
+        }
+        if (local_spins[a][b] == 0) {
+          context!.fillStyle = "#000102"; // ehite
+        }
+        if (local_spins[a][b] == -1) {
+          context!.fillStyle = "#FEE901"; //red
+        }
+        context!.fillRect(a * width, b * width, width, width);
+      }
     }
   } else if (model == "/models/transverse-field-ising") {
     let wall = new Array(125);
