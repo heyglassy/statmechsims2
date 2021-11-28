@@ -7,7 +7,7 @@ import Graph from "../../components/Graph";
 
 export default function Transverse() {
   return (
-    <div className="w-screen bg-red-500 flex">
+    <div className="w-screen flex">
       <Sidebar />
       <Canvas />
       <div className="flex flex-col">
