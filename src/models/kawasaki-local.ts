@@ -1,4 +1,3 @@
-// import type { settings } from "../types/settings";
 import create from "zustand";
 import TSStore from "../types/ts_store";
 
@@ -162,7 +161,7 @@ const KawasakiLocal = () => {
 
   //computes total energy from scratch when using the kawasaki algorithm
 
-  function ComputeEforKawasaki() {
+  let ComputeEforKawasaki = () => {
     let Ecurrent = 0.0;
     let Mcurrent = 0.0;
     for (var i = 0; i < settings.latticeSize; i++) {
@@ -180,7 +179,7 @@ const KawasakiLocal = () => {
       }
     }
     return { Ecurrent, Mcurrent };
-  }
+  };
 
   let colorSquare = (i: number, j: number) => {
     if (spins[i][j] == 1) context!.fillStyle = "#ffff00";

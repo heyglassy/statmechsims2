@@ -1,13 +1,18 @@
 import TSStore from "../types/ts_store";
 import create from "zustand";
 import qpotts from "./q-potts";
+import wolff from "./wolff";
 
 const setup = (model: string) => {
   let { settings, context, spins, setWall, setNearestNeighs } =
     create(TSStore).getState();
   let width = 600 / settings.latticeSize;
 
-  if (model == "/models/metropolis" || model == "/models/kawasaki-local") {
+  if (
+    model == "/models/metropolis" ||
+    model == "/models/kawasaki-local" ||
+    model == "/models/kawasaki-non-local"
+  ) {
     for (let a = 0; a < settings.latticeSize; a++) {
       for (let j = 0; j < settings.latticeSize; j++) {
         if (spins[a][j] == 1) context!.fillStyle = "yellow";
@@ -15,7 +20,10 @@ const setup = (model: string) => {
         context!.fillRect(a * width, j * width, width, width);
       }
     }
-    if (model == "/models/kawasaki-local") {
+    if (
+      model == "/models/kawasaki-local" ||
+      model == "/models/kawasaki-non-local"
+    ) {
       let nearestneighs = new Object();
       for (var m = 0; m < settings.latticeSize; m++) {
         for (var n = 0; n < settings.latticeSize; n++) {
@@ -107,6 +115,8 @@ const setup = (model: string) => {
     setWall(wall);
   } else if (model == "/models/q-potts") {
     window.requestAnimationFrame(qpotts);
+  } else if (model == "/models/wolff") {
+    window.requestAnimationFrame(wolff);
   }
 };
 

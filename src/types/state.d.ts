@@ -6,6 +6,9 @@ export = State;
 export as namespace State;
 declare namespace State {
   type state = {
+    spinBefore: Array<any>;
+    clusteredChildren: Array<any>;
+    spin: Array<any>;
     settings: settings;
     dashboard: dashboard;
     nearestneighs: Object;

@@ -67,6 +67,9 @@ const defaultGraphData: graphData = [
 ];
 
 const TSStore = create<state>((set) => ({
+  spinBefore: [],
+  spin: [],
+  clusteredChildren: [],
   settings: defaultSettings,
   payloads: [],
   nearestneighs: [],
@@ -116,6 +119,26 @@ const TSStore = create<state>((set) => ({
   },
   initSpins: () =>
     set((state: state) => {
+      let clusterChild = new Array<any>(
+        state.settings.latticeSize * state.settings.latticeSize
+      );
+      let sBefore = new Array<any>(
+        state.settings.latticeSize * state.settings.latticeSize
+      );
+      sBefore.fill(0);
+
+      let spin = new Array<any>(
+        state.settings.latticeSize * state.settings.latticeSize
+      );
+
+      for (
+        let i = 0;
+        i < state.settings.latticeSize * state.settings.latticeSize;
+        i++
+      ) {
+        spin[i] = Math.random() < 0.5 ? 1 : -1;
+      }
+
       let s = new Array<Array<number>>(state.settings.latticeSize);
       for (let i = 0; i < state.settings.latticeSize; i++) {
         s[i] = new Array<number>(state.settings.latticeSize);
@@ -124,7 +147,12 @@ const TSStore = create<state>((set) => ({
           else s[i][j] = -1;
         }
       }
-      return { spins: s };
+      return {
+        spins: s,
+        spinBefore: sBefore,
+        spin: spin,
+        clusteredChildren: clusterChild,
+      };
     }),
   setContext: (canvas: HTMLCanvasElement) =>
     set((state: state) => ({
