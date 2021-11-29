@@ -15,8 +15,8 @@ const setup = (model: string) => {
   ) {
     for (let a = 0; a < settings.latticeSize; a++) {
       for (let j = 0; j < settings.latticeSize; j++) {
-        if (spins[a][j] == 1) context!.fillStyle = "yellow";
-        else context!.fillStyle = "blue";
+        if (spins[a][j] == 1) context!.fillStyle = "white";
+        else context!.fillStyle = "black";
         context!.fillRect(a * width, j * width, width, width);
       }
     }

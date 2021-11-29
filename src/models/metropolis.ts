@@ -107,8 +107,8 @@ const metropolis = (timestamp: number) => {
     if (dashboard.temperature == 0) {
       if (_EdiffforM < 0.0 || (_EdiffforM == 0 && Math.random() < 0.5)) {
         spins[i][j] = curr_spins * -1;
-        if (spins[i][j] == 1) context!.fillStyle = "#ffff00";
-        else context!.fillStyle = "#0000ff";
+        if (spins[i][j] == 1) context!.fillStyle = "black";
+        else context!.fillStyle = "white";
         context!.fillRect(i * width, j * width, width, width);
       }
     } else if (
@@ -116,8 +116,8 @@ const metropolis = (timestamp: number) => {
       Math.random() < Math.exp(-_EdiffforM / dashboard.temperature!)
     ) {
       spins[i][j] = curr_spins * -1;
-      if (spins[i][j] == 1) context!.fillStyle = "#ffff00";
-      else context!.fillStyle = "#0000ff";
+      if (spins[i][j] == 1) context!.fillStyle = "white";
+      else context!.fillStyle = "black";
       context!.fillRect(i * width, j * width, width, width);
     }
   };
