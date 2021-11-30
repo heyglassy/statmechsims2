@@ -202,7 +202,7 @@ const Sidebar = () => {
             type="range"
             name="temp"
             min="0"
-            max="1000"
+            max="5000"
             value={settings.equilibriationDelay}
             onChange={(e) =>
               setSettings({
