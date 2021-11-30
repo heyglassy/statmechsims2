@@ -22,12 +22,12 @@ const wolff = () => {
   let width = 600 / settings.latticeSize;
 
   function draw() {
-    context!.fillStyle = "#fff";
+    context!.fillStyle = "#ffffff";
     for (var i = 0; i < settings.latticeSize; ++i) {
       for (var j = 0; j < settings.latticeSize; ++j) {
         var idx = i * settings.latticeSize + j;
         if (spin[idx] == 1 && spinBefore[idx] != 1) {
-          context!.fillStyle = "#fff";
+          context!.fillStyle = "#ffffff";
           context!.fillRect(j * width, i * width, width, width);
         }
         if (spin[idx] == -1 && spinBefore[idx] != -1) {
