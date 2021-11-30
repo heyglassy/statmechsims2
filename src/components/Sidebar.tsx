@@ -284,7 +284,7 @@ const Sidebar = () => {
             <option>1000</option>
             <option>10000</option>
             <option>100000</option>
-            <option>1000000</option>
+            <option selected>1000000</option>
             <option>10000000</option>
           </select>
         </div>
