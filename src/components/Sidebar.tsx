@@ -47,7 +47,7 @@ const Sidebar = () => {
           <input
             type="range"
             name="temp"
-            value={settings.initialTemp}
+            value="2.269"
             min="0"
             max="5"
             step="0.01"

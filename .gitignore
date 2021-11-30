@@ -29,7 +29,6 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
-.idea
 # vercel
 .vercel
 
@@ -38,3 +37,4 @@ yarn-error.log*
 
 # idea
 /.idea/
+.idea
