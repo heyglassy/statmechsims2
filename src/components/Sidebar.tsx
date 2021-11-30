@@ -48,7 +48,7 @@ const Sidebar = () => {
             type="range"
             name="temp"
             value={settings.initialTemp}
-            min="2.269"
+            min="0"
             max="5"
             step="0.01"
             onChange={(e) =>
