@@ -182,8 +182,8 @@ const KawasakiLocal = () => {
   };
 
   let colorSquare = (i: number, j: number) => {
-    if (spins[i][j] == 1) context!.fillStyle = "#ffff00";
-    else context!.fillStyle = "#0000ff";
+    if (spins[i][j] == 1) context!.fillStyle = "black";
+    else context!.fillStyle = "white";
     context!.fillRect(i * width, j * width, width, width);
   };
   let model = () => {
