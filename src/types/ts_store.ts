@@ -81,7 +81,7 @@ const TSStore = create<state>((set) => ({
     data: {
       datasets: [
         {
-          label: "Sales",
+          label: "Temperature vs Magnetization",
           data: [],
           borderWidth: 1,
         },

@@ -2,8 +2,6 @@ import { Menu } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import Head from "next/head";
 import Link from "next/link";
-import router, { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
 
 interface MyLinkProps {
   href: string;

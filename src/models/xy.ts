@@ -1,106 +1,83 @@
 import create from "zustand";
 import TSStore from "../types/ts_store";
 
+const wrap = "none";
+
+const mod = (a: number, b: number) => {
+  let notMod = a % b;
+  if (notMod < 0) notMod += b;
+  return notMod;
+};
+
+const rad2deg = (angrad: number) => {
+  let angdeg = ((angrad / (2 * Math.PI)) * 360) % 360;
+  if (angdeg < 0) angrad += 360;
+  return Math.floor(angdeg);
+};
+
+const proind = (arr: Array<Array<Number>>, i: number, j: number) => {
+  let ni = i;
+  let nj = j;
+  if (!(0 <= ni && ni < arr.length)) {
+    ni = mod(ni, arr.length);
+    nj = arr[0].length - 1 - nj;
+  }
+  if (!(0 <= nj && nj < arr[0].length)) {
+    nj = mod(nj, arr[0].length);
+    ni = arr.length - 1 - ni;
+  }
+  return arr[ni][nj];
+};
+
+const torind = (arr: Array<Array<Number>>, i: number, j: number) => {
+  return arr[mod(i, arr.length)][mod(j, arr[0].length)];
+};
+
+const model = () => {
+  const { settings, spins, context, setSpins } = create(TSStore).getState();
+  const width = 600 / settings.latticeSize;
+  let newphases = new Array(settings.latticeSize);
+  for (let i = 0; i < settings.latticeSize; i++) {
+    newphases[i] = new Array(settings.latticeSize);
+    for (let j = 0; j < settings.latticeSize; j++) {
+      let f = 0;
+
+      f += i > 0 ? Math.sin(spins[i][j] - spins[i - 1][j]) : 0;
+      f +=
+        i < settings.latticeSize - 1
+          ? Math.sin(spins[i][j] - spins[i + 1][j])
+          : 0;
+      f += j > 0 ? Math.sin(spins[i][j] - spins[i][j - 1]) : 0;
+      f +=
+        j < settings.latticeSize - 1
+          ? Math.sin(spins[i][j] - spins[i][j + 1])
+          : 0;
+
+      f *= 0.1;
+      f += settings.initialTemp! * (2 * Math.random() - 1);
+      f += settings.magneticField! * Math.sin(spins[i][j]);
+
+      newphases[i][j] = spins[i][j] - f;
+      let c = rad2deg(newphases[i][j]);
+      context!.fillStyle = `hsl(${c}, 100%, 50%)`;
+      context!.fillRect(i * width, j * width, width, width);
+    }
+  }
+  setSpins(newphases);
+};
+
 const xy = () => {
-  let {
+  const {
     settings,
-    spins,
     dashboard,
-    context,
-    setDashboard,
-    incSteps,
-    incFrames,
-    incCycles,
-    endSimulation,
     updatePayload,
-    setSpins,
+    incFrames,
+    endSimulation,
+    incCycles,
+    incSteps,
     canvas,
+    setDashboard,
   } = create(TSStore).getState();
-
-  let model = () => {
-    let wrap = "none";
-    let CouplingStrength = 1;
-    let width = 600 / settings.latticeSize;
-
-    function mod(a, b) {
-      var notMod = a % b;
-      if (notMod < 0) notMod += b;
-      return notMod;
-    }
-
-    function rad2deg(angrad) {
-      var angdeg = ((angrad / (2 * Math.PI)) * 360) % 360;
-      if (angdeg < 0) angdeg += 360;
-      return Math.floor(angdeg);
-    }
-
-    function proind(arr, i, j) {
-      var ni = i;
-      var nj = j;
-      if (!(0 <= ni && ni < arr.length)) {
-        ni = mod(ni, arr.length);
-        nj = arr[0].length - 1 - nj;
-      }
-      if (!(0 <= nj && nj < arr[0].length)) {
-        nj = mod(nj, arr[0].length);
-        ni = arr.length - 1 - ni;
-      }
-      return arr[ni][nj];
-    }
-
-    function torind(arr, i, j) {
-      return arr[mod(i, arr.length)][mod(j, arr[0].length)];
-    }
-
-    let newphases = new Array(settings.latticeSize);
-    for (var i = 0; i < settings.latticeSize; i++) {
-      newphases[i] = new Array(settings.latticeSize);
-      for (var j = 0; j < settings.latticeSize; j++) {
-        var f = 0;
-        switch (wrap) {
-          case "none":
-            f += i > 0 ? Math.sin(spins[i][j] - spins[i - 1][j]) : 0;
-            f +=
-              i < settings.latticeSize - 1
-                ? Math.sin(spins[i][j] - spins[i + 1][j])
-                : 0;
-            f += j > 0 ? Math.sin(spins[i][j] - spins[i][j - 1]) : 0;
-            f +=
-              j < settings.latticeSize - 1
-                ? Math.sin(spins[i][j] - spins[i][j + 1])
-                : 0;
-            break;
-          case "tor":
-            f += Math.sin(spins[i][j] - torind(spins, i - 1, j));
-            f += Math.sin(spins[i][j] - torind(spins, i + 1, j));
-            f += Math.sin(spins[i][j] - torind(spins, i, j - 1));
-            f += Math.sin(spins[i][j] - torind(spins, i, j + 1));
-            break;
-          case "pro":
-            f += Math.sin(spins[i][j] - proind(spins, i - 1, j));
-            f += Math.sin(spins[i][j] - proind(spins, i + 1, j));
-            f += Math.sin(spins[i][j] - proind(spins, i, j - 1));
-            f += Math.sin(spins[i][j] - proind(spins, i, j + 1));
-            break;
-          default:
-            console.log("prohibited value 'wrap': " + wrap);
-        }
-
-        f *= CouplingStrength;
-        f +=
-          (dashboard.temperature == 0 ? 0.0 : dashboard.temperature) *
-          (2 * Math.random() - 1);
-        f += settings.magneticField! * Math.sin(spins[i][j]);
-
-        newphases[i][j] = spins[i][j] - f;
-
-        var c = rad2deg(newphases[i][j]);
-        context!.fillStyle = `hsl(${c}, 100%, 50%)`;
-        context!.fillRect(i * width, j * width, width, width);
-      }
-    }
-    setSpins(newphases);
-  };
 
   model();
 
@@ -123,17 +100,13 @@ const xy = () => {
         }
       }
       incSteps();
-      setTimeout(() => {
-        window.requestAnimationFrame(xy);
-      }, 60);
+      window.requestAnimationFrame(xy);
     }
     if (settings.freePlay) {
       setDashboard({
         temperature: settings.initialTemp!,
       });
-      setTimeout(() => {
-        window.requestAnimationFrame(xy);
-      }, 60);
+      window.requestAnimationFrame(xy);
     }
   }
 };
