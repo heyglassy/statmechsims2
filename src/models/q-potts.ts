@@ -19,7 +19,6 @@ const qpotts = (timestamp: number) => {
   let width = 600 / settings.latticeSize;
   let Size = settings.latticeSize;
   const N = Size * Size;
-  let q = 5;
   const q_min = 2;
   const q_max = 10;
   let _length = 4;
@@ -32,7 +31,8 @@ const qpotts = (timestamp: number) => {
   NN3 = new Int32Array(N);
 
   pottsSpin.forEach((val, idx) => {
-    pottsSpin[idx] = Math.floor(Math.random() * q) % q;
+    pottsSpin[idx] =
+      Math.floor(Math.random() * settings.qpotts) % settings.qpotts;
 
     let [x, y] = get_coordinate(idx);
     NN0[idx] = get_index(x + 1, y);
@@ -43,7 +43,7 @@ const qpotts = (timestamp: number) => {
 
   function single_flip(i: any, w: any, wh: any) {
     let sum, x, p;
-    let prob = new Float64Array(q);
+    let prob = new Float64Array(settings.qpotts);
 
     prob.fill(1.0);
     prob[pottsSpin[NN0[i]]] *= w;
@@ -58,7 +58,7 @@ const qpotts = (timestamp: number) => {
     x = Math.random() * sum;
     p = 0.0;
 
-    for (let g = 0; g < q; g++) {
+    for (let g = 0; g < settings.qpotts; g++) {
       p += prob[g];
       if (x < p) {
         pottsSpin[i] = g;
@@ -68,7 +68,7 @@ const qpotts = (timestamp: number) => {
   }
 
   function tc() {
-    return 1.0 / Math.log(Math.sqrt(q) + 1.0);
+    return 1.0 / Math.log(Math.sqrt(settings.qpotts) + 1.0);
   }
 
   function get_index(x: any, y: any) {
@@ -92,7 +92,7 @@ const qpotts = (timestamp: number) => {
       let [x, y] = get_coordinate(j);
       context!.fillRect(x * width, y * width, width, width);
 
-      let c = (360 / q) * pottsSpin[j];
+      let c = (360 / settings.qpotts) * pottsSpin[j];
       context!.fillStyle = `hsl(${c}, 100%, 50%)`;
     }
   }

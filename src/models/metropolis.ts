@@ -176,7 +176,7 @@ const metropolis = (timestamp: number) => {
       window.requestAnimationFrame(metropolis);
     }
     if (settings.freePlay) {
-      for (let a = 0; a < 1000; a++) {
+      for (let a = 0; a < settings.stepsPerFrame!; a++) {
         model();
       }
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();

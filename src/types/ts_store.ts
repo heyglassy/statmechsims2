@@ -8,15 +8,16 @@ import Chart from "chart.js/auto";
 
 const defaultSettings: settings = {
   freePlay: false,
-  initialTemp: 0,
+  initialTemp: 2.27,
   minTemp: 0,
-  maxTemp: 0,
+  maxTemp: 5,
+  qpotts: 5,
   tempStep: 0.01,
   fixedTemp: false,
   equilibriationDelay: 0,
   numberOfCycles: 5,
   latticeSize: 100,
-  stepsPerFrame: 10,
+  stepsPerFrame: 100000,
   moleRatio: {
     up: 0.5,
     down: 0.5,

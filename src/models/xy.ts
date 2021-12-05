@@ -87,10 +87,13 @@ const xy = () => {
         }
 
         f *= CouplingStrength;
-        f += dashboard.temperature * (2 * Math.random() - 1);
+        f +=
+          (dashboard.temperature == 0 ? 0.0 : dashboard.temperature) *
+          (2 * Math.random() - 1);
         f += settings.magneticField! * Math.sin(spins[i][j]);
 
         newphases[i][j] = spins[i][j] - f;
+
         var c = rad2deg(newphases[i][j]);
         context!.fillStyle = `hsl(${c}, 100%, 50%)`;
         context!.fillRect(i * width, j * width, width, width);
@@ -100,6 +103,7 @@ const xy = () => {
   };
 
   model();
+
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
       if (

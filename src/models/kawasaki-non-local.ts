@@ -172,31 +172,19 @@ const KawasakiNonLocal = () => {
   }
 
   const model = () => {
-    for (var step = 0; step < settings.stepsPerFrame!; step++) {
-      var i1 = Math.floor(Math.random() * settings.latticeSize);
-      var j1 = Math.floor(Math.random() * settings.latticeSize);
-      var i2 = Math.floor(Math.random() * settings.latticeSize);
-      var j2 = Math.floor(Math.random() * settings.latticeSize);
-      if (spins[i1][j1] != spins[i2][j2]) {
-        // s is a closure; it is the 2D array 'grid' that is mapped to the canvas
-        var thisS = spins[i1][j1];
-        var thatS = spins[i2][j2];
-        var _EdiffforM = deltaUforKawasakiforM(i1, j1, i2, j2);
-        if (dashboard.temperature == 0) {
-          //to avoid dividing by zero
-          if (_EdiffforM < 0.0 || (_EdiffforM == 0 && Math.random() < 0.5)) {
-            //always flip if deltaU is negative
-            thisS *= -1;
-            spins[i1][j1] = thisS;
-            thatS *= -1;
-            spins[i2][j2] = thatS;
-            colorSquare(i1, j1);
-            colorSquare(i2, j2);
-          }
-        } else if (
-          _EdiffforM <= 0.0 ||
-          Math.random() < Math.exp(-_EdiffforM / dashboard.temperature)
-        ) {
+    var i1 = Math.floor(Math.random() * settings.latticeSize);
+    var j1 = Math.floor(Math.random() * settings.latticeSize);
+    var i2 = Math.floor(Math.random() * settings.latticeSize);
+    var j2 = Math.floor(Math.random() * settings.latticeSize);
+    if (spins[i1][j1] != spins[i2][j2]) {
+      // s is a closure; it is the 2D array 'grid' that is mapped to the canvas
+      var thisS = spins[i1][j1];
+      var thatS = spins[i2][j2];
+      var _EdiffforM = deltaUforKawasakiforM(i1, j1, i2, j2);
+      if (dashboard.temperature == 0) {
+        //to avoid dividing by zero
+        if (_EdiffforM < 0.0 || (_EdiffforM == 0 && Math.random() < 0.5)) {
+          //always flip if deltaU is negative
           thisS *= -1;
           spins[i1][j1] = thisS;
           thatS *= -1;
@@ -204,6 +192,16 @@ const KawasakiNonLocal = () => {
           colorSquare(i1, j1);
           colorSquare(i2, j2);
         }
+      } else if (
+        _EdiffforM <= 0.0 ||
+        Math.random() < Math.exp(-_EdiffforM / dashboard.temperature)
+      ) {
+        thisS *= -1;
+        spins[i1][j1] = thisS;
+        thatS *= -1;
+        spins[i2][j2] = thatS;
+        colorSquare(i1, j1);
+        colorSquare(i2, j2);
       }
     }
   };
@@ -283,7 +281,7 @@ const KawasakiNonLocal = () => {
       window.requestAnimationFrame(KawasakiNonLocal);
     }
     if (settings.freePlay) {
-      for (let a = 0; a < 1000; a++) {
+      for (let a = 0; a < settings.stepsPerFrame!; a++) {
         model();
       }
       let { Ecurrent, Mcurrent } = ComputeEforKawasaki();

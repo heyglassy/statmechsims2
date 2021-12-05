@@ -131,33 +131,31 @@ const BlumeCapel = (timemstamp: number) => {
   };
 
   const model = () => {
-    for (var step = 0; step < settings.stepsPerFrame!; step++) {
-      var i1 = Math.floor(Math.random() * settings.latticeSize);
-      var j1 = Math.floor(Math.random() * settings.latticeSize);
-      var i2 = Math.floor(Math.random() * settings.latticeSize);
-      var j2 = Math.floor(Math.random() * settings.latticeSize);
-      if (newSpins[i1][j1] != newSpins[i2][j2]) {
-        var thisS = newSpins[i1][j1];
-        var thatS = newSpins[i2][j2];
-        var EdiffforM = deltaUforBEGforM(i1, j1, i2, j2);
-        if (dashboard.temperature == 0) {
-          //to avoid dividing by zero
-          if (EdiffforM < 0.0 || (EdiffforM == 0 && Math.random() < 0.5)) {
-            //always flip if deltaU is negative
-            newSpins[i1][j1] = thatS;
-            newSpins[i2][j2] = thisS;
-            colorSquare(i1, j1);
-            colorSquare(i2, j2);
-          }
-        } else if (
-          EdiffforM <= 0.0 ||
-          Math.random() < Math.exp(-EdiffforM / dashboard.temperature)
-        ) {
+    var i1 = Math.floor(Math.random() * settings.latticeSize);
+    var j1 = Math.floor(Math.random() * settings.latticeSize);
+    var i2 = Math.floor(Math.random() * settings.latticeSize);
+    var j2 = Math.floor(Math.random() * settings.latticeSize);
+    if (newSpins[i1][j1] != newSpins[i2][j2]) {
+      var thisS = newSpins[i1][j1];
+      var thatS = newSpins[i2][j2];
+      var EdiffforM = deltaUforBEGforM(i1, j1, i2, j2);
+      if (dashboard.temperature == 0) {
+        //to avoid dividing by zero
+        if (EdiffforM < 0.0 || (EdiffforM == 0 && Math.random() < 0.5)) {
+          //always flip if deltaU is negative
           newSpins[i1][j1] = thatS;
           newSpins[i2][j2] = thisS;
           colorSquare(i1, j1);
           colorSquare(i2, j2);
         }
+      } else if (
+        EdiffforM <= 0.0 ||
+        Math.random() < Math.exp(-EdiffforM / dashboard.temperature)
+      ) {
+        newSpins[i1][j1] = thatS;
+        newSpins[i2][j2] = thisS;
+        colorSquare(i1, j1);
+        colorSquare(i2, j2);
       }
     }
   };
@@ -216,7 +214,7 @@ const BlumeCapel = (timemstamp: number) => {
       window.requestAnimationFrame(BlumeCapel);
     }
     if (settings.freePlay) {
-      for (let a = 0; a < 1000; a++) {
+      for (let a = 0; a < settings.stepsPerFrame!; a++) {
         model();
       }
       let { Ecurrent, Mcurrent } = ComputeEforBEG();

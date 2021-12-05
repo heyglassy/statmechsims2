@@ -11,6 +11,7 @@ declare namespace Settings {
     maxTemp?: number;
     tempStep?: number;
     fixedTemp: boolean;
+    qpotts: number;
     equilibriationDelay?: number;
     numberOfCycles?: number;
     latticeSize: number;

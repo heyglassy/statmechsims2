@@ -48,7 +48,7 @@ const Sidebar = () => {
             type="range"
             name="temp"
             value={settings.initialTemp}
-            min="2.269"
+            min="0"
             max="5"
             step="0.01"
             onChange={(e) =>
@@ -73,7 +73,6 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
         {/* <div>
           <h1>Min Temperature</h1>
           <input
@@ -140,26 +139,21 @@ const Sidebar = () => {
               <input
                 type="range"
                 name="temp"
-                min="0"
-                max="5"
-                value={settings.maxTemp}
+                min="2"
+                max="20"
+                value={settings.qpotts}
                 onChange={(e) =>
-                  setSettings({ ...settings, maxTemp: Number(e.target.value) })
+                  setSettings({ ...settings, qpotts: Number(e.target.value) })
                 }
               />
               <input
                 type="number"
                 name="temp"
-                min="0"
-                max="5"
-                value={settings.maxTemp}
+                min="2"
+                max="20"
+                value={settings.qpotts}
                 onChange={(e) =>
-                  setSettings({
-                    ...settings,
-                    maxTemp: e.target.value
-                      ? Number(e.target.value)
-                      : undefined,
-                  })
+                  setSettings({ ...settings, qpotts: Number(e.target.value) })
                 }
                 step="0.1"
                 className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -181,7 +175,6 @@ const Sidebar = () => {
             <option>0.001</option>
           </select>
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
         {/* TODO: Depricate Fixed Temperature */}
         {/* <div className="inline-flex items-center">
           <h1>Fixed Temperature</h1>
