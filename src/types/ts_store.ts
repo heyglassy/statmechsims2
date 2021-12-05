@@ -18,6 +18,7 @@ const defaultSettings: settings = {
   numberOfCycles: 5,
   latticeSize: 100,
   stepsPerFrame: 100000,
+  couplingStrength: 0.1,
   moleRatio: {
     up: 0.5,
     down: 0.5,

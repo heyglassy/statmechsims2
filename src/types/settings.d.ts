@@ -16,6 +16,7 @@ declare namespace Settings {
     numberOfCycles?: number;
     latticeSize: number;
     stepsPerFrame?: number;
+    couplingStrength: number;
     moleRatio: {
       up: number;
       down: number;

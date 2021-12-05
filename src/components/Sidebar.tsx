@@ -73,35 +73,6 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        {/* <div>
-          <h1>Min Temperature</h1>
-          <input
-            type="range"
-            name="temp"
-            min="0"
-            max="5"
-            step="0.1"
-            value={settings.minTemp}
-            onChange={(e) =>
-              setSettings({ ...settings, minTemp: Number(e.target.value) })
-            }
-          />
-          <input
-            type="number"
-            name="temp"
-            min="0"
-            max="5"
-            value={settings.minTemp}
-            step="0.1"
-            onChange={(e) =>
-              setSettings({
-                ...settings,
-                minTemp: e.target.value ? Number(e.target.value) : undefined,
-              })
-            }
-            className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
-          />
-        </div> */}
         <div className="bg-white my-2 w-full h-px"></div>
         <div>
           <h1>Max Temperature</h1>
@@ -175,19 +146,6 @@ const Sidebar = () => {
             <option>0.001</option>
           </select>
         </div>
-        {/* TODO: Depricate Fixed Temperature */}
-        {/* <div className="inline-flex items-center">
-          <h1>Fixed Temperature</h1>
-          <input
-            className="ml-5 w-4 h-4 bg-gray-100 border border-black rounded"
-            type="checkbox"
-            checked={settings.fixedTemp}
-            onChange={(e) =>
-              setSettings({ ...settings, fixedTemp: e.target.checked })
-            }
-            name="temp"
-          />
-        </div> */}
         <div className="bg-white my-2 w-full h-px"></div>
         <div>
           <h1>Equilibriation Delay(ms)</h1>
@@ -311,7 +269,7 @@ const Sidebar = () => {
             type="range"
             name="temp"
             value={settings.magneticField}
-            min="0"
+            min="-20"
             max="20"
             onChange={(e) =>
               setSettings({
@@ -321,7 +279,7 @@ const Sidebar = () => {
             }
           />
           <input
-            min="0"
+            min="-20"
             max="20"
             type="number"
             name="temp"
@@ -338,6 +296,44 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
+
+        {router.pathname === "/models/xy" ? (
+          <>
+            <div className="bg-white my-2 w-full h-px"></div>
+            <div>
+              <h1>Coupling Strength</h1>
+              <input
+                type="range"
+                name="temp"
+                value={settings.couplingStrength}
+                min="-0.4"
+                max="0.4"
+                step="0.1"
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    couplingStrength: Number(e.target.value),
+                  })
+                }
+              />
+              <input
+                min="-0.4"
+                max="0.4"
+                type="number"
+                name="temp"
+                value={settings.couplingStrength}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    couplingStrength: Number(e.target.value),
+                  })
+                }
+                step="0.1"
+                className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
+              />
+            </div>
+          </>
+        ) : null}
         <div className="bg-white my-2 w-full h-px"></div>
         <div>
           <h1>Local Magnetic Field</h1>

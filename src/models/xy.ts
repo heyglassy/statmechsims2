@@ -1,7 +1,7 @@
 import create from "zustand";
 import TSStore from "../types/ts_store";
 
-const wrap = "none";
+let wrap = "none";
 
 const mod = (a: number, b: number) => {
   let notMod = a % b;
@@ -15,7 +15,7 @@ const rad2deg = (angrad: number) => {
   return Math.floor(angdeg);
 };
 
-const proind = (arr: Array<Array<Number>>, i: number, j: number) => {
+const proind = (arr: Array<Array<number>>, i: number, j: number) => {
   let ni = i;
   let nj = j;
   if (!(0 <= ni && ni < arr.length)) {
@@ -29,12 +29,13 @@ const proind = (arr: Array<Array<Number>>, i: number, j: number) => {
   return arr[ni][nj];
 };
 
-const torind = (arr: Array<Array<Number>>, i: number, j: number) => {
+const torind = (arr: Array<Array<number>>, i: number, j: number) => {
   return arr[mod(i, arr.length)][mod(j, arr[0].length)];
 };
 
 const model = () => {
-  const { settings, spins, context, setSpins } = create(TSStore).getState();
+  const { settings, spins, context, setSpins, dashboard } =
+    create(TSStore).getState();
   const width = 600 / settings.latticeSize;
   let newphases = new Array(settings.latticeSize);
   for (let i = 0; i < settings.latticeSize; i++) {
@@ -42,19 +43,35 @@ const model = () => {
     for (let j = 0; j < settings.latticeSize; j++) {
       let f = 0;
 
-      f += i > 0 ? Math.sin(spins[i][j] - spins[i - 1][j]) : 0;
-      f +=
-        i < settings.latticeSize - 1
-          ? Math.sin(spins[i][j] - spins[i + 1][j])
-          : 0;
-      f += j > 0 ? Math.sin(spins[i][j] - spins[i][j - 1]) : 0;
-      f +=
-        j < settings.latticeSize - 1
-          ? Math.sin(spins[i][j] - spins[i][j + 1])
-          : 0;
+      switch (wrap) {
+        case "none":
+          f += i > 0 ? Math.sin(spins[i][j] - spins[i - 1][j]) : 0;
+          f +=
+            i < settings.latticeSize - 1
+              ? Math.sin(spins[i][j] - spins[i + 1][j])
+              : 0;
+          f += j > 0 ? Math.sin(spins[i][j] - spins[i][j - 1]) : 0;
+          f +=
+            j < settings.latticeSize - 1
+              ? Math.sin(spins[i][j] - spins[i][j + 1])
+              : 0;
+          break;
+        case "tor":
+          f += Math.sin(newphases[i][j] - torind(newphases, i - 1, j));
+          f += Math.sin(newphases[i][j] - torind(newphases, i + 1, j));
+          f += Math.sin(newphases[i][j] - torind(newphases, i, j - 1));
+          f += Math.sin(newphases[i][j] - torind(newphases, i, j + 1));
+          break;
+        case "pro":
+          f += Math.sin(newphases[i][j] - proind(newphases, i - 1, j));
+          f += Math.sin(newphases[i][j] - proind(newphases, i + 1, j));
+          f += Math.sin(newphases[i][j] - proind(newphases, i, j - 1));
+          f += Math.sin(newphases[i][j] - proind(newphases, i, j + 1));
+          break;
+      }
 
-      f *= 0.1;
-      f += settings.initialTemp! * (2 * Math.random() - 1);
+      f *= settings.couplingStrength;
+      f += dashboard.temperature * (2 * Math.random() - 1);
       f += settings.magneticField! * Math.sin(spins[i][j]);
 
       newphases[i][j] = spins[i][j] - f;
