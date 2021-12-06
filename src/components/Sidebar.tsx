@@ -111,7 +111,7 @@ const Sidebar = () => {
                 type="range"
                 name="temp"
                 min="2"
-                max="20"
+                max="10"
                 value={settings.qpotts}
                 onChange={(e) =>
                   setSettings({ ...settings, qpotts: Number(e.target.value) })
@@ -121,7 +121,7 @@ const Sidebar = () => {
                 type="number"
                 name="temp"
                 min="2"
-                max="20"
+                max="10"
                 value={settings.qpotts}
                 onChange={(e) =>
                   setSettings({ ...settings, qpotts: Number(e.target.value) })

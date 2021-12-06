@@ -1,55 +1,43 @@
-import type { settings } from "../types/settings";
 import create from "zustand";
 import TSStore from "../types/ts_store";
 
-const qpotts = (timestamp: number) => {
-  let {
+const qpotts = () => {
+  const {
     settings,
+    spin,
     context,
     dashboard,
-    setDashboard,
-    incSteps,
-    incFrames,
-    incCycles,
-    endSimulation,
-    updatePayload,
     canvas,
+    updatePayload,
+    incFrames,
+    endSimulation,
+    incCycles,
+    incSteps,
+    setDashboard,
   } = create(TSStore).getState();
+  const N = settings.latticeSize * settings.latticeSize;
+  const width = 600 / settings.latticeSize;
 
-  let width = 600 / settings.latticeSize;
-  let Size = settings.latticeSize;
-  const N = Size * Size;
-  const q_min = 2;
-  const q_max = 10;
-  let _length = 4;
-  let pottsSpin = new Int8Array(N);
+  const get_index = (x: number, y: number) => {
+    x = (x + settings.latticeSize) % settings.latticeSize;
+    y = (y + settings.latticeSize) % settings.latticeSize;
+    return x + y * settings.latticeSize;
+  };
 
-  let NN0: any, NN1: any, NN2: any, NN3: any;
-  NN0 = new Int32Array(N);
-  NN1 = new Int32Array(N);
-  NN2 = new Int32Array(N);
-  NN3 = new Int32Array(N);
+  const get_coordinate = (i: number) => {
+    return [i % settings.latticeSize, Math.floor(i / settings.latticeSize)];
+  };
 
-  pottsSpin.forEach((val, idx) => {
-    pottsSpin[idx] =
-      Math.floor(Math.random() * settings.qpotts) % settings.qpotts;
-
-    let [x, y] = get_coordinate(idx);
-    NN0[idx] = get_index(x + 1, y);
-    NN1[idx] = get_index(x, y + 1);
-    NN2[idx] = get_index(x - 1, y);
-    NN3[idx] = get_index(x, y - 1);
-  });
-
-  function single_flip(i: any, w: any, wh: any) {
+  const single_flip = (i: number, w: number, wh: number) => {
     let sum, x, p;
     let prob = new Float64Array(settings.qpotts);
+    const [a, b] = get_coordinate(i);
 
     prob.fill(1.0);
-    prob[pottsSpin[NN0[i]]] *= w;
-    prob[pottsSpin[NN1[i]]] *= w;
-    prob[pottsSpin[NN2[i]]] *= w;
-    prob[pottsSpin[NN3[i]]] *= w;
+    prob[spin[get_index(a + 1, b)]] *= w;
+    prob[spin[get_index(a, b + 1)]] *= w;
+    prob[spin[get_index(a - 1, b)]] *= w;
+    prob[spin[get_index(a, b - 1)]] *= w;
     prob[0] *= wh;
 
     sum = prob.reduce((a, b) => {
@@ -61,27 +49,17 @@ const qpotts = (timestamp: number) => {
     for (let g = 0; g < settings.qpotts; g++) {
       p += prob[g];
       if (x < p) {
-        pottsSpin[i] = g;
+        spin[i] = g;
         break;
       }
     }
-  }
+  };
 
-  function tc() {
+  const tc = () => {
     return 1.0 / Math.log(Math.sqrt(settings.qpotts) + 1.0);
-  }
+  };
 
-  function get_index(x: any, y: any) {
-    x = (x + Size) % Size;
-    y = (y + Size) % Size;
-    return x + y * Size;
-  }
-
-  function get_coordinate(i: any) {
-    return [i % Size, Math.floor(i / Size)];
-  }
-
-  function potts() {
+  const model = () => {
     const beta = 1.0 / (dashboard.temperature * tc());
     const w = Math.exp(beta);
     const wh = Math.exp(beta * settings.magneticField!);
@@ -92,11 +70,13 @@ const qpotts = (timestamp: number) => {
       let [x, y] = get_coordinate(j);
       context!.fillRect(x * width, y * width, width, width);
 
-      let c = (360 / settings.qpotts) * pottsSpin[j];
+      const c = (360 / settings.qpotts) * spin[j];
       context!.fillStyle = `hsl(${c}, 100%, 50%)`;
     }
-  }
-  potts();
+  };
+
+  model();
+
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
       if (
@@ -116,17 +96,13 @@ const qpotts = (timestamp: number) => {
         }
       }
       incSteps();
-      setTimeout(() => {
-        window.requestAnimationFrame(qpotts);
-      }, 60);
+      window.requestAnimationFrame(qpotts);
     }
     if (settings.freePlay) {
       setDashboard({
         temperature: settings.initialTemp!,
       });
-      setTimeout(() => {
-        window.requestAnimationFrame(qpotts);
-      }, 60);
+      window.requestAnimationFrame(qpotts);
     }
   }
 };
