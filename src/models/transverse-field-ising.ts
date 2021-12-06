@@ -158,7 +158,7 @@ const transverse = (timestamp: number) => {
     }
   }
   function draw() {
-    var color = ["#FFD700", "#00008B"];
+    var color = ["black", "white"];
     let y0, y1;
     for (var i = 0; i < l; ++i) {
       context!.fillStyle = spin[i] > 0 ? color[0] : color[1];
