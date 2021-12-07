@@ -5,17 +5,20 @@ import { useRouter } from "next/router";
 
 const Canvas = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
-  let { initSpins, setContext } = Store((state) => state);
+  let { initSpins, setContext, settings, setSettings } = Store(
+    (state) => state
+  );
   let router = useRouter();
 
   useEffect(() => {
+    setSettings({ ...settings, freePlay: false });
     let context = canvas.current?.getContext("2d", { alpha: false });
     if (context != null || context != undefined) {
       initSpins();
       setContext(canvas.current!);
       setup(router.pathname);
     }
-  }, []);
+  }, [settings.latticeSize]);
 
   return (
     <canvas

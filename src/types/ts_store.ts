@@ -100,6 +100,14 @@ const TSStore = create<state>((set) => ({
   spins: [],
   wall: [],
   context: null,
+  setGraph: (newgraph: any) => {
+    set((state: state) => {
+      if (state.graph != null) {
+        newgraph.update("active");
+      }
+      return { graph: newgraph };
+    });
+  },
   setSpins: (spins: Array<Array<number>>) =>
     set({
       spins: spins,

@@ -201,6 +201,7 @@ const Sidebar = () => {
         <div className="flex">
           <h1>Lattice Size</h1>
           <select
+            value={settings.latticeSize}
             onChange={(e) =>
               setSettings({ ...settings, latticeSize: Number(e.target.value) })
             }
@@ -214,7 +215,7 @@ const Sidebar = () => {
             <option>40</option>
             <option>50</option>
             <option>75</option>
-            <option selected>100</option>
+            <option>100</option>
             <option>200</option>
             <option>300</option>
           </select>
@@ -223,6 +224,7 @@ const Sidebar = () => {
         <div className="flex">
           <h1>Steps Per Frame</h1>
           <select
+            value={settings.stepsPerFrame}
             onChange={(e) =>
               setSettings({
                 ...settings,
@@ -235,7 +237,7 @@ const Sidebar = () => {
             <option>1000</option>
             <option>10000</option>
             <option>100000</option>
-            <option selected>1000000</option>
+            <option>1000000</option>
             <option>10000000</option>
           </select>
         </div>

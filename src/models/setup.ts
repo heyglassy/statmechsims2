@@ -2,6 +2,7 @@ import TSStore from "../types/ts_store";
 import create from "zustand";
 import qpotts from "./q-potts";
 import wolff from "./wolff";
+import transverse from "./transverse-field-ising";
 
 const setup = (model: string) => {
   let { settings, context, spins, setWall, setNearestNeighs, setSpins } =
@@ -119,9 +120,7 @@ const setup = (model: string) => {
   } else if (model == "/models/transverse-field-ising") {
     let wall = new Array(125);
     let t_spin = new Array(125);
-    let color = ["#FFD700", "#00008B"];
-    let w = 600 / 125;
-    let y = 600;
+
     for (let i = 0; i < 125; i++) {
       let exp_dist = (theta: number) => {
         if (theta > 0.0) {
@@ -150,6 +149,7 @@ const setup = (model: string) => {
       t_spin[i] = Math.random() < 0.5 ? 1 : -1;
     }
     setWall(wall);
+    window.requestAnimationFrame(transverse);
   } else if (model == "/models/q-potts") {
     window.requestAnimationFrame(qpotts);
   } else if (model == "/models/wolff") {
