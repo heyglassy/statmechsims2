@@ -19,6 +19,7 @@ declare namespace State {
     graphData: graphData;
     graph: graph;
     payloads: payloads;
+    frame: Array<string>;
     setGraph: (graph: any) => void;
     setNearestNeighs: (newneighs: Object) => void;
     setSettings: (newSettings: settings) => void;

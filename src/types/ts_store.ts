@@ -77,6 +77,7 @@ const TSStore = create<state>((set) => ({
   nearestneighs: [],
   dashboard: defaultDashboard,
   canvas: null,
+  frame: [],
   graph: new Chart("temp_vs_mag_graph", {
     type: "scatter",
     data: {
@@ -188,6 +189,7 @@ const TSStore = create<state>((set) => ({
   initDashboard: () =>
     set((state: state) => {
       return {
+        payloads: [],
         dashboard: {
           ...defaultDashboard,
           cycles: {
@@ -249,17 +251,20 @@ const TSStore = create<state>((set) => ({
   },
 
   endSimulation: () => {
-    set((state: state) => ({
-      settings: {
-        ...state.settings,
-        simulation: false,
-      },
-    }));
+    set((state: state) => {
+      return {
+        settings: {
+          ...state.settings,
+          simulation: false,
+        },
+      };
+    });
   },
 
   updatePayload: (payload: payload) => {
     set((state: state) => ({
-      payloads: state.payloads.concat(payload),
+      payloads: state.payloads.concat(payload.data),
+      frame: state.frame.concat(payload.frames),
     }));
   },
 }));

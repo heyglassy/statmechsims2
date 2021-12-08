@@ -3,12 +3,23 @@ import { Switch } from "@headlessui/react";
 import runner from "../models/runner";
 import setup from "../models/setup";
 import { useRouter } from "next/router";
+import { trpc } from "../utils/trpc";
+import type { payloads } from "../types/payload";
 
 const Sidebar = () => {
-  let { settings, setSettings, initDashboard, initSpins, graph } = Store(
-    (state) => state
-  );
+  let {
+    settings,
+    setSettings,
+    initDashboard,
+    initSpins,
+    graph,
+    payloads,
+    frame,
+  } = Store((state) => state);
   let router = useRouter();
+
+  // const imageUpload = trpc.useMutation(["imageupload"]);
+  const dataupload = trpc.useMutation(["dataupload"]);
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -578,10 +589,21 @@ const Sidebar = () => {
             <input
               className="border border-solid rounded border-black h-8 w-24"
               type="button"
-              value="Randomize"
+              value="Align Spins"
               onClick={() => {
-                initSpins();
-                setup(router.pathname);
+                // initSpins();
+                // setup(router.pathname);
+                // imageUpload.mutate({
+                //   pathname: router.pathname,
+                //   index: 1,
+                //   image: frame[0],
+                // });
+                console.log(typeof payloads);
+                dataupload.mutate({
+                  pathname: router.pathname,
+                  data: payloads,
+                  // data: [{ test: "hi" }],
+                });
               }}
             />
           </div>
