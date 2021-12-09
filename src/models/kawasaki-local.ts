@@ -17,7 +17,14 @@ const KawasakiLocal = () => {
     updatePayload,
     canvas,
   } = create(TSStore).getState();
-  let CouplingConstant = 1; // subject to change with added sidebar items
+
+  let CouplingConstant: number;
+  if (settings.magnetism! == "Ferromagnetic") {
+    CouplingConstant = 1;
+  } else {
+    CouplingConstant = -1;
+  }
+
   let width = 600 / settings.latticeSize;
 
   const getLeft = (i: number, j: number, spins: Array<Array<number>>) => {

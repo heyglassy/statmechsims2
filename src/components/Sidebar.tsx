@@ -366,10 +366,14 @@ const Sidebar = () => {
         <div className="bg-white my-2 w-full h-px"></div>
         <div>
           <h1>Magnetism</h1>
-          <select>
+          <select
+            onChange={(e) => {
+              setSettings({ ...settings, magnetism: e.target.value });
+            }}
+          >
             <option>Ferromagnetic</option>
             <option>Anti-Ferromagnetic</option>
-            <option>Biparite</option>
+            {/* <option>Biparite</option>  TODO: Add support for Biparite */}
           </select>
         </div>
         <div className="bg-white my-2 w-full h-px"></div>

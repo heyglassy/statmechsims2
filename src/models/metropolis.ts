@@ -18,6 +18,13 @@ const metropolis = (timestamp: number) => {
     canvas,
   } = create(TSStore).getState();
 
+  let CouplingConstant: number;
+  if (settings.magnetism! == "Ferromagnetic") {
+    CouplingConstant = 1;
+  } else {
+    CouplingConstant = -1;
+  }
+
   let width = 600 / settings.latticeSize;
 
   const deltaUofM = (
@@ -32,7 +39,7 @@ const metropolis = (timestamp: number) => {
     let bottom = getBottom(i, j, spins);
     let spin = spins[i][j];
     return (
-      2.0 * 1 * spin * (top + bottom + left + right) +
+      2.0 * CouplingConstant * spin * (top + bottom + left + right) +
       2.0 * spin * settings.magneticField! +
       0
     ); // 0 is BfieldM (set by sidebar, check v1)
@@ -76,12 +83,6 @@ const metropolis = (timestamp: number) => {
   function ComputeEforMetropolis() {
     let Ecurrent = 0.0;
     let Mcurrent = 0.0;
-    let CouplingConstant;
-    if (settings.magnetism! == "Ferromagnetic") {
-      CouplingConstant = 1;
-    } else {
-      CouplingConstant = -1;
-    }
 
     for (var i = 0; i < settings.latticeSize; i++) {
       for (var j = 0; j < settings.latticeSize; j++) {

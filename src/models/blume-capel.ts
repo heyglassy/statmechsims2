@@ -20,7 +20,12 @@ const BlumeCapel = (timemstamp: number) => {
   } = create(TSStore).getState();
 
   let width = 600 / settings.latticeSize;
-  let CouplingConstant = 1;
+  let CouplingConstant: number;
+  if (settings.magnetism! == "Ferromagnetic") {
+    CouplingConstant = 1;
+  } else {
+    CouplingConstant = -1;
+  }
   let newSpins = spins;
 
   //energy change with local magnetic field
