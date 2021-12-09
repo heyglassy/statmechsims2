@@ -2,6 +2,7 @@ import { Menu } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface MyLinkProps {
   href: string;
@@ -35,6 +36,7 @@ const ModelsList: Array<Models> = [
 ];
 
 const Header: React.FC = () => {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -52,7 +54,7 @@ const Header: React.FC = () => {
         </h2>
         <Menu as="div">
           <Menu.Button className="inline-flex justify-center w-52 items-center rounded-md text-blue-500 border-solid border-blue-500 border-2 p-2 hover:bg-blue-500 hover:text-white hover:border-none">
-            Select A Model
+            {ModelsList.find((test) => test.url == router.pathname)?.name}
             <ChevronDownIcon className="w-5 h-5" />
           </Menu.Button>
           <Menu.Items className="bg-blue-500 text-white w-52 rounded-md px-3 py-3 mt-1 flex items-center flex-col fixed">
