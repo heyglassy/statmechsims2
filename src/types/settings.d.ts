@@ -6,36 +6,36 @@ declare namespace Settings {
   type settings = {
     freePlay: boolean;
     simulation: boolean;
-    initialTemp?: number;
-    minTemp?: number;
-    maxTemp?: number;
-    tempStep?: number;
+    initialTemp: number | null;
+    minTemp: number | null;
+    maxTemp: number | null;
+    tempStep: number | null;
     fixedTemp: boolean;
     qpotts: number;
-    equilibriationDelay?: number;
-    numberOfCycles?: number;
+    equilibriationDelay: number | null;
+    numberOfCycles: number | null;
     latticeSize: number;
-    stepsPerFrame?: number;
+    stepsPerFrame: number | null;
     couplingStrength: number;
     moleRatio: {
       up: number;
       down: number;
     };
-    magneticField?: number;
-    localMagneticField?: number;
+    magneticField: number | null;
+    localMagneticField: number | null;
     magnetism: string;
     boundariesConditions: string;
     geometicPattern: string;
     fixedSpin: boolean;
     proportionSpin: {
-      positive?: number;
-      negative?: number;
+      positive: number | null;
+      negative: number | null;
     };
     nanotubeSimulation: {
-      width?: number;
-      diameter?: number;
+      width: number | null;
+      diameter: number | null;
       height: number;
-      spin: Boolean;
+      spin: boolean;
     };
   };
 }

@@ -7,15 +7,9 @@ import { trpc } from "../utils/trpc";
 import type { payloads } from "../types/payload";
 
 const Sidebar = () => {
-  let {
-    settings,
-    setSettings,
-    initDashboard,
-    initSpins,
-    graph,
-    payloads,
-    frame,
-  } = Store((state) => state);
+  let { settings, setSettings, initDashboard, initSpins, graph } = Store(
+    (state) => state
+  );
   let router = useRouter();
 
   // const imageUpload = trpc.useMutation(["imageupload"]);
@@ -58,7 +52,7 @@ const Sidebar = () => {
           <input
             type="range"
             name="temp"
-            value={settings.initialTemp}
+            value={settings.initialTemp!}
             min="0"
             max="5"
             step="0.01"
@@ -72,13 +66,11 @@ const Sidebar = () => {
             step="0.01"
             type="number"
             name="temp"
-            value={settings.initialTemp}
+            value={settings.initialTemp!}
             onChange={(e) =>
               setSettings({
                 ...settings,
-                initialTemp: e.target.value
-                  ? Number(e.target.value)
-                  : undefined,
+                initialTemp: e.target.value ? Number(e.target.value) : null,
               })
             }
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -92,7 +84,7 @@ const Sidebar = () => {
             name="temp"
             min="0"
             max="5"
-            value={settings.maxTemp}
+            value={settings.maxTemp!}
             onChange={(e) =>
               setSettings({ ...settings, maxTemp: Number(e.target.value) })
             }
@@ -102,11 +94,11 @@ const Sidebar = () => {
             name="temp"
             min="0"
             max="5"
-            value={settings.maxTemp}
+            value={settings.maxTemp!}
             onChange={(e) =>
               setSettings({
                 ...settings,
-                maxTemp: e.target.value ? Number(e.target.value) : undefined,
+                maxTemp: e.target.value ? Number(e.target.value) : null,
               })
             }
             step="0.1"
@@ -165,7 +157,7 @@ const Sidebar = () => {
             name="temp"
             min="0"
             max="5000"
-            value={settings.equilibriationDelay}
+            value={settings.equilibriationDelay!}
             onChange={(e) =>
               setSettings({
                 ...settings,
@@ -174,13 +166,13 @@ const Sidebar = () => {
             }
           />
           <input
-            value={settings.equilibriationDelay}
+            value={settings.equilibriationDelay!}
             onChange={(e) =>
               setSettings({
                 ...settings,
                 equilibriationDelay: e.target.value
                   ? Number(e.target.value)
-                  : undefined,
+                  : null,
               })
             }
             type="number"
@@ -193,13 +185,11 @@ const Sidebar = () => {
         <div className="inline-flex">
           <h1>Number of cycles</h1>
           <input
-            value={settings.numberOfCycles}
+            value={settings.numberOfCycles!}
             onChange={(e) =>
               setSettings({
                 ...settings,
-                numberOfCycles: e.target.value
-                  ? Number(e.target.value)
-                  : undefined,
+                numberOfCycles: e.target.value ? Number(e.target.value) : null,
               })
             }
             type="number"
@@ -235,7 +225,7 @@ const Sidebar = () => {
         <div className="flex">
           <h1>Steps Per Frame</h1>
           <select
-            value={settings.stepsPerFrame}
+            value={settings.stepsPerFrame!}
             onChange={(e) =>
               setSettings({
                 ...settings,
@@ -281,7 +271,7 @@ const Sidebar = () => {
           <input
             type="range"
             name="temp"
-            value={settings.magneticField}
+            value={settings.magneticField!}
             min="-20"
             max="20"
             onChange={(e) =>
@@ -296,13 +286,11 @@ const Sidebar = () => {
             max="20"
             type="number"
             name="temp"
-            value={settings.magneticField}
+            value={settings.magneticField!}
             onChange={(e) =>
               setSettings({
                 ...settings,
-                magneticField: e.target.value
-                  ? Number(e.target.value)
-                  : undefined,
+                magneticField: e.target.value ? Number(e.target.value) : null,
               })
             }
             step="0.1"
@@ -353,7 +341,7 @@ const Sidebar = () => {
           <input
             type="range"
             name="temp"
-            value={settings.localMagneticField}
+            value={settings.localMagneticField!}
             min="0"
             max="10"
             onChange={(e) =>
@@ -368,13 +356,13 @@ const Sidebar = () => {
             max="10"
             type="number"
             name="temp"
-            value={settings.localMagneticField}
+            value={settings.localMagneticField!}
             onChange={(e) =>
               setSettings({
                 ...settings,
                 localMagneticField: e.target.value
                   ? Number(e.target.value)
-                  : undefined,
+                  : null,
               })
             }
             step="0.1"
@@ -451,7 +439,7 @@ const Sidebar = () => {
               <input
                 className="w-14 px-2 appearance-none border border-solid border-black rounded"
                 type="number"
-                value={settings.nanotubeSimulation.width}
+                value={settings.nanotubeSimulation.width!}
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
@@ -470,7 +458,7 @@ const Sidebar = () => {
               <input
                 className="w-14 px-2 appearance-none border border-solid border-black rounded"
                 type="number"
-                value={settings.nanotubeSimulation.diameter}
+                value={settings.nanotubeSimulation.diameter!}
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
@@ -544,7 +532,7 @@ const Sidebar = () => {
             min="0"
             step="0.1"
             type="number"
-            value={settings.proportionSpin.positive}
+            value={settings.proportionSpin.positive!}
             onChange={(e) =>
               setSettings({
                 ...settings,
@@ -564,7 +552,7 @@ const Sidebar = () => {
             min="0"
             step="0.1"
             type="number"
-            value={settings.proportionSpin.negative}
+            value={settings.proportionSpin.negative!}
             onChange={(e) =>
               setSettings({
                 ...settings,
@@ -593,11 +581,10 @@ const Sidebar = () => {
               onClick={() => {
                 // initSpins();
                 // setup(router.pathname);
-                // imageUpload.mutate({
-                //   pathname: router.pathname,
-                //   index: 1,
-                //   image: frame[0],
-                // });
+                dataupload.mutate({
+                  pathname: router.pathname,
+                  settings: settings,
+                });
               }}
             />
           </div>

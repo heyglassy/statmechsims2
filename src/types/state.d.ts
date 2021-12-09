@@ -18,8 +18,6 @@ declare namespace State {
     canvas: HTMLCanvasElement | null;
     graphData: graphData;
     graph: graph;
-    payloads: payloads;
-    frame: Array<string>;
     setGraph: (graph: any) => void;
     setNearestNeighs: (newneighs: Object) => void;
     setSettings: (newSettings: settings) => void;
@@ -36,6 +34,5 @@ declare namespace State {
     incFrames: () => void;
     endSimulation: () => void;
     updateGraph: (plotPoint: plotPoint) => void;
-    updatePayload: (payload: payload) => void;
   };
 }

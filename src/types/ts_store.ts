@@ -189,7 +189,6 @@ const TSStore = create<state>((set) => ({
   initDashboard: () =>
     set((state: state) => {
       return {
-        payloads: [],
         dashboard: {
           ...defaultDashboard,
           cycles: {
@@ -259,13 +258,6 @@ const TSStore = create<state>((set) => ({
         },
       };
     });
-  },
-
-  updatePayload: (payload: payload) => {
-    set((state: state) => ({
-      payloads: state.payloads.concat(payload.data),
-      frame: state.frame.concat(payload.frames),
-    }));
   },
 }));
 

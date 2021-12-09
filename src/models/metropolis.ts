@@ -14,10 +14,7 @@ const metropolis = (timestamp: number) => {
     incFrames,
     incCycles,
     endSimulation,
-    updatePayload,
     canvas,
-    frame,
-    payloads,
   } = create(TSStore).getState();
 
   let width = 600 / settings.latticeSize;
@@ -124,8 +121,6 @@ const metropolis = (timestamp: number) => {
     }
   };
 
-  console.log(payloads);
-  console.log(frame);
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
       if (settings.initialTemp == settings.maxTemp) {
@@ -147,7 +142,6 @@ const metropolis = (timestamp: number) => {
         // this code updaetes the dashboard and resets values to continue the experiment
         let frame = canvas!.toDataURL();
         updatePayload({ settings: settings, data: dashboard, frames: frame });
-        console.log(payloads);
         incFrames(); // This increments the temperature as well.
         if (dashboard.temperature == settings.maxTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
