@@ -5,7 +5,7 @@ import Canvas from "../../components/Canvas";
 import DataSidebar from "../../components/DataSidebar";
 import Graph from "../../components/Graph";
 
-export default function qpotts() {
+export default function Qpotts() {
   return (
     <div className="w-screen flex">
       <Sidebar />
@@ -17,7 +17,3 @@ export default function qpotts() {
     </div>
   );
 }
-
-qpotts.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};

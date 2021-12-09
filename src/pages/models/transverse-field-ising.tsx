@@ -17,7 +17,3 @@ export default function Transverse() {
     </div>
   );
 }
-
-Transverse.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};

@@ -17,7 +17,3 @@ export default function KawasakiLocal() {
     </div>
   );
 }
-
-KawasakiLocal.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};

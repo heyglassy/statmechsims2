@@ -17,7 +17,3 @@ export default function BlumeCapel() {
     </div>
   );
 }
-
-BlumeCapel.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};

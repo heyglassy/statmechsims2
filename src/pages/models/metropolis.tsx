@@ -17,7 +17,3 @@ export default function Metropolis() {
     </div>
   );
 }
-
-Metropolis.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};

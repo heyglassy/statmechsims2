@@ -17,7 +17,3 @@ export default function XY() {
     </div>
   );
 }
-
-XY.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
