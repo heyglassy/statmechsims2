@@ -3,7 +3,6 @@ import type { dashboard } from "./dashboard";
 import type { graphData, plotPoint } from "./graphs";
 import type { settings } from "./settings";
 import type { state } from "./state";
-import type { payload } from "./payload";
 import Chart from "chart.js/auto";
 
 const defaultSettings: settings = {
@@ -77,7 +76,7 @@ const TSStore = create<state>((set) => ({
   nearestneighs: [],
   dashboard: defaultDashboard,
   canvas: null,
-  frame: [],
+  frames: [],
   graph: new Chart("temp_vs_mag_graph", {
     type: "scatter",
     data: {
@@ -207,6 +206,7 @@ const TSStore = create<state>((set) => ({
         },
       };
     }),
+
   setDashboard: (newDashboard: dashboard) => {
     set((state: state) => ({
       dashboard: { ...state.dashboard, ...newDashboard },
@@ -256,6 +256,15 @@ const TSStore = create<state>((set) => ({
           ...state.settings,
           simulation: false,
         },
+      };
+    });
+  },
+
+  updatePayload: (frame: string) => {
+    set((state: state) => {
+      return {
+        payloads: state.payloads.concat(state.dashboard),
+        frames: state.frames.concat(frame),
       };
     });
   },

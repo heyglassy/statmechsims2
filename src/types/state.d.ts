@@ -1,3 +1,4 @@
+import { dashboard } from "./dashboard";
 import type { graph, graphs, plotPoint } from "./graphs";
 import type { payload } from "./payload";
 import type { settings } from "./settings";
@@ -18,6 +19,8 @@ declare namespace State {
     canvas: HTMLCanvasElement | null;
     graphData: graphData;
     graph: graph;
+    frames: Array<string>;
+    payloads: Array<dashboard>;
     setGraph: (graph: any) => void;
     setNearestNeighs: (newneighs: Object) => void;
     setSettings: (newSettings: settings) => void;
@@ -34,5 +37,6 @@ declare namespace State {
     incFrames: () => void;
     endSimulation: () => void;
     updateGraph: (plotPoint: plotPoint) => void;
+    updatePayload: (frame: string) => void;
   };
 }

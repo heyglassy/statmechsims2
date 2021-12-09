@@ -15,10 +15,10 @@ declare namespace Dashboard {
     energy: number;
     totalEnergy: number;
     averageEnergy: number;
-    sigmaEnergy: number;
+    sigmaEnergy: number | null;
     magnetization: number;
     totalMagnetization: number;
     averageMagnetization: number;
-    sigmaMagnetisation;
+    sigmaMagnetisation: number | null;
   };
 }

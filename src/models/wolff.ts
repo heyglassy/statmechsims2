@@ -116,7 +116,8 @@ const wolff = () => {
       ) {
         // this code updaetes the dashboard and resets values to continue the experiment
         let frame = canvas!.toDataURL();
-        updatePayload({ settings: settings, data: dashboard, frames: frame });
+        updatePayload(frame);
+
         incFrames(); // This increments the temperature as well.
         if (dashboard.temperature == settings.maxTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
@@ -133,6 +134,7 @@ const wolff = () => {
     }
     if (settings.freePlay) {
       setDashboard({
+        ...dashboard,
         temperature: settings.initialTemp!,
       });
       setTimeout(() => {

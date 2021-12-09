@@ -14,6 +14,7 @@ const metropolis = (timestamp: number) => {
     incFrames,
     incCycles,
     endSimulation,
+    updatePayload,
     canvas,
   } = create(TSStore).getState();
 
@@ -141,7 +142,9 @@ const metropolis = (timestamp: number) => {
       ) {
         // this code updaetes the dashboard and resets values to continue the experiment
         let frame = canvas!.toDataURL();
-        updatePayload({ settings: settings, data: dashboard, frames: frame });
+
+        updatePayload(frame);
+
         incFrames(); // This increments the temperature as well.
         if (dashboard.temperature == settings.maxTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
@@ -152,6 +155,7 @@ const metropolis = (timestamp: number) => {
         }
       }
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
+
       const sigmaEnergy = Math.sqrt(
         (dashboard.energy * dashboard.energy) /
           (dashboard.frames.savedFrames + 1) -
@@ -163,7 +167,9 @@ const metropolis = (timestamp: number) => {
           (dashboard.frames.savedFrames + 1) -
           dashboard.averageMagnetization * dashboard.averageMagnetization
       );
+
       setDashboard({
+        ...dashboard,
         energy: Ecurrent / 10000,
         magnetization: Mcurrent / 10000,
         totalMagnetization: dashboard.totalMagnetization + Mcurrent / 10000,
@@ -175,6 +181,7 @@ const metropolis = (timestamp: number) => {
           ? null
           : sigmaMagnetisation,
       });
+
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       incSteps();
       window.requestAnimationFrame(metropolis);
@@ -185,6 +192,7 @@ const metropolis = (timestamp: number) => {
       }
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
       setDashboard({
+        ...dashboard,
         magnetization: Mcurrent / 10000,
         temperature: settings.initialTemp!,
       });

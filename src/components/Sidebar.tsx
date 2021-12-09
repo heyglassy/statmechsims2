@@ -3,17 +3,11 @@ import { Switch } from "@headlessui/react";
 import runner from "../models/runner";
 import setup from "../models/setup";
 import { useRouter } from "next/router";
-import { trpc } from "../utils/trpc";
-import type { payloads } from "../types/payload";
 
 const Sidebar = () => {
-  let { settings, setSettings, initDashboard, initSpins, graph } = Store(
-    (state) => state
-  );
+  let { settings, setSettings, initDashboard, payloads, initSpins, graph } =
+    Store((state) => state);
   let router = useRouter();
-
-  // const imageUpload = trpc.useMutation(["imageupload"]);
-  const dataupload = trpc.useMutation(["dataupload"]);
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -579,12 +573,8 @@ const Sidebar = () => {
               type="button"
               value="Randomize"
               onClick={() => {
-                // initSpins();
-                // setup(router.pathname);
-                dataupload.mutate({
-                  pathname: router.pathname,
-                  settings: settings,
-                });
+                initSpins();
+                setup(router.pathname);
               }}
             />
           </div>

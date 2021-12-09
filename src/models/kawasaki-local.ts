@@ -243,7 +243,7 @@ const KawasakiLocal = () => {
       ) {
         // this code updaetes the dashboard and resets values to continue the experiment
         let frame = canvas!.toDataURL();
-        updatePayload({ settings: settings, data: dashboard, frames: frame });
+        updatePayload(frame);
         incFrames(); // This increments the temperature as well.
         if (dashboard.temperature == settings.maxTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
@@ -255,24 +255,33 @@ const KawasakiLocal = () => {
       }
 
       let { Ecurrent, Mcurrent } = ComputeEforKawasaki();
+
+      const sigmaEnergy = Math.sqrt(
+        (dashboard.energy * dashboard.energy) /
+          (dashboard.frames.savedFrames + 1) -
+          dashboard.averageEnergy * dashboard.averageEnergy
+      );
+
+      const sigmaMagnetisation = Math.sqrt(
+        (dashboard.magnetization * dashboard.magnetization) /
+          (dashboard.frames.savedFrames + 1) -
+          dashboard.averageMagnetization * dashboard.averageMagnetization
+      );
+
       setDashboard({
+        ...dashboard,
         energy: Ecurrent / 10000,
         magnetization: Mcurrent / 10000,
         totalMagnetization: dashboard.totalMagnetization + Mcurrent / 10000,
         averageEnergy: dashboard.totalEnergy / dashboard.steps,
         averageMagnetization: dashboard.totalMagnetization / dashboard.steps,
         totalEnergy: dashboard.totalEnergy + Ecurrent / 10000,
-        sigmaEnergy: Math.sqrt(
-          (dashboard.energy * dashboard.energy) /
-            (dashboard.frames.savedFrames + 1) -
-            dashboard.averageEnergy * dashboard.averageEnergy
-        ),
-        sigmaMagnetisation: Math.sqrt(
-          (dashboard.magnetization * dashboard.magnetization) /
-            (dashboard.frames.savedFrames + 1) -
-            dashboard.averageMagnetization * dashboard.averageMagnetization
-        ),
+        sigmaEnergy: isNaN(sigmaEnergy) ? null : sigmaEnergy,
+        sigmaMagnetisation: isNaN(sigmaMagnetisation)
+          ? null
+          : sigmaMagnetisation,
       });
+
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       incSteps();
       window.requestAnimationFrame(KawasakiLocal);
@@ -283,6 +292,7 @@ const KawasakiLocal = () => {
       }
       let { Ecurrent, Mcurrent } = ComputeEforKawasaki();
       setDashboard({
+        ...dashboard,
         energy: Ecurrent / 1000,
         magnetization: Mcurrent / 10000,
         temperature: settings.initialTemp!,
