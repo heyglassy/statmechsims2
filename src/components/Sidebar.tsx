@@ -579,7 +579,7 @@ const Sidebar = () => {
         </div>
         <div className="bg-white my-2 w-full h-px"></div>
         <div>
-          <h1>Randomize Configuration</h1>
+          <h1 className="text-center">Randomize Configuration</h1>
           <div className="flex flex-row justify-evenly">
             <input
               className="border rounded border-solid border-black h-8 w-24"
@@ -589,7 +589,7 @@ const Sidebar = () => {
             <input
               className="border border-solid rounded border-black h-8 w-24"
               type="button"
-              value="Align Spins"
+              value="Randomize"
               onClick={() => {
                 // initSpins();
                 // setup(router.pathname);
@@ -598,12 +598,6 @@ const Sidebar = () => {
                 //   index: 1,
                 //   image: frame[0],
                 // });
-                console.log(typeof payloads);
-                dataupload.mutate({
-                  pathname: router.pathname,
-                  data: payloads,
-                  // data: [{ test: "hi" }],
-                });
               }}
             />
           </div>
