@@ -2,6 +2,7 @@ import type { settings } from "../types/settings";
 import create from "zustand";
 import TSStore from "../types/ts_store";
 import { color } from "./color";
+import { getBottom, getLeft, getRight, getTop } from "./dipoles";
 
 const metropolis = (timestamp: number) => {
   let {
@@ -35,10 +36,10 @@ const metropolis = (timestamp: number) => {
     spins: Array<Array<number>>,
     settings: settings
   ) => {
-    let left = getLeft(i, j, spins);
-    let right = getRight(i, j, spins);
-    let top = getTop(i, j, spins);
-    let bottom = getBottom(i, j, spins);
+    const left = getLeft(i, j);
+    const right = getRight(i, j);
+    const top = getTop(i, j);
+    const bottom = getBottom(i, j);
     let spin = spins[i][j];
     return (
       2.0 * CouplingConstant * spin * (top + bottom + left + right) +
@@ -47,49 +48,14 @@ const metropolis = (timestamp: number) => {
     ); // 0 is BfieldM (set by sidebar, check v1)
   };
 
-  const getLeft = (i: number, j: number, spins: Array<Array<number>>) => {
-    if (j == 0) {
-      // TODO: Add different boundary settings
-      return spins[i][settings.latticeSize - 1];
-    } else {
-      return spins[i][j - 1];
-    }
-  };
-
-  const getRight = (i: number, j: number, spins: Array<Array<number>>) => {
-    if (j == settings.latticeSize - 1) {
-      // TODO: Add different boundary settings
-      return spins[i][0];
-    } else {
-      return spins[i][j + 1];
-    }
-  };
-
-  const getTop = (i: number, j: number, spins: Array<Array<number>>) => {
-    if (i == 0) {
-      // TODO: Add different boundary settings
-      return spins[settings.latticeSize - 1][j];
-    } else {
-      return spins[i - 1][j];
-    }
-  };
-
-  const getBottom = (i: number, j: number, spins: Array<Array<number>>) => {
-    if (i == settings.latticeSize - 1) {
-      return spins[0][j];
-    } else {
-      return spins[i + 1][j];
-    }
-  };
-
   function ComputeEforMetropolis() {
     let Ecurrent = 0.0;
     let Mcurrent = 0.0;
 
     for (var i = 0; i < settings.latticeSize; i++) {
       for (var j = 0; j < settings.latticeSize; j++) {
-        var right = getRight(i, j, spins);
-        var bottom = getBottom(i, j, spins);
+        const right = getRight(i, j);
+        const bottom = getBottom(i, j);
         var thisS = spins[i][j];
         Ecurrent =
           Ecurrent -

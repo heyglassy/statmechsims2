@@ -1,14 +1,13 @@
 import create from "zustand";
 import TSStore from "../types/ts_store";
 import { color } from "./color";
+import { getBottom, getLeft, getRight, getTop } from "./dipoles";
 
 const KawasakiNonLocal = () => {
   let {
     settings,
     spins,
-    context,
     dashboard,
-    nearestneighs,
     setDashboard,
     updateGraph,
     incSteps,
@@ -27,41 +26,6 @@ const KawasakiNonLocal = () => {
     CouplingConstant = -1;
   }
 
-  const getLeft = (i: number, j: number) => {
-    if (j == 0) {
-      // TODO: Add different boundary settings
-      return spins[i][settings.latticeSize - 1];
-    } else {
-      return spins[i][j - 1];
-    }
-  };
-
-  const getRight = (i: number, j: number) => {
-    if (j == settings.latticeSize - 1) {
-      // TODO: Add different boundary settings
-      return spins[i][0];
-    } else {
-      return spins[i][j + 1];
-    }
-  };
-
-  const getTop = (i: number, j: number) => {
-    if (i == 0) {
-      // TODO: Add different boundary settings
-      return spins[settings.latticeSize - 1][j];
-    } else {
-      return spins[i - 1][j];
-    }
-  };
-
-  const getBottom = (i: number, j: number) => {
-    if (i == settings.latticeSize - 1) {
-      return spins[0][j];
-    } else {
-      return spins[i + 1][j];
-    }
-  };
-
   function deltaUforKawasakiforM(
     i1: number,
     j1: number,
@@ -71,15 +35,15 @@ const KawasakiNonLocal = () => {
     var thisS = spins[i1][j1];
     var thatS = spins[i2][j2];
 
-    var left1 = getLeft(i1, j1);
-    var right1 = getRight(i1, j1);
-    var top1 = getTop(i1, j1);
-    var bottom1 = getBottom(i1, j1);
+    const left1 = getLeft(i1, j1);
+    const right1 = getRight(i1, j1);
+    const top1 = getTop(i1, j1);
+    const bottom1 = getBottom(i1, j1);
 
-    var left2 = getLeft(i2, j2);
-    var right2 = getRight(i2, j2);
-    var top2 = getTop(i2, j2);
-    var bottom2 = getBottom(i2, j2);
+    const left2 = getLeft(i2, j2);
+    const right2 = getRight(i2, j2);
+    const top2 = getTop(i2, j2);
+    const bottom2 = getBottom(i2, j2);
 
     if (
       (j2 == j1 + 1 && i2 == i1) ||

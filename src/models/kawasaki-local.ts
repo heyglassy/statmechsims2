@@ -1,6 +1,7 @@
 import create from "zustand";
 import TSStore from "../types/ts_store";
 import { color } from "./color";
+import { getBottom, getLeft, getRight, getTop } from "./dipoles";
 
 const KawasakiLocal = () => {
   let {
@@ -29,55 +30,20 @@ const KawasakiLocal = () => {
 
   let width = 600 / settings.latticeSize;
 
-  const getLeft = (i: number, j: number, spins: Array<Array<number>>) => {
-    if (j == 0) {
-      // TODO: Add different boundary settings
-      return spins[i][settings.latticeSize - 1];
-    } else {
-      return spins[i][j - 1];
-    }
-  };
-
-  const getRight = (i: number, j: number, spins: Array<Array<number>>) => {
-    if (j == settings.latticeSize - 1) {
-      // TODO: Add different boundary settings
-      return spins[i][0];
-    } else {
-      return spins[i][j + 1];
-    }
-  };
-
-  const getTop = (i: number, j: number, spins: Array<Array<number>>) => {
-    if (i == 0) {
-      // TODO: Add different boundary settings
-      return spins[settings.latticeSize - 1][j];
-    } else {
-      return spins[i - 1][j];
-    }
-  };
-
-  const getBottom = (i: number, j: number, spins: Array<Array<number>>) => {
-    if (i == settings.latticeSize - 1) {
-      return spins[0][j];
-    } else {
-      return spins[i + 1][j];
-    }
-  };
-
   //energy change with local magnetic field
   function deltaUforKawasakiforM(i1: any, j1: any, i2: any, j2: any) {
     var thisS = spins[i1][j1];
     var thatS = spins[i2][j2];
 
-    var left1 = getLeft(i1, j1, spins);
-    var right1 = getRight(i1, j1, spins);
-    var top1 = getTop(i1, j1, spins);
-    var bottom1 = getBottom(i1, j1, spins);
+    const left1 = getLeft(i1, j1);
+    const right1 = getRight(i1, j1);
+    const top1 = getTop(i1, j1);
+    const bottom1 = getBottom(i1, j1);
 
-    var left2 = getLeft(i2, j2, spins);
-    var right2 = getRight(i2, j2, spins);
-    var top2 = getTop(i2, j2, spins);
-    var bottom2 = getBottom(i2, j2, spins);
+    const left2 = getLeft(i1, j1);
+    const right2 = getRight(i1, j1);
+    const top2 = getTop(i1, j1);
+    const bottom2 = getBottom(i1, j1);
 
     if (
       (j2 == j1 + 1 && i2 == i1) ||
@@ -111,10 +77,10 @@ const KawasakiLocal = () => {
     let Mcurrent = 0.0;
     for (var i = 0; i < settings.latticeSize; i++) {
       for (var j = 0; j < settings.latticeSize; j++) {
-        var right = getRight(i, j, spins);
-        var left = getLeft(i, j, spins);
-        var top = getTop(i, j, spins);
-        var bottom = getBottom(i, j, spins);
+        const right = getRight(i, j);
+        const left = getLeft(i, j);
+        const top = getTop(i, j);
+        const bottom = getBottom(i, j);
         var thisS = spins[i][j];
         Ecurrent =
           Ecurrent -
