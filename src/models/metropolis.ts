@@ -1,6 +1,7 @@
 import type { settings } from "../types/settings";
 import create from "zustand";
 import TSStore from "../types/ts_store";
+import { color } from "./color";
 
 const metropolis = (timestamp: number) => {
   let {
@@ -10,6 +11,7 @@ const metropolis = (timestamp: number) => {
     dashboard,
     setDashboard,
     updateGraph,
+    setSpins,
     incSteps,
     incFrames,
     incCycles,
@@ -102,26 +104,23 @@ const metropolis = (timestamp: number) => {
   let model = () => {
     let i = Math.floor(Math.random() * settings.latticeSize);
     let j = Math.floor(Math.random() * settings.latticeSize);
-    let curr_spins = spins[i][j];
     let _EdiffforM = deltaUofM(i, j, spins, settings);
 
     if (dashboard.temperature == 0) {
       if (_EdiffforM < 0.0 || (_EdiffforM == 0 && Math.random() < 0.5)) {
-        spins[i][j] = curr_spins * -1;
-        if (spins[i][j] == 1) context!.fillStyle = "black";
-        else context!.fillStyle = "white";
-        context!.fillRect(i * width, j * width, width, width);
+        spins[i][j] *= -1;
+        color(i, j);
       }
     } else if (
       _EdiffforM < 0.0 ||
       Math.random() < Math.exp(-_EdiffforM / dashboard.temperature!)
     ) {
-      spins[i][j] = curr_spins * -1;
-      if (spins[i][j] == 1) context!.fillStyle = "white";
-      else context!.fillStyle = "black";
-      context!.fillRect(i * width, j * width, width, width);
+      spins[i][j] *= -1;
+      color(i, j);
     }
   };
+
+  setSpins(spins);
 
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {

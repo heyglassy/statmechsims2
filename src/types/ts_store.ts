@@ -77,6 +77,7 @@ const TSStore = create<state>((set) => ({
   dashboard: defaultDashboard,
   canvas: null,
   frames: [],
+  width: 0,
   graph: new Chart("temp_vs_mag_graph", {
     type: "scatter",
     data: {
@@ -172,6 +173,7 @@ const TSStore = create<state>((set) => ({
     set((state: state) => ({
       canvas: canvas,
       context: canvas.getContext("2d"),
+      width: 600 / state.settings.latticeSize,
     })),
   resetDashboard: () => {
     set((state: state) => ({

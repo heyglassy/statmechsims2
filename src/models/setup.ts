@@ -5,9 +5,15 @@ import wolff from "./wolff";
 import transverse from "./transverse-field-ising";
 
 const setup = (model: string) => {
-  let { settings, context, spins, setWall, setNearestNeighs, setSpins } =
-    create(TSStore).getState();
-  let width = 600 / settings.latticeSize;
+  const {
+    settings,
+    context,
+    spins,
+    setWall,
+    setNearestNeighs,
+    setSpins,
+    width,
+  } = create(TSStore).getState();
 
   if (
     model == "/models/metropolis" ||

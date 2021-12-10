@@ -1,5 +1,6 @@
 import create from "zustand";
 import TSStore from "../types/ts_store";
+import { color } from "./color";
 
 const KawasakiLocal = () => {
   let {
@@ -16,6 +17,7 @@ const KawasakiLocal = () => {
     endSimulation,
     updatePayload,
     canvas,
+    setSpins,
   } = create(TSStore).getState();
 
   let CouplingConstant: number;
@@ -104,70 +106,6 @@ const KawasakiLocal = () => {
     }
   }
 
-  //   function deltaUforKawasaki(i1: any, j1: any, i2: any, j2: any) {
-  //     var thisS = spins[i1][j1];
-  //     var thatS = spins[i2][j2];
-
-  //     var left1 = getLeft(i1, j1, spins);
-  //     var right1 = getRight(i1, j1, spins);
-  //     var top1 = getTop(i1, j1, spins);
-  //     var bottom1 = getBottom(i1, j1, spins);
-
-  //     var left2 = getLeft(i2, j2, spins);
-  //     var right2 = getRight(i2, j2, spins);
-  //     var top2 = getTop(i2, j2, spins);
-  //     var bottom2 = getBottom(i2, j2, spins);
-
-  //     if (
-  //       (j2 == 0 && j1 == settings.latticeSize - 1 && i2 == i1) ||
-  //       (j2 == settings.latticeSize - 1 && j1 == 0 && i2 == i1) ||
-  //       (i2 == 0 && i1 == settings.latticeSize - 1 && j2 == j1) ||
-  //       (i2 == settings.latticeSize - 1 && i1 == 0 && j2 == j1)
-  //     ) {
-  //       //   if (pbc || ApbcBothDirections || ApbcOneDirection || PlusMinus)
-  //       //     return (
-  //       //       2.0 * CouplingConstant * thisS * (bottom1 + top1 + left1 + right1) +
-  //       //       2.0 * CouplingConstant * thatS * (bottom2 + top2 + left2 + right2) +
-  //       //       4.0 * CouplingConstant +
-  //       //       2.0 * thisS * (Bfield + BfieldM[i1][j1]) +
-  //       //       2.0 * thatS * (Bfield + BfieldM[i2][j2])
-  //       //     );
-  //       //   else if (FreeBound)
-  //       //     return (
-  //       //       2.0 * CouplingConstant * thisS * (bottom1 + top1 + left1 + right1) +
-  //       //       2.0 * CouplingConstant * thatS * (bottom2 + top2 + left2 + right2) +
-  //       //       2.0 * thisS * (Bfield + BfieldM[i1][j1]) +
-  //       //       2.0 * thatS * (Bfield + BfieldM[i2][2])
-  //       //     );
-  //     } else if (
-  //       (j2 == j1 + 1 && i2 == i1) ||
-  //       (j1 == j2 + 1 && i1 == i2) ||
-  //       (j2 == j1 - 1 && i2 == i1) ||
-  //       (j1 == j2 - 1 && i1 == i2) ||
-  //       (j2 == j1 && i2 == i1 + 1) ||
-  //       (j1 == j2 && i1 == i2 + 1) ||
-  //       (j2 == j1 && i2 == i1 - 1) ||
-  //       (j1 == j2 && i1 == i2 - 1)
-  //     ) {
-  //       return (
-  //         2.0 * CouplingConstant * thisS * (bottom1 + top1 + left1 + right1) +
-  //         2.0 * CouplingConstant * thatS * (bottom2 + top2 + left2 + right2) +
-  //         4.0 * CouplingConstant +
-  //         2.0 * thisS * (settings.magneticField! + 0) + // 0's are BfieldM that are subject to change
-  //         2.0 * thatS * (settings.magneticField! + 0)
-  //       );
-  //     } else {
-  //       return (
-  //         2.0 * CouplingConstant * thisS * (bottom1 + top1 + left1 + right1) +
-  //         2.0 * CouplingConstant * thatS * (bottom2 + top2 + left2 + right2) +
-  //         2.0 * thisS * (settings.magneticField! + 0) +
-  //         2.0 * thatS * (settings.magneticField! + 0)
-  //       );
-  //     }
-  //   }
-
-  //computes total energy from scratch when using the kawasaki algorithm
-
   let ComputeEforKawasaki = () => {
     let Ecurrent = 0.0;
     let Mcurrent = 0.0;
@@ -203,33 +141,29 @@ const KawasakiLocal = () => {
     var j2 = randtry[1];
 
     if (spins[i1][j1] != spins[i2][j2]) {
-      var thisS = spins[i1][j1];
-      var thatS = spins[i2][j2];
-      var _EdiffforM = deltaUforKawasakiforM(i1, j1, i2, j2);
+      let _EdiffforM = deltaUforKawasakiforM(i1, j1, i2, j2);
       if (dashboard.temperature == 0) {
         //to avoid dividing by zero
         if (_EdiffforM < 0.0 || (_EdiffforM == 0 && Math.random() < 0.5)) {
           //always flip if deltaU is negative
-          thisS *= -1;
-          spins[i1][j1] = thisS;
-          thatS *= -1;
-          spins[i2][j2] = thatS;
-          colorSquare(i1, j1);
-          colorSquare(i2, j2);
+          spins[i1][j1] *= -1;
+          spins[i2][j2] *= -1;
+          color(i1, j1);
+          color(i2, j2);
         }
       } else if (
         _EdiffforM <= 0.0 ||
         Math.random() < Math.exp(-_EdiffforM / dashboard.temperature)
       ) {
-        thisS *= -1;
-        spins[i1][j1] = thisS;
-        thatS *= -1;
-        spins[i2][j2] = thatS;
-        colorSquare(i1, j1);
-        colorSquare(i2, j2);
+        spins[i1][j1] *= -1;
+        spins[i2][j2] *= -1;
+        color(i1, j1);
+        color(i2, j2);
       }
     }
   };
+
+  setSpins(spins);
 
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {

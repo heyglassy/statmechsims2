@@ -1,4 +1,3 @@
-import router from "next/router";
 import { useEffect } from "react";
 import Store from "../types/store";
 import Chart from "chart.js/auto";
