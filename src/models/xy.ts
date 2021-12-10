@@ -1,5 +1,6 @@
 import create from "zustand";
 import TSStore from "../types/ts_store";
+import { color2 } from "./color";
 
 let wrap = "none";
 
@@ -75,9 +76,8 @@ const model = () => {
       f += settings.magneticField! * Math.sin(spins[i][j]);
 
       newphases[i][j] = spins[i][j] - f;
-      let c = rad2deg(newphases[i][j]);
-      context!.fillStyle = `hsl(${c}, 100%, 50%)`;
-      context!.fillRect(i * width, j * width, width, width);
+      const c = rad2deg(newphases[i][j]);
+      color2(i, j, c);
     }
   }
   setSpins(newphases);

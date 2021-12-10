@@ -23,9 +23,9 @@ const wolff = () => {
 
   function draw() {
     context!.fillStyle = "#ffffff";
-    for (var i = 0; i < settings.latticeSize; ++i) {
-      for (var j = 0; j < settings.latticeSize; ++j) {
-        var idx = i * settings.latticeSize + j;
+    for (let i = 0; i < settings.latticeSize; ++i) {
+      for (let j = 0; j < settings.latticeSize; ++j) {
+        const idx = i * settings.latticeSize + j;
         if (spin[idx] == 1 && spinBefore[idx] != 1) {
           context!.fillStyle = "#ffffff";
           context!.fillRect(j * width, i * width, width, width);

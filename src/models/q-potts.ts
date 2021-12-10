@@ -1,5 +1,6 @@
 import create from "zustand";
 import TSStore from "../types/ts_store";
+import { color2 } from "./color";
 
 const qpotts = () => {
   const {
@@ -68,10 +69,8 @@ const qpotts = () => {
       single_flip(j, w, wh);
 
       let [x, y] = get_coordinate(j);
-      context!.fillRect(x * width, y * width, width, width);
-
       const c = (360 / settings.qpotts) * spin[j];
-      context!.fillStyle = `hsl(${c}, 100%, 50%)`;
+      color2(x, y, c);
     }
   };
 
