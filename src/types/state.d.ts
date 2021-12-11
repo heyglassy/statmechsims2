@@ -9,6 +9,7 @@ declare namespace State {
   type state = {
     spinBefore: Array<any>;
     clusteredChildren: Array<any>;
+    localMagnetic: Array<Array<number>>;
     spin: Array<any>;
     settings: settings;
     dashboard: dashboard;
@@ -22,6 +23,7 @@ declare namespace State {
     frames: Array<string>;
     width: number;
     payloads: Array<dashboard>;
+    setLocalMagnetic: (localMagnetic: Array<Array<number>>) => void;
     setGraph: (graph: any) => void;
     setNearestNeighs: (newneighs: Object) => void;
     setSettings: (newSettings: settings) => void;

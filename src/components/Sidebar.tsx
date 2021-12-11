@@ -3,6 +3,7 @@ import { Switch } from "@headlessui/react";
 import runner from "../models/runner";
 import setup from "../models/setup";
 import { useRouter } from "next/router";
+import boundarySetup from "../models/boundaries";
 
 const Sidebar = () => {
   let { settings, setSettings, initDashboard, payloads, initSpins, graph } =
@@ -386,6 +387,9 @@ const Sidebar = () => {
                 ...settings,
                 boundariesConditions: e.target.value,
               });
+              initSpins();
+              setup(router.pathname);
+              boundarySetup();
             }}
           >
             <option selected>Periodic Boundaries</option>
@@ -397,7 +401,6 @@ const Sidebar = () => {
             <option>Plus Boundaries (both directions)</option>
             <option>Minus Boundaries (both directions)</option>
             <option>Screw Periodic Boundaries</option>
-            <option> Zero At Boundary</option>
           </select>
         </div>
         <div className="bg-white my-2 w-full h-px"></div>

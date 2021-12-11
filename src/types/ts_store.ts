@@ -70,6 +70,7 @@ const defaultGraphData: graphData = [
 const TSStore = create<state>((set) => ({
   spinBefore: [],
   spin: [],
+  localMagnetic: [],
   clusteredChildren: [],
   settings: defaultSettings,
   payloads: [],
@@ -134,6 +135,14 @@ const TSStore = create<state>((set) => ({
   },
   initSpins: () =>
     set((state: state) => {
+      let BfieldM = new Array(state.settings.latticeSize);
+      for (let i = 0; i < state.settings.latticeSize; i++) {
+        BfieldM[i] = new Array(state.settings.latticeSize);
+        for (let j = 0; j < state.settings.latticeSize; j++) {
+          BfieldM[i][j] = 0;
+        }
+      }
+
       let clusterChild = new Array<any>(
         state.settings.latticeSize * state.settings.latticeSize
       );
@@ -163,12 +172,17 @@ const TSStore = create<state>((set) => ({
         }
       }
       return {
+        localMagnetic: BfieldM,
         spins: s,
         spinBefore: sBefore,
         spin: spin,
         clusteredChildren: clusterChild,
       };
     }),
+  setLocalMagnetic: (localMagnetic: Array<Array<number>>) =>
+    set(() => ({
+      localMagnetic: localMagnetic,
+    })),
   setContext: (canvas: HTMLCanvasElement) =>
     set((state: state) => ({
       canvas: canvas,

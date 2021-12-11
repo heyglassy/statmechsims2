@@ -36,7 +36,7 @@ const DataSidebar = () => {
       </div>
       <div className="w-24 h-16 p-2 text-center text-xs bg-white rounded m-2 bg-gray-200">
         <h1>Sigma Energy</h1>
-        <h1>{Math.round(dashboard.sigmaEnergy * 10000) / 10000}</h1>
+        <h1>{Math.round(dashboard.sigmaEnergy! * 10000) / 10000}</h1>
       </div>
       <div className="w-24 h-16 p-2 text-center text-xs bg-white rounded m-2 bg-gray-200">
         <h1>Magnetization</h1>
@@ -48,7 +48,7 @@ const DataSidebar = () => {
       </div>
       <div className="w-24 h-16 p-2 text-center text-xs bg-white rounded m-2 bg-gray-200">
         <h1>Sigma Magnetism</h1>
-        <h1>{Math.round(dashboard.sigmaMagnetisation * 10000) / 10000}</h1>
+        <h1>{Math.round(dashboard.sigmaMagnetisation! * 10000) / 10000}</h1>
       </div>
       <input
         type="button"
