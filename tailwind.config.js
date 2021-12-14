@@ -1,15 +1,12 @@
 module.exports = {
-    purge: [],
-    darkMode: false, // or 'media' or 'class'
+    mode: "jit",
+    content: ["./src/**/*.{ts,tsx,js,jsx}"],
     theme: {
         extend: {
             spacing: {
                 600: "600px",
             },
         },
-    },
-    variants: {
-        extend: {},
     },
     plugins: [],
 };
