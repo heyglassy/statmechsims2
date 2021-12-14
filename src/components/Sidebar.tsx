@@ -4,11 +4,15 @@ import runner from "../models/runner";
 import setup from "../models/setup";
 import { useRouter } from "next/router";
 import boundarySetup from "../models/boundaries";
+import { useState } from "react";
+import ConfirmScreen from "./ConfirmScreen";
 
 const Sidebar = () => {
   let { settings, setSettings, initDashboard, payloads, initSpins, graph } =
     Store((state) => state);
   let router = useRouter();
+  let [confirm, setConfirm] = useState(false);
+  let [end, setEnd] = useState(false);
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -599,12 +603,7 @@ const Sidebar = () => {
               : "Run Simulation"
           }
           onClick={() => {
-            setSettings({ ...settings, simulation: !settings.simulation });
-            if (!settings.simulation) {
-              initDashboard();
-              graph.clear();
-            }
-            runner(router.pathname);
+            settings.simulation ? setConfirm(true) : null;
           }}
           disabled={settings.freePlay ? true : false}
           className={`${
@@ -616,6 +615,7 @@ const Sidebar = () => {
           } h-20 w-64 rounded`}
         />
       </div>
+      {confirm ? <ConfirmScreen open={confirm} setOpen={setConfirm} /> : null}
     </nav>
   );
 };
