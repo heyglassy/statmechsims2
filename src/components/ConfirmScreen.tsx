@@ -1,7 +1,6 @@
 import Store from "../types/store";
 import runner from "../models/runner";
 import { useRouter } from "next/router";
-import { boolean } from "zod";
 import type { Dispatch, SetStateAction } from "react";
 
 interface Props {
@@ -17,7 +16,8 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
   const router = useRouter();
 
   return (
-    <div className="bg-white absolute inset-y-auto inset-x-1/3 h-3/5 w-1/3 p-12">
+    <div className="bg-gray-200 absolute inset-y-auto inset-x-1/3 h-full flex flex-col justify-evenly w-1/3 p-6 rounded-md drop-shadow-2xl">
+      <h1 className="text-2xl font-bold">Confirm Simulation Settings</h1>
       <h1>Initial Temperature: {settings.initialTemp}</h1>
       <h1>Min Temperature: {settings.minTemp}</h1>
       <h1>Temperature Step: {settings.tempStep}</h1>
@@ -35,14 +35,14 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
       <h1>Pattern: {settings.geometicPattern}</h1>
       <div className="flex flex-col items-start">
         {settings.initialTemp! > settings.maxTemp! ? (
-          <h1 className="text-orange-500 mt-2 bold">
+          <h1 className="text-orange-500 mt-2 font-bold">
             Max temperature must be greater than min temperature.
           </h1>
         ) : (
           <button
-            className="bg-green-500 rounded mt-2 w-32 h-8"
+            className="bg-green-500 text-white rounded mt-4 w-32 h-8"
             onClick={() => {
-              setSettings({ ...settings, simulation: !settings.simulation });
+              setSettings({ ...settings, simulation: true });
               if (!settings.simulation) {
                 initDashboard();
                 graph.clear();
@@ -55,7 +55,7 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
           </button>
         )}
         <button
-          className="bg-red-300 rounded mt-2 w-32 h-8"
+          className="bg-red-400 rounded mt-2 w-32 h-8 text-white"
           onClick={() => {
             setOpen(!open);
           }}

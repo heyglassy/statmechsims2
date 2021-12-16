@@ -6,10 +6,19 @@ import { useRouter } from "next/router";
 import boundarySetup from "../models/boundaries";
 import { useState } from "react";
 import ConfirmScreen from "./ConfirmScreen";
+import EndSimulation from "./EndSimulation";
 
 const Sidebar = () => {
-  let { settings, setSettings, initDashboard, payloads, initSpins, graph } =
-    Store((state) => state);
+  let {
+    settings,
+    endSimulation,
+    setSettings,
+    initDashboard,
+    payloads,
+    initSpins,
+    graph,
+    endScreen,
+  } = Store((state) => state);
   let router = useRouter();
   let [confirm, setConfirm] = useState(false);
   let [end, setEnd] = useState(false);
@@ -23,6 +32,7 @@ const Sidebar = () => {
             Set Freeplay Mode:
           </h2>
           <Switch
+            disabled={settings.simulation ? true : false}
             checked={settings.freePlay}
             onChange={() => {
               setSettings({
@@ -603,7 +613,7 @@ const Sidebar = () => {
               : "Run Simulation"
           }
           onClick={() => {
-            settings.simulation ? setConfirm(true) : null;
+            settings.simulation ? endSimulation() : setConfirm(true);
           }}
           disabled={settings.freePlay ? true : false}
           className={`${
@@ -616,6 +626,7 @@ const Sidebar = () => {
         />
       </div>
       {confirm ? <ConfirmScreen open={confirm} setOpen={setConfirm} /> : null}
+      {endScreen ? <EndSimulation /> : null}
     </nav>
   );
 };

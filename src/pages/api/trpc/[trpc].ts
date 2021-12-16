@@ -13,19 +13,21 @@ const appRouter = trpc
       image: z.string(),
       pathname: z.string(),
       index: z.number(),
+      date: z.string(),
     }),
     resolve({ input }) {
       let link;
-
       const buf = Buffer.from(
         input.image.replace(/^data:image\/\w+;base64,/, ""),
         "base64"
       );
 
       let params = {
-        Key: `${input.pathname}/${Date.now()}/img/${input.index}.png`,
+        Key: `${input.pathname}/${input.date}/img/${input.index}.png`,
         Bucket: BUCKET,
         Body: buf,
+        ACL: "public-read",
+        ContentType: "image/png",
       };
 
       try {
@@ -36,15 +38,14 @@ const appRouter = trpc
       }
 
       return {
-        link: `https://${BUCKET}.s3.amazonaws.com${
-          input.pathname
-        }/${Date.now()}/img/${input.index}.png`,
+        link: `https://${BUCKET}.s3.amazonaws.com${input.pathname}/${input.date}/img/${input.index}.png`,
       };
     },
   })
   .mutation("dataupload", {
     input: z.object({
       pathname: z.string(),
+      date: z.string(),
       settings: z.object({
         freePlay: z.boolean(),
         initialTemp: z.number().nullish(),
@@ -106,9 +107,11 @@ const appRouter = trpc
     resolve({ input }) {
       let link;
       let params = {
-        Key: `${input.pathname}/${Date.now()}/data/data.json`,
+        Key: `${input.pathname}/${input.date}/data.json`,
         Bucket: BUCKET,
         Body: JSON.stringify(input),
+        ACL: "public-read",
+        ContentType: "text/plain",
       };
       try {
         s3.send(new PutObjectCommand(params));
@@ -117,9 +120,7 @@ const appRouter = trpc
         link = "Error";
       }
       return {
-        link: `https://${BUCKET}.s3.amazonaws.com${
-          input.pathname
-        }/${Date.now()}/data/data.json`,
+        link: `https://${BUCKET}.s3.amazonaws.com${input.pathname}/${input.date}/data/data.json`,
       };
     },
   });

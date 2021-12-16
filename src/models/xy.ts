@@ -107,6 +107,7 @@ const xy = () => {
         // this code updaetes the dashboard and resets values to continue the experiment
         let frame = canvas!.toDataURL();
         updatePayload(frame);
+        dashboard.frames.savedFrames++;
         incFrames(); // This increments the temperature as well.
         if (dashboard.temperature == settings.maxTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {

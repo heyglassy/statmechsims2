@@ -8,7 +8,6 @@ const metropolis = (timestamp: number) => {
   let {
     settings,
     spins,
-    context,
     dashboard,
     setDashboard,
     updateGraph,
@@ -90,16 +89,9 @@ const metropolis = (timestamp: number) => {
 
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
-      if (settings.initialTemp == settings.maxTemp) {
-        // this code runs the model
-        for (let a = 0; a < settings.stepsPerFrame!; a++) {
-          // for (let a = 0; a < 1000; a++) {
-          model();
-        }
-      } else {
-        for (let a = 0; a < settings.stepsPerFrame!; a++) {
-          model();
-        }
+      // this code runs the model
+      for (let a = 0; a < settings.stepsPerFrame!; a++) {
+        model();
       }
 
       if (
@@ -108,10 +100,10 @@ const metropolis = (timestamp: number) => {
       ) {
         // this code updaetes the dashboard and resets values to continue the experiment
         let frame = canvas!.toDataURL();
-
         updatePayload(frame);
-
+        dashboard.frames.savedFrames++;
         incFrames(); // This increments the temperature as well.
+
         if (dashboard.temperature == settings.maxTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
             endSimulation();
@@ -120,6 +112,7 @@ const metropolis = (timestamp: number) => {
           }
         }
       }
+
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
 
       const sigmaEnergy = Math.sqrt(

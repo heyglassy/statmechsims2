@@ -68,6 +68,7 @@ const defaultGraphData: graphData = [
 ];
 
 const TSStore = create<state>((set) => ({
+  endScreen: false,
   spinBefore: [],
   spin: [],
   localMagnetic: [],
@@ -204,6 +205,8 @@ const TSStore = create<state>((set) => ({
   initDashboard: () =>
     set((state: state) => {
       return {
+        endScreen: false,
+        frames: [],
         dashboard: {
           ...defaultDashboard,
           cycles: {
@@ -212,7 +215,7 @@ const TSStore = create<state>((set) => ({
           },
           temperature: state.settings.initialTemp!,
           frames: {
-            ...defaultDashboard.frames,
+            savedFrames: 0,
             totalFrames:
               (state.settings.maxTemp != 0
                 ? (state.settings.maxTemp! - state.settings.initialTemp!) /
@@ -224,10 +227,11 @@ const TSStore = create<state>((set) => ({
     }),
 
   setDashboard: (newDashboard: dashboard) => {
-    set((state: state) => ({
-      dashboard: { ...state.dashboard, ...newDashboard },
-    }));
+    set({
+      dashboard: newDashboard,
+    });
   },
+
   incSteps: () => {
     set((state: state) => ({
       dashboard: {
@@ -236,6 +240,7 @@ const TSStore = create<state>((set) => ({
       },
     }));
   },
+
   incFrames: () => {
     set((state: state) => ({
       dashboard: {
@@ -266,14 +271,13 @@ const TSStore = create<state>((set) => ({
   },
 
   endSimulation: () => {
-    set((state: state) => {
-      return {
-        settings: {
-          ...state.settings,
-          simulation: false,
-        },
-      };
-    });
+    set((state: state) => ({
+      endScreen: true,
+      settings: {
+        ...state.settings,
+        simulation: false,
+      },
+    }));
   },
 
   updatePayload: (frame: string) => {

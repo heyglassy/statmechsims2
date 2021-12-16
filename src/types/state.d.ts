@@ -7,6 +7,7 @@ export = State;
 export as namespace State;
 declare namespace State {
   type state = {
+    endScreen: boolean;
     spinBefore: Array<any>;
     clusteredChildren: Array<any>;
     localMagnetic: Array<Array<number>>;
