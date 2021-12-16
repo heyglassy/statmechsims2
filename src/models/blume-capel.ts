@@ -167,16 +167,10 @@ const BlumeCapel = (timemstamp: number) => {
 
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
-      if (settings.initialTemp == settings.maxTemp) {
-        // this code runs the model
-        for (let a = 0; a < settings.stepsPerFrame!; a++) {
-          // for (let a = 0; a < 1000; a++) {
-          model();
-        }
-      } else {
-        for (let a = 0; a < settings.stepsPerFrame!; a++) {
-          model();
-        }
+      // this code runs the model
+      for (let a = 0; a < settings.stepsPerFrame!; a++) {
+        // for (let a = 0; a < 1000; a++) {
+        model();
       }
 
       if (

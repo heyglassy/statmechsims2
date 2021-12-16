@@ -173,6 +173,7 @@ const transverse = (timestamp: number) => {
   }
   update();
   draw();
+
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
       if (

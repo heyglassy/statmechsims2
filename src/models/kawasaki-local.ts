@@ -133,15 +133,8 @@ const KawasakiLocal = () => {
 
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
-      if (settings.initialTemp == settings.maxTemp) {
-        // this code runs the model
-        for (let a = 0; a < settings.stepsPerFrame!; a++) {
-          model();
-        }
-      } else {
-        for (let a = 0; a < settings.stepsPerFrame!; a++) {
-          model();
-        }
+      for (let a = 0; a < settings.stepsPerFrame!; a++) {
+        model();
       }
 
       if (
