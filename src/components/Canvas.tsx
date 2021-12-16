@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import Store from "../types/store";
-import setup from "../models/setup";
+import { setup } from "../models/setup";
 import { useRouter } from "next/router";
 
 const Canvas = () => {

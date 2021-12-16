@@ -1,7 +1,7 @@
 import Store from "../types/store";
 import { Switch } from "@headlessui/react";
 import runner from "../models/runner";
-import setup from "../models/setup";
+import { setup, alignSpins } from "../models/setup";
 import { useRouter } from "next/router";
 import boundarySetup from "../models/boundaries";
 import { useState } from "react";
@@ -588,6 +588,10 @@ const Sidebar = () => {
               className="border rounded border-solid border-black h-8 w-24"
               type="button"
               value="Align Spins"
+              onClick={() => {
+                initSpins();
+                alignSpins(router.pathname);
+              }}
             />
             <input
               className="border border-solid rounded border-black h-8 w-24"

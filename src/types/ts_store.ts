@@ -184,6 +184,10 @@ const TSStore = create<state>((set) => ({
     set(() => ({
       localMagnetic: localMagnetic,
     })),
+  setSpin: (spin: Array<number>) =>
+    set(() => ({
+      spin: spin,
+    })),
   setContext: (canvas: HTMLCanvasElement) =>
     set((state: state) => ({
       canvas: canvas,

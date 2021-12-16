@@ -31,6 +31,7 @@ declare namespace State {
     resetSettings: () => void;
     initSpins: () => void;
     setSpins: (spins: Array<Array<number>>) => void;
+    setSpin: (spin: Array<number>) => void;
     setWall: (wall: wall) => void;
     setContext: (canvs: HTMLCanvasElement) => void;
     resetDashboard: () => void;

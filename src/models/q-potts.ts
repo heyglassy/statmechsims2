@@ -14,10 +14,10 @@ const qpotts = () => {
     endSimulation,
     incCycles,
     incSteps,
+    setSpin,
     setDashboard,
   } = create(TSStore).getState();
   const N = settings.latticeSize * settings.latticeSize;
-  const width = 600 / settings.latticeSize;
 
   const get_index = (x: number, y: number) => {
     x = (x + settings.latticeSize) % settings.latticeSize;
@@ -74,6 +74,7 @@ const qpotts = () => {
     }
   };
 
+  setSpin(spin);
   model();
 
   if (settings.freePlay || settings.simulation) {
