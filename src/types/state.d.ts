@@ -7,6 +7,7 @@ export = State;
 export as namespace State;
 declare namespace State {
   type state = {
+    color: Array<string>;
     endScreen: boolean;
     spinBefore: Array<any>;
     clusteredChildren: Array<any>;

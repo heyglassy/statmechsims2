@@ -68,6 +68,7 @@ const defaultGraphData: graphData = [
 ];
 
 const TSStore = create<state>((set) => ({
+  color: ["white", "#3772FF"],
   endScreen: false,
   spinBefore: [],
   spin: [],

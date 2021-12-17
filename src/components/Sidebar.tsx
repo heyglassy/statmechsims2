@@ -25,10 +25,10 @@ const Sidebar = () => {
 
   return (
     <nav className="flex flex-col h-screen w-80">
-      <div className="h-3/4 left-0 bg-gray-200 overflow-y-scroll overscroll-y-auto p-3">
+      <div className="h-3/4 left-0 bg-white overflow-y-scroll overscroll-y-auto p-3">
         <h1 className="text-3xl font-bold">Settings</h1>
         <div className="flex items-center my-1">
-          <h2 className="text-sm mr-3 text-black text-opacity-50">
+          <h2 className="text-sm mr-3 text-black font-bold text-opacity-50">
             Set Freeplay Mode:
           </h2>
           <Switch
@@ -85,7 +85,7 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Max Temperature</h1>
           <input
@@ -144,7 +144,7 @@ const Sidebar = () => {
             </div>
           </>
         ) : null}
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div className="inline-flex">
           <h1>Temperature Step</h1>
           <select
@@ -158,7 +158,7 @@ const Sidebar = () => {
             <option>0.001</option>
           </select>
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Equilibriation Delay(ms)</h1>
           <input
@@ -190,7 +190,7 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div className="inline-flex">
           <h1>Number of cycles</h1>
           <input
@@ -207,7 +207,7 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex">
           <h1>Lattice Size</h1>
           <select
@@ -230,7 +230,7 @@ const Sidebar = () => {
             <option>300</option>
           </select>
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex">
           <h1>Steps Per Frame</h1>
           <select
@@ -251,7 +251,7 @@ const Sidebar = () => {
             <option>10000000</option>
           </select>
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex">
           <h1>Mole Ratio</h1>
           <select
@@ -274,7 +274,7 @@ const Sidebar = () => {
             <option value="1">1.0 Up and 0.0 Down</option>
           </select>
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Magnetic Field</h1>
           <input
@@ -344,7 +344,7 @@ const Sidebar = () => {
             </div>
           </>
         ) : null}
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Local Magnetic Field</h1>
           <input
@@ -378,7 +378,7 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Magnetism</h1>
           <select
@@ -391,7 +391,7 @@ const Sidebar = () => {
             {/* <option>Biparite</option>  TODO: Add support for Biparite */}
           </select>
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Boundaries Conditions</h1>
           <select
@@ -417,7 +417,7 @@ const Sidebar = () => {
             <option>Screw Periodic Boundaries</option>
           </select>
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Geometic Pattern</h1>
           <select
@@ -445,7 +445,7 @@ const Sidebar = () => {
             <option>Dots</option>
           </select>
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Nanotube Simulation</h1>
           <div className="flex items-center justify-between">
@@ -531,7 +531,7 @@ const Sidebar = () => {
             value="Create Nanotube"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex items-center">
           <h1>Show Fixed Spin</h1>
           <input
@@ -540,7 +540,7 @@ const Sidebar = () => {
             name="temp"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex">
           <h1>Proportion +1 Spin</h1>
           <input
@@ -560,7 +560,7 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex">
           <h1>Proportion -1 Spin</h1>
           <input
@@ -580,7 +580,7 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        <div className="bg-white my-2 w-full h-px"></div>
+        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1 className="text-center">Randomize Configuration</h1>
           <div className="flex flex-row justify-evenly">
@@ -606,7 +606,7 @@ const Sidebar = () => {
         </div>
         <div className="mb-5 w-full h-px"></div>
       </div>
-      <div className="sticky text-center h-32 p-7 bg-white text-white">
+      <div className="sticky text-center h-32 p-7 bg-zinc-900 text-white">
         <input
           type="button"
           value={

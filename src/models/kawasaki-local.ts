@@ -92,11 +92,6 @@ const KawasakiLocal = () => {
     return { Ecurrent, Mcurrent };
   };
 
-  let colorSquare = (i: number, j: number) => {
-    if (spins[i][j] == 1) context!.fillStyle = "black";
-    else context!.fillStyle = "white";
-    context!.fillRect(i * width, j * width, width, width);
-  };
   let model = () => {
     var i1 = Math.floor(Math.random() * settings.latticeSize);
     var j1 = Math.floor(Math.random() * settings.latticeSize);

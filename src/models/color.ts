@@ -6,14 +6,14 @@ import TSStore from "../types/ts_store";
  */
 
 export const color = (i: number, j: number) => {
-  const { context, width, spins, settings } = create(TSStore).getState();
+  const { context, width, spins, settings, color } = create(TSStore).getState();
 
   if (settings.magnetism == "biparite" && i % 2 == j % 2) {
-    if (spins[i][j] == 1) context!.fillStyle = "white";
-    else context!.fillStyle = "black";
+    if (spins[i][j] == 1) context!.fillStyle = color[1];
+    else context!.fillStyle = color[0];
   } else {
-    if (spins[i][j] == 1) context!.fillStyle = "black";
-    else context!.fillStyle = "white";
+    if (spins[i][j] == 1) context!.fillStyle = color[0];
+    else context!.fillStyle = color[1];
   }
   context!.fillRect(i * width, j * width, width, width);
 };

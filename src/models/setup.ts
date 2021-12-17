@@ -3,7 +3,7 @@ import create from "zustand";
 import qpotts from "./q-potts";
 import wolff from "./wolff";
 import transverse from "./transverse-field-ising";
-import { color2 } from "./color";
+import { color, color2 } from "./color";
 
 export const setup = (model: string) => {
   const {
@@ -21,11 +21,9 @@ export const setup = (model: string) => {
     model == "/models/kawasaki-local" ||
     model == "/models/kawasaki-non-local"
   ) {
-    for (let a = 0; a < settings.latticeSize; a++) {
+    for (let i = 0; i < settings.latticeSize; i++) {
       for (let j = 0; j < settings.latticeSize; j++) {
-        if (spins[a][j] == 1) context!.fillStyle = "white";
-        else context!.fillStyle = "black";
-        context!.fillRect(a * width, j * width, width, width);
+        color(i, j);
       }
     }
     if (
@@ -197,19 +195,25 @@ export const alignSpins = (model: string) => {
   ) {
     let random = Math.random();
     let local_spins = new Array(settings.latticeSize);
-    for (let a = 0; a < settings.latticeSize; a++) {
-      local_spins[a] = new Array(settings.latticeSize);
+    for (let i = 0; i < settings.latticeSize; i++) {
+      local_spins[i] = new Array(settings.latticeSize);
       for (let j = 0; j < settings.latticeSize; j++) {
         if (random > 0.5) {
-          context!.fillStyle = "white";
-          local_spins[a][j] = 1;
+          local_spins[i][j] = 1;
         } else {
-          context!.fillStyle = "black";
-          local_spins[a][j] = -1;
+          local_spins[i][j] = -1;
         }
-        context!.fillRect(a * width, j * width, width, width);
       }
     }
+
+    setSpins(local_spins);
+
+    for (let i = 0; i < settings.latticeSize; i++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
+        color(i, j);
+      }
+    }
+
     if (
       model == "/models/kawasaki-local" ||
       model == "/models/kawasaki-non-local"
@@ -269,7 +273,6 @@ export const alignSpins = (model: string) => {
       }
       setNearestNeighs(nearestneighs);
     }
-    setSpins(local_spins);
   } else if (model == "/models/blume-capel") {
     let local_spins = new Array(settings.latticeSize);
     let randy = Math.random();

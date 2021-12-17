@@ -16,22 +16,23 @@ const wolff = () => {
     endSimulation,
     updatePayload,
     canvas,
+    color,
   } = create(TSStore).getState();
 
   let sizeSquaredW = settings.latticeSize * settings.latticeSize;
   let width = 600 / settings.latticeSize;
 
   function draw() {
-    context!.fillStyle = "#ffffff";
+    context!.fillStyle = color[1];
     for (let i = 0; i < settings.latticeSize; ++i) {
       for (let j = 0; j < settings.latticeSize; ++j) {
         const idx = i * settings.latticeSize + j;
         if (spin[idx] == 1 && spinBefore[idx] != 1) {
-          context!.fillStyle = "#ffffff";
+          context!.fillStyle = color[1];
           context!.fillRect(j * width, i * width, width, width);
         }
         if (spin[idx] == -1 && spinBefore[idx] != -1) {
-          context!.fillStyle = "#000";
+          context!.fillStyle = color[0];
           context!.fillRect(j * width, i * width, width, width);
         }
       }

@@ -13,6 +13,7 @@ const transverse = (timestamp: number) => {
     incSteps,
     incFrames,
     endSimulation,
+    color,
   } = create(TSStore).getState();
 
   var l = 125;
@@ -158,7 +159,6 @@ const transverse = (timestamp: number) => {
     }
   }
   function draw() {
-    var color = ["black", "white"];
     let y0, y1;
     for (var i = 0; i < l; ++i) {
       context!.fillStyle = spin[i] > 0 ? color[0] : color[1];
