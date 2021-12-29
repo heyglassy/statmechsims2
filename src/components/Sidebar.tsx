@@ -391,7 +391,6 @@ const Sidebar = () => {
             <option>Skewed Plus Minus Boundaries</option>
             <option>Plus Boundaries (both directions)</option>
             <option>Minus Boundaries (both directions)</option>
-            <option>Screw Periodic Boundaries</option>
           </select>
         </div>
         <div className="bg-black my-2 w-full h-px"></div>
