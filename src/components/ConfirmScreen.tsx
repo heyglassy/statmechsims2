@@ -56,7 +56,7 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
     <div className="bg-gray-200 absolute inset-y-auto inset-x-1/3 h-full flex flex-col justify-evenly w-1/3 p-6 rounded-md drop-shadow-2xl">
       <h1 className="text-2xl font-bold">Confirm Simulation Settings</h1>
       <h1>Initial Temperature: {settings.initialTemp}</h1>
-      <h1>Min Temperature: {settings.minTemp}</h1>
+      <h1>Final Temperature: {settings.finalTemp}</h1>
       <h1>Temperature Step: {settings.tempStep}</h1>
       <h1>Cycle {settings.numberOfCycles}</h1>
       <h1>Total Frames</h1>

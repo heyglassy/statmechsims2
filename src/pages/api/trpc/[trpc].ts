@@ -49,7 +49,6 @@ const appRouter = trpc
       settings: z.object({
         freePlay: z.boolean(),
         initialTemp: z.number().nullish(),
-        minTemp: z.number().nullish(),
         finalTemp: z.number().nullish(),
         qpotts: z.number(),
         tempStep: z.number().nullish(),

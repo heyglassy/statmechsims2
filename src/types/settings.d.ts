@@ -7,7 +7,6 @@ declare namespace Settings {
     freePlay: boolean;
     simulation: boolean;
     initialTemp: number | null;
-    minTemp: number | null;
     finalTemp: number | null;
     tempStep: number | null;
     fixedTemp: boolean;
