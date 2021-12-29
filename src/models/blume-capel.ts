@@ -1,6 +1,7 @@
 import type { settings } from "../types/settings";
 import create from "zustand";
 import TSStore from "../types/ts_store";
+import { temperatureInc } from "./runner";
 
 const BlumeCapel = (timemstamp: number) => {
   let {
@@ -199,23 +200,7 @@ const BlumeCapel = (timemstamp: number) => {
           : sigmaMagnetisation,
       });
 
-      if (
-        dashboard.steps % settings.stepsPerFrame! == 0 &&
-        dashboard.steps != 0
-      ) {
-        // this code updaetes the dashboard and resets values to continue the experiment
-        let frame = canvas!.toDataURL();
-        updatePayload(frame);
-        dashboard.frames.savedFrames++;
-        incFrames(); // This increments the temperature as well.
-        if (dashboard.temperature == settings.maxTemp!) {
-          if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
-            endSimulation();
-          } else {
-            incCycles(); // This also resets temperature to start the next cycle.
-          }
-        }
-      }
+      temperatureInc();
 
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       incSteps();

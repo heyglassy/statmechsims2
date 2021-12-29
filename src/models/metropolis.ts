@@ -3,6 +3,7 @@ import create from "zustand";
 import TSStore from "../types/ts_store";
 import { color } from "./color";
 import { getBottom, getLeft, getRight, getTop } from "./dipoles";
+import { temperatureInc } from "./runner";
 
 const metropolis = (timestamp: number) => {
   let {
@@ -11,7 +12,6 @@ const metropolis = (timestamp: number) => {
     dashboard,
     setDashboard,
     updateGraph,
-    setSpins,
     incSteps,
     incFrames,
     incCycles,
@@ -26,8 +26,6 @@ const metropolis = (timestamp: number) => {
   } else {
     CouplingConstant = -1;
   }
-
-  let width = 600 / settings.latticeSize;
 
   const deltaUofM = (
     i: number,
@@ -118,29 +116,13 @@ const metropolis = (timestamp: number) => {
           : sigmaMagnetisation,
       });
 
-      if (
-        dashboard.steps % settings.stepsPerFrame! === 0 &&
-        dashboard.steps > 0
-      ) {
-        // this code updaetes the dashboard and resets values to continue the experiment
-        let frame = canvas!.toDataURL();
-        updatePayload(frame);
-        dashboard.frames.savedFrames++;
-        incFrames(); // This increments the temperature as well.
-
-        if (dashboard.temperature == settings.maxTemp!) {
-          if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
-            endSimulation();
-          } else {
-            incCycles(); // This also resets temperature to start the next cycle.
-          }
-        }
-      }
+      temperatureInc();
 
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       incSteps();
       window.requestAnimationFrame(metropolis);
     }
+
     if (settings.freePlay) {
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
       setDashboard({

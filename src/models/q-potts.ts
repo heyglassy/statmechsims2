@@ -1,6 +1,7 @@
 import create from "zustand";
 import TSStore from "../types/ts_store";
 import { color2 } from "./color";
+import { temperatureInc } from "./runner";
 
 const qpotts = () => {
   const {
@@ -79,26 +80,12 @@ const qpotts = () => {
 
   if (settings.freePlay || settings.simulation) {
     if (settings.simulation) {
-      if (
-        dashboard.steps % settings.stepsPerFrame! == 0 &&
-        dashboard.steps != 0
-      ) {
-        // this code updaetes the dashboard and resets values to continue the experiment
-        let frame = canvas!.toDataURL();
-        updatePayload(frame);
-        dashboard.frames.savedFrames++;
-        incFrames(); // This increments the temperature as well.
-        if (dashboard.temperature == settings.maxTemp!) {
-          if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
-            endSimulation();
-          } else {
-            incCycles(); // This also resets temperature to start the next cycle.
-          }
-        }
-      }
+      temperatureInc();
+
       incSteps();
       window.requestAnimationFrame(qpotts);
     }
+
     if (settings.freePlay) {
       setDashboard({
         ...dashboard,

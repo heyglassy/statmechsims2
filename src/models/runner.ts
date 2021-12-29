@@ -9,7 +9,7 @@ import BlumeCapel from "./blume-capel";
 import xy from "./xy";
 import transverse from "./transverse-field-ising";
 
-const runner = (pathname: string) => {
+export const runner = (pathname: string) => {
   let algo: any;
   switch (pathname) {
     case "/models/blume-capel":
@@ -46,4 +46,30 @@ const runner = (pathname: string) => {
   }
 };
 
-export default runner;
+export const temperatureInc = () => {
+  const {
+    settings,
+    canvas,
+    dashboard,
+    incFrames,
+    updatePayload,
+    incCycles,
+    endSimulation,
+  } = create(TSStore).getState();
+
+  if (dashboard.steps % settings.stepsPerFrame! === 0 && dashboard.steps > 0) {
+    // this code updaetes the dashboard and resets values to continue the experiment
+    let frame = canvas!.toDataURL();
+    updatePayload(frame);
+    dashboard.frames.savedFrames++;
+    incFrames(); // This increments the temperature as well.
+
+    if (dashboard.temperature == settings.maxTemp!) {
+      if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
+        endSimulation();
+      } else {
+        incCycles(); // This also resets temperature to start the next cycle.
+      }
+    }
+  }
+};

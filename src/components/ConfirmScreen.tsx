@@ -1,5 +1,5 @@
 import Store from "../types/store";
-import runner from "../models/runner";
+import { runner } from "../models/runner";
 import { useRouter } from "next/router";
 import type { Dispatch, SetStateAction } from "react";
 

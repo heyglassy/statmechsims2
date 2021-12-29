@@ -1,6 +1,6 @@
 import Store from "../types/store";
 import { Switch } from "@headlessui/react";
-import runner from "../models/runner";
+import { runner } from "../models/runner";
 import { setup, alignSpins } from "../models/setup";
 import { useRouter } from "next/router";
 import boundarySetup from "../models/boundaries";
@@ -14,14 +14,11 @@ const Sidebar = () => {
     endSimulation,
     setSettings,
     initDashboard,
-    payloads,
     initSpins,
-    graph,
     endScreen,
   } = Store((state) => state);
   let router = useRouter();
   let [confirm, setConfirm] = useState(false);
-  let [end, setEnd] = useState(false);
 
   return (
     <nav className="flex flex-col h-screen w-80">
