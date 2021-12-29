@@ -127,29 +127,10 @@ const KawasakiLocal = () => {
   setSpins(spins);
 
   if (settings.freePlay || settings.simulation) {
+    for (let a = 0; a < settings.stepsPerFrame!; a++) {
+      model();
+    }
     if (settings.simulation) {
-      for (let a = 0; a < settings.stepsPerFrame!; a++) {
-        model();
-      }
-
-      if (
-        dashboard.steps % settings.stepsPerFrame! == 0 &&
-        dashboard.steps != 0
-      ) {
-        // this code updaetes the dashboard and resets values to continue the experiment
-        let frame = canvas!.toDataURL();
-        updatePayload(frame);
-        dashboard.frames.savedFrames++;
-        incFrames(); // This increments the temperature as well.
-        if (dashboard.temperature == settings.maxTemp!) {
-          if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
-            endSimulation();
-          } else {
-            incCycles(); // This also resets temperature to start the next cycle.
-          }
-        }
-      }
-
       let { Ecurrent, Mcurrent } = ComputeEforKawasaki();
 
       const sigmaEnergy = Math.sqrt(
@@ -178,14 +159,29 @@ const KawasakiLocal = () => {
           : sigmaMagnetisation,
       });
 
+      if (
+        dashboard.steps % settings.stepsPerFrame! == 0 &&
+        dashboard.steps != 0
+      ) {
+        // this code updaetes the dashboard and resets values to continue the experiment
+        let frame = canvas!.toDataURL();
+        updatePayload(frame);
+        dashboard.frames.savedFrames++;
+        incFrames(); // This increments the temperature as well.
+        if (dashboard.temperature == settings.maxTemp!) {
+          if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
+            endSimulation();
+          } else {
+            incCycles(); // This also resets temperature to start the next cycle.
+          }
+        }
+      }
+
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       incSteps();
       window.requestAnimationFrame(KawasakiLocal);
     }
     if (settings.freePlay) {
-      for (let a = 0; a < settings.stepsPerFrame!; a++) {
-        model();
-      }
       let { Ecurrent, Mcurrent } = ComputeEforKawasaki();
       setDashboard({
         ...dashboard,

@@ -85,18 +85,42 @@ const metropolis = (timestamp: number) => {
     }
   };
 
-  setSpins(spins);
-
   if (settings.freePlay || settings.simulation) {
+    for (let a = 0; a < settings.stepsPerFrame!; a++) {
+      model();
+    }
     if (settings.simulation) {
       // this code runs the model
-      for (let a = 0; a < settings.stepsPerFrame!; a++) {
-        model();
-      }
+      let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
+
+      const sigmaEnergy = Math.sqrt(
+        (dashboard.energy * dashboard.energy) /
+          (dashboard.frames.savedFrames + 1) -
+          dashboard.averageEnergy * dashboard.averageEnergy
+      );
+
+      const sigmaMagnetisation = Math.sqrt(
+        (dashboard.magnetization * dashboard.magnetization) /
+          (dashboard.frames.savedFrames + 1) -
+          dashboard.averageMagnetization * dashboard.averageMagnetization
+      );
+      setDashboard({
+        ...dashboard,
+        energy: Ecurrent / 10000,
+        magnetization: Mcurrent / 10000,
+        totalMagnetization: dashboard.totalMagnetization + Mcurrent / 10000,
+        averageEnergy: dashboard.totalEnergy / dashboard.steps,
+        averageMagnetization: dashboard.totalMagnetization / dashboard.steps,
+        totalEnergy: dashboard.totalEnergy + Ecurrent / 10000,
+        sigmaEnergy: isNaN(sigmaEnergy) ? null : sigmaEnergy,
+        sigmaMagnetisation: isNaN(sigmaMagnetisation)
+          ? null
+          : sigmaMagnetisation,
+      });
 
       if (
-        dashboard.steps % settings.stepsPerFrame! == 0 &&
-        dashboard.steps != 0
+        dashboard.steps % settings.stepsPerFrame! === 0 &&
+        dashboard.steps > 0
       ) {
         // this code updaetes the dashboard and resets values to continue the experiment
         let frame = canvas!.toDataURL();
@@ -113,42 +137,11 @@ const metropolis = (timestamp: number) => {
         }
       }
 
-      let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
-
-      const sigmaEnergy = Math.sqrt(
-        (dashboard.energy * dashboard.energy) /
-          (dashboard.frames.savedFrames + 1) -
-          dashboard.averageEnergy * dashboard.averageEnergy
-      );
-
-      const sigmaMagnetisation = Math.sqrt(
-        (dashboard.magnetization * dashboard.magnetization) /
-          (dashboard.frames.savedFrames + 1) -
-          dashboard.averageMagnetization * dashboard.averageMagnetization
-      );
-
-      setDashboard({
-        ...dashboard,
-        energy: Ecurrent / 10000,
-        magnetization: Mcurrent / 10000,
-        totalMagnetization: dashboard.totalMagnetization + Mcurrent / 10000,
-        averageEnergy: dashboard.totalEnergy / dashboard.steps,
-        averageMagnetization: dashboard.totalMagnetization / dashboard.steps,
-        totalEnergy: dashboard.totalEnergy + Ecurrent / 10000,
-        sigmaEnergy: isNaN(sigmaEnergy) ? null : sigmaEnergy,
-        sigmaMagnetisation: isNaN(sigmaMagnetisation)
-          ? null
-          : sigmaMagnetisation,
-      });
-
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       incSteps();
       window.requestAnimationFrame(metropolis);
     }
     if (settings.freePlay) {
-      for (let a = 0; a < settings.stepsPerFrame!; a++) {
-        model();
-      }
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
       setDashboard({
         ...dashboard,

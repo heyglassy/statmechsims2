@@ -233,7 +233,7 @@ const TSStore = create<state>((set) => ({
 
   setDashboard: (newDashboard: dashboard) => {
     set({
-      dashboard: newDashboard,
+      dashboard: newDashboard!,
     });
   },
 
