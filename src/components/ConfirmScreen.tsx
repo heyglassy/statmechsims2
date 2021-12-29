@@ -25,9 +25,6 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
       <h1>Total Frames</h1>
       <h1>Equilibriation Delay: {settings.equilibriationDelay}</h1>
       <h1>Lattice Size {settings.latticeSize}</h1>
-      <h1>
-        Mole Ratio: {settings.moleRatio.up} up & {settings.moleRatio.down} down
-      </h1>
       <h1>Magnetic Field: {settings.magneticField}</h1>
       <h1>Local Magnetic Field {settings.localMagneticField}</h1>
       <h1>Magnetism: {settings.magnetism}</h1>

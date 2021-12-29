@@ -17,10 +17,6 @@ declare namespace Settings {
     latticeSize: number;
     stepsPerFrame: number | null;
     couplingStrength: number;
-    moleRatio: {
-      up: number;
-      down: number;
-    };
     magneticField: number | null;
     localMagneticField: number | null;
     magnetism: string;

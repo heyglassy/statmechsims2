@@ -59,10 +59,6 @@ const appRouter = trpc
         latticeSize: z.number(),
         stepsPerFrame: z.number().nullish(),
         couplingStrength: z.number(),
-        moleRatio: z.object({
-          up: z.number(),
-          down: z.number(),
-        }),
         magneticField: z.number().nullish(),
         localMagneticField: z.number().nullish(),
         magnetism: z.string(),

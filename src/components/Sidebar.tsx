@@ -252,29 +252,6 @@ const Sidebar = () => {
           </select>
         </div>
         <div className="bg-black my-2 w-full h-px"></div>
-        <div className="flex">
-          <h1>Mole Ratio</h1>
-          <select
-            onChange={(e) => {
-              setSettings({
-                ...settings,
-                moleRatio: {
-                  up: Number(e.target.value),
-                  down: 1 - Number(e.target.value),
-                },
-              });
-            }}
-          >
-            <option value="0">0.0 Up and 1.0 Down</option>
-            <option value=".25">0.25 Up and 0.75 Down</option>
-            <option value=".5" selected>
-              0.50 Up and 0.50 Down
-            </option>
-            <option value=".75">0.75 Up and 0.25 Down</option>
-            <option value="1">1.0 Up and 0.0 Down</option>
-          </select>
-        </div>
-        <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Magnetic Field</h1>
           <input

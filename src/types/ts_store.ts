@@ -18,10 +18,6 @@ const defaultSettings: settings = {
   latticeSize: 100,
   stepsPerFrame: 100000,
   couplingStrength: 0.1,
-  moleRatio: {
-    up: 0.5,
-    down: 0.5,
-  },
   magneticField: 0,
   localMagneticField: 0,
   magnetism: "Ferromagnetic",
