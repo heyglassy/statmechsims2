@@ -8,7 +8,7 @@ declare namespace Settings {
     simulation: boolean;
     initialTemp: number | null;
     minTemp: number | null;
-    maxTemp: number | null;
+    finalTemp: number | null;
     tempStep: number | null;
     fixedTemp: boolean;
     qpotts: number;

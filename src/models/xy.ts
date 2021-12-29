@@ -109,7 +109,7 @@ const xy = () => {
         updatePayload(frame);
         dashboard.frames.savedFrames++;
         incFrames(); // This increments the temperature as well.
-        if (dashboard.temperature == settings.maxTemp!) {
+        if (dashboard.temperature == settings.finalTemp!) {
           if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
             endSimulation();
           } else {

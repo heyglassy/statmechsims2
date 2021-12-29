@@ -54,7 +54,7 @@ const Sidebar = () => {
         </div>
         <div className="bg-black my-2 w-full h-px"></div>
         <div>
-          <h1>Intitial Temperature</h1>
+          <h1>Initial Temperature</h1>
           <input
             type="range"
             name="temp"
@@ -84,15 +84,15 @@ const Sidebar = () => {
         </div>
         <div className="bg-black my-2 w-full h-px"></div>
         <div>
-          <h1>Max Temperature</h1>
+          <h1>Final Temperature</h1>
           <input
             type="range"
             name="temp"
             min="0"
             max="5"
-            value={settings.maxTemp!}
+            value={settings.finalTemp!}
             onChange={(e) =>
-              setSettings({ ...settings, maxTemp: Number(e.target.value) })
+              setSettings({ ...settings, finalTemp: Number(e.target.value) })
             }
           />
           <input
@@ -100,11 +100,11 @@ const Sidebar = () => {
             name="temp"
             min="0"
             max="5"
-            value={settings.maxTemp!}
+            value={settings.finalTemp!}
             onChange={(e) =>
               setSettings({
                 ...settings,
-                maxTemp: e.target.value ? Number(e.target.value) : null,
+                finalTemp: e.target.value ? Number(e.target.value) : null,
               })
             }
             step="0.1"
@@ -153,6 +153,10 @@ const Sidebar = () => {
             <option>0.1</option>
             <option selected>0.01</option>
             <option>0.001</option>
+            <option>-0.001</option>
+            <option>-0.01</option>
+            <option>-0.1</option>
+            <option>-1</option>
           </select>
         </div>
         <div className="bg-black my-2 w-full h-px"></div>

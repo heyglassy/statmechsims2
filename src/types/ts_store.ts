@@ -9,7 +9,7 @@ const defaultSettings: settings = {
   freePlay: false,
   initialTemp: 2.27,
   minTemp: 0,
-  maxTemp: 5,
+  finalTemp: 5,
   qpotts: 5,
   tempStep: 0.01,
   fixedTemp: false,
@@ -218,8 +218,8 @@ const TSStore = create<state>((set) => ({
           frames: {
             savedFrames: 0,
             totalFrames:
-              (state.settings.maxTemp != 0
-                ? (state.settings.maxTemp! - state.settings.initialTemp!) /
+              (state.settings.finalTemp != 0
+                ? (state.settings.finalTemp! - state.settings.initialTemp!) /
                   state.settings.tempStep!
                 : 1) * state.settings.numberOfCycles!,
           },
@@ -266,7 +266,7 @@ const TSStore = create<state>((set) => ({
           ...state.dashboard.cycles,
           currentCycle: state.dashboard.cycles.currentCycle + 1,
         },
-        temperature: 0,
+        temperature: state.settings.initialTemp!,
       },
     }));
   },

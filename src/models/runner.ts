@@ -64,7 +64,11 @@ export const temperatureInc = () => {
     dashboard.frames.savedFrames++;
     incFrames(); // This increments the temperature as well.
 
-    if (dashboard.temperature == settings.maxTemp!) {
+    if (
+      settings.tempStep! > 0
+        ? dashboard.temperature > settings.finalTemp!
+        : dashboard.temperature < settings.finalTemp!
+    ) {
       if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
         endSimulation();
       } else {
