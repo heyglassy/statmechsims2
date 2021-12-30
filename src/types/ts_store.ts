@@ -23,9 +23,9 @@ const defaultSettings: settings = {
   boundariesConditions: "Ferromagnetic",
   geometicPattern: "Ferromagnetic",
   nanotubeSimulation: {
-    width: 0,
-    height: 0,
-    diameter: 0,
+    width: 2,
+    height: 50,
+    diameter: 15,
     spin: false,
   },
   fixedSpin: false,

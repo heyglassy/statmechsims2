@@ -1,7 +1,7 @@
 import Store from "../types/store";
 import { Switch } from "@headlessui/react";
 import { runner } from "../models/runner";
-import { setup, alignSpins } from "../models/setup";
+import { setup, alignSpins, nanotube } from "../models/setup";
 import { useRouter } from "next/router";
 import boundarySetup from "../models/boundaries";
 import { useState } from "react";
@@ -506,6 +506,9 @@ const Sidebar = () => {
             className="bg-white rounded border-black border my-1 w-full h-8"
             type="button"
             value="Create Nanotube"
+            onClick={() => {
+              nanotube(router.pathname);
+            }}
           />
         </div>
         <div className="bg-black my-2 w-full h-px"></div>

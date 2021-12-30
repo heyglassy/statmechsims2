@@ -363,10 +363,63 @@ export const alignSpins = (model: string) => {
       local_spins[i] = new Array(settings.latticeSize);
       for (let j = 0; j < settings.latticeSize; j++) {
         local_spins[i][j] = random * 2 * Math.PI;
-        context!.fillStyle = `hsl(${c}, 100%, 50%)`;
-        context!.fillRect(i * width, j * width, width, width);
       }
     }
     setSpins(local_spins);
+    for (let i = 0; i < settings.latticeSize; i++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
+        color2(i, j, c);
+      }
+    }
+  }
+};
+
+export const nanotube = (model: string) => {
+  const { settings, spins, spin, context, width } = create(TSStore).getState();
+
+  alignSpins(model);
+
+  let leftIndex =
+    Math.round(settings.latticeSize / 2) -
+    1 -
+    (Math.round(settings.nanotubeSimulation.diameter! / 2) +
+      (settings.nanotubeSimulation.width! - 1));
+
+  let rightIndex =
+    leftIndex +
+    (settings.nanotubeSimulation.width! - 1) +
+    (settings.nanotubeSimulation.diameter! + 1);
+
+  let topIndex =
+    Math.round(settings.latticeSize / 2) -
+    1 -
+    (Math.round(settings.nanotubeSimulation.height / 2) - 1);
+
+  let bottomIndex = topIndex + settings.nanotubeSimulation.height!;
+
+  for (
+    let i = leftIndex;
+    i < leftIndex + settings.nanotubeSimulation.width!;
+    i++
+  ) {
+    for (let j = topIndex; j < bottomIndex; j++) {
+      spins[i][j] *= -1;
+      spin[i] *= -1;
+      context!.fillStyle = "black";
+      context!.fillRect(i * width, j * width, width, width);
+    }
+  }
+
+  for (
+    let i = rightIndex;
+    i < rightIndex + settings.nanotubeSimulation.width!;
+    i++
+  ) {
+    for (let j = topIndex; j < bottomIndex; j++) {
+      spins[i][j] *= -1;
+      spin[i] *= -1;
+      context!.fillStyle = "black";
+      context!.fillRect(i * width, j * width, width, width);
+    }
   }
 };

@@ -6,12 +6,9 @@ const boundarySetup = () => {
   const { settings, spins, localMagnetic, setLocalMagnetic } =
     create(TSStore).getState();
 
-  console.log(settings.boundariesConditions);
-
   if (
     settings.boundariesConditions == "Plus-Minus Boundaries (one direction)"
   ) {
-    console.log("test");
     for (let i = 0; i < settings.latticeSize; i++) {
       spins[i][0] = 1;
       color(i, 0);
