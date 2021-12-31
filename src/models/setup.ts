@@ -381,7 +381,7 @@ export const nanotube = (model: string) => {
   let nSpin;
   settings.nanotubeSimulation.spin ? (nSpin = 1) : (nSpin = -1);
 
-  let color = nSpin == 1 ? "red" : "yellow";
+  let color = nSpin == 1 ? "purple" : "green";
 
   alignSpins(model);
 

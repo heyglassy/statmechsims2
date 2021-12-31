@@ -11,16 +11,12 @@ const BlumeCapel = (timemstamp: number) => {
     dashboard,
     setDashboard,
     updateGraph,
+    localMagnetic,
     incSteps,
-    incFrames,
-    incCycles,
-    endSimulation,
-    updatePayload,
-    canvas,
+    width,
     setSpins,
   } = create(TSStore).getState();
 
-  let width = 600 / settings.latticeSize;
   let CouplingConstant: number;
   if (settings.magnetism! == "Ferromagnetic") {
     CouplingConstant = 1;
@@ -55,15 +51,15 @@ const BlumeCapel = (timemstamp: number) => {
         2.0 * CouplingConstant * thisS * (bottom1 + top1 + left1 + right1) +
         2.0 * CouplingConstant * thatS * (bottom2 + top2 + left2 + right2) +
         4.0 * CouplingConstant +
-        2.0 * thisS * (settings.magneticField! + 0) +
-        2.0 * thatS * (settings.magneticField! + 0) // 0 is BfieldM
+        2.0 * thisS * (settings.magneticField! + localMagnetic[i1][j1]) +
+        2.0 * thatS * (settings.magneticField! + localMagnetic[i2][j2]) // 0 is BfieldM
       );
     } else
       return (
         2.0 * CouplingConstant * thisS * (bottom1 + top1 + left1 + right1) +
         2.0 * CouplingConstant * thatS * (bottom2 + top2 + left2 + right2) +
-        2.0 * thisS * (settings.magneticField! + 0) +
-        2.0 * thatS * (settings.magneticField! + 0)
+        2.0 * thisS * (settings.magneticField! + localMagnetic[i1][j1]) +
+        2.0 * thatS * (settings.magneticField! + localMagnetic[i2][j2])
       );
   }
 

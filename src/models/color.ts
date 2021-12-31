@@ -10,9 +10,9 @@ export const color = (i: number, j: number) => {
     create(TSStore).getState();
 
   if (localMagnetic[i][j] > 0.0001) {
-    context!.fillStyle == "red";
+    context!.fillStyle == "purple";
   } else if (localMagnetic[i][j] < -0.0001) {
-    context!.fillStyle == "yellow";
+    context!.fillStyle == "green";
   } else {
     if (settings.magnetism == "biparite" && i % 2 == j % 2) {
       if (spins[i][j] == 1) context!.fillStyle = color[1];
