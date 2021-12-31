@@ -375,7 +375,13 @@ export const alignSpins = (model: string) => {
 };
 
 export const nanotube = (model: string) => {
-  const { settings, spins, spin, context, width } = create(TSStore).getState();
+  const { settings, spins, spin, context, width, localMagnetic } =
+    create(TSStore).getState();
+
+  let nSpin;
+  settings.nanotubeSimulation.spin ? (nSpin = 1) : (nSpin = -1);
+
+  let color = nSpin == 1 ? "red" : "yellow";
 
   alignSpins(model);
 
@@ -405,7 +411,8 @@ export const nanotube = (model: string) => {
     for (let j = topIndex; j < bottomIndex; j++) {
       spins[i][j] *= -1;
       spin[i] *= -1;
-      context!.fillStyle = "black";
+      localMagnetic[i][j] = 100 * nSpin;
+      context!.fillStyle = color;
       context!.fillRect(i * width, j * width, width, width);
     }
   }
@@ -418,7 +425,8 @@ export const nanotube = (model: string) => {
     for (let j = topIndex; j < bottomIndex; j++) {
       spins[i][j] *= -1;
       spin[i] *= -1;
-      context!.fillStyle = "black";
+      localMagnetic[i][j] = 100 * nSpin;
+      context!.fillStyle = color;
       context!.fillRect(i * width, j * width, width, width);
     }
   }

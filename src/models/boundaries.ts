@@ -11,12 +11,12 @@ const boundarySetup = () => {
   ) {
     for (let i = 0; i < settings.latticeSize; i++) {
       spins[i][0] = 1;
-      color(i, 0);
       localMagnetic[i][0] = 100;
+      color(i, 0);
 
       spins[i][settings.latticeSize - 1] = -1;
-      color(i, settings.latticeSize - 1);
       localMagnetic[i][settings.latticeSize - 1] = -100;
+      color(i, settings.latticeSize - 1);
     }
   } else if (settings.boundariesConditions == "Skewed Plus Minus Boundaries") {
     for (let j = 0; j < settings.latticeSize; j++) {

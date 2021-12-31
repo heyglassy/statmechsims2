@@ -13,11 +13,7 @@ const metropolis = (timestamp: number) => {
     setDashboard,
     updateGraph,
     incSteps,
-    incFrames,
-    incCycles,
-    endSimulation,
-    updatePayload,
-    canvas,
+    localMagnetic,
   } = create(TSStore).getState();
 
   let CouplingConstant: number;
@@ -27,12 +23,7 @@ const metropolis = (timestamp: number) => {
     CouplingConstant = -1;
   }
 
-  const deltaUofM = (
-    i: number,
-    j: number,
-    spins: Array<Array<number>>,
-    settings: settings
-  ) => {
+  const deltaUofM = (i: number, j: number) => {
     const left = getLeft(i, j);
     const right = getRight(i, j);
     const top = getTop(i, j);
@@ -40,9 +31,8 @@ const metropolis = (timestamp: number) => {
     let spin = spins[i][j];
     return (
       2.0 * CouplingConstant * spin * (top + bottom + left + right) +
-      2.0 * spin * settings.magneticField! +
-      0
-    ); // 0 is BfieldM (set by sidebar, check v1)
+      2.0 * spin * (settings.magneticField! + localMagnetic[i][j])
+    );
   };
 
   function ComputeEforMetropolis() {
@@ -67,7 +57,7 @@ const metropolis = (timestamp: number) => {
   let model = () => {
     let i = Math.floor(Math.random() * settings.latticeSize);
     let j = Math.floor(Math.random() * settings.latticeSize);
-    let _EdiffforM = deltaUofM(i, j, spins, settings);
+    let _EdiffforM = deltaUofM(i, j);
 
     if (dashboard.temperature == 0) {
       if (_EdiffforM < 0.0 || (_EdiffforM == 0 && Math.random() < 0.5)) {
