@@ -12,11 +12,6 @@ const wolff = () => {
     clusteredChildren,
     setDashboard,
     incSteps,
-    incFrames,
-    incCycles,
-    endSimulation,
-    updatePayload,
-    canvas,
     color,
   } = create(TSStore).getState();
 

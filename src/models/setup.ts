@@ -5,6 +5,7 @@ import wolff from "./wolff";
 import transverse from "./transverse-field-ising";
 import { color, color2 } from "./color";
 import { colorBEG } from "./blume-capel";
+import { router } from "@trpc/server";
 
 export const setup = (model: string) => {
   const { settings, context, setWall, setNearestNeighs, setSpins, width } =
@@ -446,7 +447,7 @@ export const setSpin = (i: number, j: number, page: string) => {
     }
   }
 
-  if ("/models/blume-capel") {
+  if (page == "/models/blume-capel") {
     colorBEG(i, j, spins);
   } else {
     color(i, j);

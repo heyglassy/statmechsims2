@@ -3,19 +3,8 @@ import TSStore from "../types/ts_store";
 import { temperatureInc } from "./runner";
 
 const transverse = (timestamp: number) => {
-  let {
-    settings,
-    context,
-    setDashboard,
-    dashboard,
-    canvas,
-    updatePayload,
-    incCycles,
-    incSteps,
-    incFrames,
-    endSimulation,
-    color,
-  } = create(TSStore).getState();
+  let { settings, context, setDashboard, dashboard, incSteps, color } =
+    create(TSStore).getState();
 
   var l = 125;
   var w = 600 / l - 1;

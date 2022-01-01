@@ -16,16 +16,16 @@ const Canvas = () => {
     let x = 0;
     let y = 0;
 
-    if (event.offsetX < 6) x = 0;
-    else if (event.offsetX > 600) x = 99;
+    if (event.offsetX < 600 / settings.latticeSize!) x = 0;
+    else if (event.offsetX > 600) x = settings.latticeSize - 1;
     else {
       x =
         (event.offsetX - 600 / settings.latticeSize!) /
         (600 / settings.latticeSize!);
     }
 
-    if (event.offsetY < 6) y = 0;
-    else if (event.offsetY > 600) y = 99;
+    if (event.offsetY < 600 / settings.latticeSize) y = 0;
+    else if (event.offsetY > 600) y = settings.latticeSize - 1;
     else {
       y =
         (event.offsetY - 600 / settings.latticeSize!) /
