@@ -4,18 +4,11 @@ import qpotts from "./q-potts";
 import wolff from "./wolff";
 import transverse from "./transverse-field-ising";
 import { color, color2 } from "./color";
-import { colorBEG, colorSquare } from "./blume-capel";
+import { colorBEG } from "./blume-capel";
 
 export const setup = (model: string) => {
-  const {
-    settings,
-    context,
-    spins,
-    setWall,
-    setNearestNeighs,
-    setSpins,
-    width,
-  } = create(TSStore).getState();
+  const { settings, context, setWall, setNearestNeighs, setSpins, width } =
+    create(TSStore).getState();
 
   if (
     model == "/models/metropolis" ||
@@ -179,9 +172,7 @@ export const alignSpins = (model: string) => {
   const {
     settings,
     context,
-    spins,
     spin,
-    setWall,
     setNearestNeighs,
     setSpins,
     setSpin,
@@ -442,14 +433,8 @@ export const nanotube = (model: string) => {
 };
 
 export const setSpin = (i: number, j: number, page: string) => {
-  const {
-    settings,
-    spins,
-    setSpins,
-    localMagnetic,
-    setLocalMagnetic,
-    context,
-  } = create(TSStore).getState();
+  const { settings, spins, setSpins, localMagnetic, setLocalMagnetic } =
+    create(TSStore).getState();
 
   if (settings.localMagneticField! == 0.0) {
     spins[i][j] *= -1;

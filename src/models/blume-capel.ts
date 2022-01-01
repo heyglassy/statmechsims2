@@ -1,4 +1,3 @@
-import type { settings } from "../types/settings";
 import create from "zustand";
 import TSStore from "../types/ts_store";
 import { temperatureInc } from "./runner";

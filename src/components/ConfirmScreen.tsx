@@ -12,7 +12,6 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
   const { settings, setSettings, initDashboard, graph } = Store(
     (state) => state
   );
-
   const router = useRouter();
 
   const checkTemp = (): JSX.Element => {

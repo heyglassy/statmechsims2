@@ -6,9 +6,10 @@ const EndSimulation = () => {
   const { dashboard, settings, payloads, frames, graph, initDashboard } = Store(
     (state) => state
   );
+  const router = useRouter();
+
   const submitImage = trpc.useMutation(["imageupload"]);
   const submitData = trpc.useMutation(["dataupload"]);
-  const router = useRouter();
 
   return (
     <div className="bg-gray-200 absolute inset-y-auto inset-x-1/3 h-3/5 w-1/3 p-6 rounded-md drop-shadow-2xl">

@@ -2,9 +2,9 @@ import { useEffect, useRef } from "react";
 import Store from "../types/store";
 import { setSpin, setup } from "../models/setup";
 import { useRouter } from "next/router";
-import { color, color2 } from "../models/color";
 
 const Canvas = () => {
+  const router = useRouter();
   const canvas = useRef<HTMLCanvasElement>(null);
   let { initSpins, setContext, settings, setSettings } = Store(
     (state) => state
@@ -12,32 +12,33 @@ const Canvas = () => {
 
   let mousedown = false;
 
-  const router = useRouter();
+  const findCoords = (event: MouseEvent) => {
+    let x = 0;
+    let y = 0;
+
+    if (event.offsetX < 6) x = 0;
+    else if (event.offsetX > 600) x = 99;
+    else {
+      x =
+        (event.offsetX - 600 / settings.latticeSize!) /
+        (600 / settings.latticeSize!);
+    }
+
+    if (event.offsetY < 6) y = 0;
+    else if (event.offsetY > 600) y = 99;
+    else {
+      y =
+        (event.offsetY - 600 / settings.latticeSize!) /
+        (600 / settings.latticeSize!);
+    }
+
+    return { x, y };
+  };
 
   const coords = (event: MouseEvent) => {
     mousedown = true;
-    let x = 0;
-    let y = 0;
-    if (event.offsetX < 6 || event.offsetX > 600) {
-      if (event.offsetX < 6) x = 0;
-      else if (event.offsetX > 600) x = 99;
-      else {
-        x =
-          (event.offsetX - 600 / settings.latticeSize!) /
-          (600 / settings.latticeSize!);
-      }
-    }
 
-    if (event.offsetY < 6 || event.offsetY > 600) {
-      if (event.offsetY < 6) y = 0;
-      else if (event.offsetY > 600) y = 99;
-      else {
-        y =
-          (event.offsetY - 600 / settings.latticeSize!) /
-          (600 / settings.latticeSize!);
-      }
-    }
-
+    const { x, y } = findCoords(event);
     const i = Math.floor(x);
     const j = Math.floor(y);
 
@@ -50,26 +51,7 @@ const Canvas = () => {
 
   const mousemove = (event: MouseEvent) => {
     if (mousedown) {
-      let x = 0;
-      let y = 0;
-      if (event.offsetX < 6 || event.offsetX > 600) {
-        if (event.offsetX < 6) x = 0;
-        else if (event.offsetX > 600) x = 99;
-      } else {
-        x =
-          (event.offsetX - 600 / settings.latticeSize!) /
-          (600 / settings.latticeSize!);
-      }
-
-      if (event.offsetY < 6 || event.offsetY > 600) {
-        if (event.offsetY < 6) y = 0;
-        else if (event.offsetY > 600) y = 99;
-      } else {
-        y =
-          (event.offsetY - 600 / settings.latticeSize!) /
-          (600 / settings.latticeSize!);
-      }
-
+      const { x, y } = findCoords(event);
       const i = Math.floor(x);
       const j = Math.floor(y);
 
@@ -79,7 +61,8 @@ const Canvas = () => {
 
   useEffect(() => {
     setSettings({ ...settings, freePlay: false });
-    let context = canvas.current?.getContext("2d", { alpha: false });
+    const context = canvas.current?.getContext("2d", { alpha: false });
+
     if (context != null || context != undefined) {
       initSpins();
       setContext(canvas.current!);

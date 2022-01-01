@@ -8,7 +8,6 @@ const KawasakiLocal = () => {
   let {
     settings,
     spins,
-    context,
     dashboard,
     nearestneighs,
     setDashboard,

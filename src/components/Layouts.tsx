@@ -1,6 +1,5 @@
 import Header from "./Header";
-import Sidebar from "./Sidebar";
-import type { ReactElement, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface AppProps {
   children: ReactNode;

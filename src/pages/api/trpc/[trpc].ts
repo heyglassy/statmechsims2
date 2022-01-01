@@ -48,10 +48,11 @@ const appRouter = trpc
       date: z.string(),
       settings: z.object({
         freePlay: z.boolean(),
+        simulation: z.boolean(),
         initialTemp: z.number().nullish(),
         finalTemp: z.number().nullish(),
-        qpotts: z.number(),
         tempStep: z.number().nullish(),
+        qpotts: z.number(),
         fixedTemp: z.boolean(),
         equilibriationDelay: z.number().nullish(),
         numberOfCycles: z.number().nullish(),
@@ -65,7 +66,7 @@ const appRouter = trpc
         geometicPattern: z.string(),
         nanotubeSimulation: z.object({
           width: z.number().nullish(),
-          height: z.number(),
+          height: z.number().nullish(),
           diameter: z.number().nullish(),
           spin: z.boolean(),
         }),
@@ -74,7 +75,6 @@ const appRouter = trpc
           positive: z.number().nullish(),
           negative: z.number().nullish(),
         }),
-        simulation: z.boolean(),
       }),
       data: z.array(
         z.object({
