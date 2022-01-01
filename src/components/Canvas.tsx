@@ -1,14 +1,81 @@
 import { useEffect, useRef } from "react";
 import Store from "../types/store";
-import { setup } from "../models/setup";
+import { setSpin, setup } from "../models/setup";
 import { useRouter } from "next/router";
+import { color, color2 } from "../models/color";
 
 const Canvas = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
   let { initSpins, setContext, settings, setSettings } = Store(
     (state) => state
   );
-  let router = useRouter();
+
+  let mousedown = false;
+
+  const router = useRouter();
+
+  const coords = (event: MouseEvent) => {
+    mousedown = true;
+    let x = 0;
+    let y = 0;
+    if (event.offsetX < 6 || event.offsetX > 600) {
+      if (event.offsetX < 6) x = 0;
+      else if (event.offsetX > 600) x = 99;
+      else {
+        x =
+          (event.offsetX - 600 / settings.latticeSize!) /
+          (600 / settings.latticeSize!);
+      }
+    }
+
+    if (event.offsetY < 6 || event.offsetY > 600) {
+      if (event.offsetY < 6) y = 0;
+      else if (event.offsetY > 600) y = 99;
+      else {
+        y =
+          (event.offsetY - 600 / settings.latticeSize!) /
+          (600 / settings.latticeSize!);
+      }
+    }
+
+    const i = Math.floor(x);
+    const j = Math.floor(y);
+
+    setSpin(i, j, router.pathname);
+  };
+
+  const mouseUp = (event: MouseEvent) => {
+    mousedown = false;
+  };
+
+  const mousemove = (event: MouseEvent) => {
+    if (mousedown) {
+      let x = 0;
+      let y = 0;
+      if (event.offsetX < 6 || event.offsetX > 600) {
+        if (event.offsetX < 6) x = 0;
+        else if (event.offsetX > 600) x = 99;
+      } else {
+        x =
+          (event.offsetX - 600 / settings.latticeSize!) /
+          (600 / settings.latticeSize!);
+      }
+
+      if (event.offsetY < 6 || event.offsetY > 600) {
+        if (event.offsetY < 6) y = 0;
+        else if (event.offsetY > 600) y = 99;
+      } else {
+        y =
+          (event.offsetY - 600 / settings.latticeSize!) /
+          (600 / settings.latticeSize!);
+      }
+
+      const i = Math.floor(x);
+      const j = Math.floor(y);
+
+      setSpin(i, j, router.pathname);
+    }
+  };
 
   useEffect(() => {
     setSettings({ ...settings, freePlay: false });
@@ -17,12 +84,15 @@ const Canvas = () => {
       initSpins();
       setContext(canvas.current!);
       setup(router.pathname);
+      canvas.current!.onmousedown = coords;
+      canvas.current!.onmouseup = mouseUp;
+      canvas.current!.onmousemove = mousemove;
     }
   }, [settings.latticeSize]);
 
   return (
     <canvas
-      className="w-600 h-600 bg-white ml-5 mt-5"
+      className=" w-600 h-600 bg-white ml-5 mt-5"
       width="600px"
       height="600px"
       ref={canvas}

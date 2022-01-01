@@ -117,6 +117,7 @@ const metropolis = (timestamp: number) => {
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
       setDashboard({
         ...dashboard,
+        energy: Ecurrent / 10000,
         magnetization: Mcurrent / 10000,
         temperature: settings.initialTemp!,
       });

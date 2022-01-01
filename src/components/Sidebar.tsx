@@ -439,7 +439,7 @@ const Sidebar = () => {
                     ...settings,
                     nanotubeSimulation: {
                       ...settings.nanotubeSimulation,
-                      width: Number(e.target.value),
+                      width: e.target.value ? Number(e.target.value) : null,
                     },
                   });
                 }}
@@ -458,7 +458,7 @@ const Sidebar = () => {
                     ...settings,
                     nanotubeSimulation: {
                       ...settings.nanotubeSimulation,
-                      diameter: Number(e.target.value),
+                      diameter: e.target.value ? Number(e.target.value) : null,
                     },
                   });
                 }}
@@ -469,7 +469,7 @@ const Sidebar = () => {
               <input
                 className="w-14 px-2 appearance-none border border-solid border-black rounded"
                 type="number"
-                value={settings.nanotubeSimulation.height}
+                value={settings.nanotubeSimulation.height!}
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
@@ -477,7 +477,7 @@ const Sidebar = () => {
                     ...settings,
                     nanotubeSimulation: {
                       ...settings.nanotubeSimulation,
-                      height: Number(e.target.value),
+                      height: e.target.value ? Number(e.target.value) : null,
                     },
                   });
                 }}
@@ -533,7 +533,7 @@ const Sidebar = () => {
                 ...settings,
                 proportionSpin: {
                   ...settings.proportionSpin,
-                  positive: Number(e.target.value),
+                  positive: e.target.value ? Number(e.target.value) : null,
                 },
               })
             }
@@ -553,7 +553,7 @@ const Sidebar = () => {
                 ...settings,
                 proportionSpin: {
                   ...settings.proportionSpin,
-                  negative: Number(e.target.value),
+                  negative: e.target.value ? Number(e.target.value) : null,
                 },
               })
             }

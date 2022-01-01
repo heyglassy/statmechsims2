@@ -29,7 +29,7 @@ declare namespace Settings {
     nanotubeSimulation: {
       width: number | null;
       diameter: number | null;
-      height: number;
+      height: number | null;
       spin: boolean;
     };
   };

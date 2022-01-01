@@ -3,17 +3,30 @@ import create from "zustand";
 import TSStore from "../types/ts_store";
 import { temperatureInc } from "./runner";
 
+export const colorBEG = (i: number, j: number, spins: Array<Array<number>>) => {
+  let { context, width } = create(TSStore).getState();
+
+  if (spins[i][j] == 1) {
+    context!.fillStyle = "#FE0105"; // purple
+  }
+  if (spins[i][j] == 0) {
+    context!.fillStyle = "#000102"; // ehite
+  }
+  if (spins[i][j] == -1) {
+    context!.fillStyle = "#FEE901"; //red
+  }
+  context!.fillRect(i * width, j * width, width, width);
+};
+
 const BlumeCapel = (timemstamp: number) => {
   let {
     settings,
     spins,
-    context,
     dashboard,
     setDashboard,
     updateGraph,
     localMagnetic,
     incSteps,
-    width,
     setSpins,
   } = create(TSStore).getState();
 
@@ -26,7 +39,7 @@ const BlumeCapel = (timemstamp: number) => {
   let newSpins = spins;
 
   //energy change with local magnetic field
-  function deltaUforBEGforM(i1: number, j1: number, i2: number, j2: number) {
+  const deltaUforBEGforM = (i1: number, j1: number, i2: number, j2: number) => {
     var thisS = newSpins[i1][j1];
     var thatS = newSpins[i2][j2];
     var left1 = getLeftBEM(i1, j1);
@@ -61,10 +74,10 @@ const BlumeCapel = (timemstamp: number) => {
         2.0 * thisS * (settings.magneticField! + localMagnetic[i1][j1]) +
         2.0 * thatS * (settings.magneticField! + localMagnetic[i2][j2])
       );
-  }
+  };
 
   //computes total energy from scratch when using the BC algorithm
-  function ComputeEforBEG() {
+  const ComputeEforBEG = () => {
     let Ecurrent = 0.0;
     let Mcurrent = 0.0;
     for (var i = 0; i < settings.latticeSize; i++) {
@@ -82,7 +95,7 @@ const BlumeCapel = (timemstamp: number) => {
       }
     }
     return { Ecurrent, Mcurrent };
-  }
+  };
 
   //returns the dipole to the left of s[i][j] taking into account boundary conditions
   function getLeftBEM(i: number, j: number) {
@@ -119,19 +132,6 @@ const BlumeCapel = (timemstamp: number) => {
     }
   }
 
-  let colorSquare = (i: number, j: number) => {
-    if (newSpins[i][j] == 1) {
-      context!.fillStyle = "#FE0105"; // purple
-    }
-    if (newSpins[i][j] == 0) {
-      context!.fillStyle = "#000102"; // ehite
-    }
-    if (newSpins[i][j] == -1) {
-      context!.fillStyle = "#FEE901"; //red
-    }
-    context!.fillRect(i * width, j * width, width, width);
-  };
-
   const model = () => {
     var i1 = Math.floor(Math.random() * settings.latticeSize);
     var j1 = Math.floor(Math.random() * settings.latticeSize);
@@ -147,8 +147,8 @@ const BlumeCapel = (timemstamp: number) => {
           //always flip if deltaU is negative
           newSpins[i1][j1] = thatS;
           newSpins[i2][j2] = thisS;
-          colorSquare(i1, j1);
-          colorSquare(i2, j2);
+          colorBEG(i1, j1, newSpins);
+          colorBEG(i2, j2, newSpins);
         }
       } else if (
         EdiffforM <= 0.0 ||
@@ -156,8 +156,8 @@ const BlumeCapel = (timemstamp: number) => {
       ) {
         newSpins[i1][j1] = thatS;
         newSpins[i2][j2] = thisS;
-        colorSquare(i1, j1);
-        colorSquare(i2, j2);
+        colorBEG(i1, j1, newSpins);
+        colorBEG(i2, j2, newSpins);
       }
     }
   };

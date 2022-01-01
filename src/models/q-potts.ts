@@ -4,20 +4,8 @@ import { color2 } from "./color";
 import { temperatureInc } from "./runner";
 
 const qpotts = () => {
-  const {
-    settings,
-    spin,
-    context,
-    dashboard,
-    canvas,
-    updatePayload,
-    incFrames,
-    endSimulation,
-    incCycles,
-    incSteps,
-    setSpin,
-    setDashboard,
-  } = create(TSStore).getState();
+  const { settings, spin, dashboard, incSteps, setSpin, setDashboard } =
+    create(TSStore).getState();
   const N = settings.latticeSize * settings.latticeSize;
 
   const get_index = (x: number, y: number) => {

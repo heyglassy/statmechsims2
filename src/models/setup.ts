@@ -4,6 +4,7 @@ import qpotts from "./q-potts";
 import wolff from "./wolff";
 import transverse from "./transverse-field-ising";
 import { color, color2 } from "./color";
+import { colorBEG, colorSquare } from "./blume-capel";
 
 export const setup = (model: string) => {
   const {
@@ -406,7 +407,7 @@ export const nanotube = (model: string) => {
   let topIndex =
     Math.round(settings.latticeSize / 2) -
     1 -
-    (Math.round(settings.nanotubeSimulation.height / 2) - 1);
+    (Math.round(settings.nanotubeSimulation.height! / 2) - 1);
 
   let bottomIndex = topIndex + settings.nanotubeSimulation.height!;
 
@@ -438,4 +439,34 @@ export const nanotube = (model: string) => {
     }
   }
   setLocalMagnetic(localMagnetic);
+};
+
+export const setSpin = (i: number, j: number, page: string) => {
+  const {
+    settings,
+    spins,
+    setSpins,
+    localMagnetic,
+    setLocalMagnetic,
+    context,
+  } = create(TSStore).getState();
+
+  if (settings.localMagneticField! == 0.0) {
+    spins[i][j] *= -1;
+  } else {
+    if (spins[i][j] == 1 && settings.localMagneticField! < -0.1) {
+      spins[i][j] *= -1;
+    } else if (spins[i][j] == -1 && settings.localMagneticField! > 0.1) {
+      spins[i][j] *= 1;
+    }
+  }
+
+  if ("/models/blume-capel") {
+    colorBEG(i, j, spins);
+  } else {
+    color(i, j);
+  }
+  localMagnetic[i][j] = settings.localMagneticField!;
+  setLocalMagnetic(localMagnetic);
+  setSpins(spins);
 };

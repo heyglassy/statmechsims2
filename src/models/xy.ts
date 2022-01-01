@@ -35,9 +35,7 @@ const torind = (arr: Array<Array<number>>, i: number, j: number) => {
 };
 
 const model = () => {
-  const { settings, spins, context, setSpins, dashboard } =
-    create(TSStore).getState();
-  const width = 600 / settings.latticeSize;
+  const { settings, spins, setSpins, dashboard } = create(TSStore).getState();
   let newphases = new Array(settings.latticeSize);
   for (let i = 0; i < settings.latticeSize; i++) {
     newphases[i] = new Array(settings.latticeSize);
