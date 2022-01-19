@@ -121,6 +121,7 @@ const metropolis = (timestamp: number) => {
         magnetization: Mcurrent / 10000,
         temperature: settings.initialTemp!,
       });
+
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       window.requestAnimationFrame(metropolis);
     }

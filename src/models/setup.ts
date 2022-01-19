@@ -5,7 +5,7 @@ import wolff from "./wolff";
 import transverse from "./transverse-field-ising";
 import { color, color2 } from "./color";
 import { colorBEG } from "./blume-capel";
-import { router } from "@trpc/server";
+import { alogPicker } from "./runner";
 
 export const setup = (model: string) => {
   const { settings, context, setWall, setNearestNeighs, setSpins, width } =
@@ -266,6 +266,8 @@ export const alignSpins = (model: string) => {
       }
       setNearestNeighs(nearestneighs);
     }
+
+    return local_spins;
   } else if (model == "/models/blume-capel") {
     let local_spins = new Array(settings.latticeSize);
     let randy = Math.random();
@@ -303,42 +305,9 @@ export const alignSpins = (model: string) => {
         context!.fillRect(a * width, b * width, width, width);
       }
     }
-  }
-  //  else if (model == "/models/transverse-field-ising") {
-  //   let wall = new Array(125);
-  //   let t_spin = new Array(125);
-  //   let random = Math.random();
-  //   for (let i = 0; i < 125; i++) {
-  //     let exp_dist = (theta: number) => {
-  //       if (random > 0.5) {
-  //         return Math.abs(Math.log(1.0 - Math.random()) * theta);
-  //       } else {
-  //         return Number.MAX_VALUE;
-  //       }
-  //     };
-  //     let make_wall = () => {
-  //       let width;
-  //       let theta = 0.1 / 1;
-  //       let pos = exp_dist(theta);
-  //       let tempWall = new Array();
-  //       while (pos < 1.0) {
-  //         width = exp_dist(theta);
-  //         tempWall.push(pos);
-  //         pos += width;
-  //       }
-  //       return tempWall;
-  //     };
-  //     let newWall = make_wall();
-  //     if (newWall.length % 2 > 0) newWall.pop();
-  //     newWall.push(1.0);
-  //     wall[i] = newWall;
 
-  //     t_spin[i] = Math.random() < 0.5 ? 1 : -1;
-  //   }
-  //   setWall(wall);
-  //   // window.requestAnimationFrame(transverse);
-  // }
-  else if (model == "/models/q-potts") {
+    return local_spins;
+  } else if (model == "/models/q-potts") {
     let random = Math.random();
     spin.fill(random * settings.qpotts);
     for (let i = 0; i < settings.latticeSize; i++) {
@@ -348,6 +317,7 @@ export const alignSpins = (model: string) => {
       }
     }
     setSpin(spin);
+    return spin;
   } else if (model == "/models/xy") {
     let random = Math.random();
     let c = random * 360;
@@ -364,26 +334,34 @@ export const alignSpins = (model: string) => {
         color2(i, j, c);
       }
     }
+
+    return local_spins;
   }
 };
 
 export const nanotube = (model: string) => {
   const {
     settings,
-    spins,
     spin,
     context,
     width,
     localMagnetic,
     setLocalMagnetic,
+    setSpins,
   } = create(TSStore).getState();
 
+  // Don't ask me why this is here, I have not a clue.  ¯\_(ツ)_/¯
+  if (settings.nanotubeSimulation.spin) {
+    let algo = alogPicker(model);
+    window.requestAnimationFrame(algo!);
+  }
+
   let nSpin;
-  settings.nanotubeSimulation.spin ? (nSpin = 1) : (nSpin = -1);
+  settings.nanotubeSimulation.spin ? (nSpin = 1) : (nSpin = -100);
 
-  let color = nSpin == 1 ? "purple" : "green";
+  const color = nSpin == 1 ? "purple" : "green";
 
-  alignSpins(model);
+  const spins = alignSpins(model);
 
   let leftIndex =
     Math.round(settings.latticeSize / 2) -
@@ -409,7 +387,7 @@ export const nanotube = (model: string) => {
     i++
   ) {
     for (let j = topIndex; j < bottomIndex; j++) {
-      spins[i][j] *= -1;
+      spins![i][j] *= -1;
       spin[i] *= -1;
       localMagnetic[i][j] = 100 * nSpin;
       context!.fillStyle = color;
@@ -423,13 +401,15 @@ export const nanotube = (model: string) => {
     i++
   ) {
     for (let j = topIndex; j < bottomIndex; j++) {
-      spins[i][j] *= -1;
+      spins![i][j] *= -1;
       spin[i] *= -1;
       localMagnetic[i][j] = 100 * nSpin;
       context!.fillStyle = color;
       context!.fillRect(i * width, j * width, width, width);
     }
   }
+
+  setSpins(spins!);
   setLocalMagnetic(localMagnetic);
 };
 
@@ -448,7 +428,13 @@ export const setSpin = (i: number, j: number, page: string) => {
   }
 
   if (page == "/models/blume-capel") {
-    colorBEG(i, j, spins);
+    const spin = Math.floor(Math.random() * 3);
+    if (spin == 2) {
+      spins[i][j] = -1;
+    }
+
+    spins[i][j] = spin;
+    spins[i][j] = colorBEG(i, j, spins);
   } else {
     color(i, j);
   }

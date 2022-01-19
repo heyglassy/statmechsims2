@@ -366,7 +366,7 @@ const Sidebar = () => {
           >
             <option>Ferromagnetic</option>
             <option>Anti-Ferromagnetic</option>
-            {/* <option>Biparite</option>  TODO: Add support for Biparite */}
+            <option>Biparite</option>
           </select>
         </div>
         <div className="bg-black my-2 w-full h-px"></div>

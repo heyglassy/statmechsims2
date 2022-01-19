@@ -155,7 +155,10 @@ const KawasakiLocal = () => {
 
       temperatureInc();
 
-      updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
+      updateGraph({
+        x: Math.floor(dashboard.temperature * 10),
+        y: Math.floor(dashboard.magnetization * 10),
+      });
       incSteps();
       window.requestAnimationFrame(KawasakiLocal);
     }

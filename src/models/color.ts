@@ -14,7 +14,7 @@ export const color = (i: number, j: number) => {
   } else if (localMagnetic[i][j] < -0.0001) {
     context!.fillStyle == "green";
   } else {
-    if (settings.magnetism == "biparite" && i % 2 == j % 2) {
+    if (settings.magnetism == "Biparite" && i % 2 == j % 2) {
       if (spins[i][j] == 1) context!.fillStyle = color[1];
       else context!.fillStyle = color[0];
     } else {

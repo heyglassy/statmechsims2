@@ -15,7 +15,7 @@ const defaultSettings: settings = {
   equilibriationDelay: 0,
   numberOfCycles: 5,
   latticeSize: 100,
-  stepsPerFrame: 100000,
+  stepsPerFrame: 10000,
   couplingStrength: 0.1,
   magneticField: 0,
   localMagneticField: 0,
@@ -26,7 +26,7 @@ const defaultSettings: settings = {
     width: 2,
     height: 50,
     diameter: 15,
-    spin: false,
+    spin: true,
   },
   fixedSpin: false,
   proportionSpin: {
@@ -99,10 +99,10 @@ const TSStore = create<state>((set) => ({
   spins: [],
   wall: [],
   context: null,
-  setGraph: (newgraph: any) => {
+  setGraph: (newgraph: Chart) => {
     set((state: state) => {
       if (state.graph != null) {
-        newgraph.update("active");
+        newgraph.update("normal");
       }
       return { graph: newgraph };
     });
@@ -114,10 +114,10 @@ const TSStore = create<state>((set) => ({
   setNearestNeighs: (newneighs: Object) => set({ nearestneighs: newneighs }),
   updateGraph: (plotPoint: plotPoint) =>
     set((state: state) => {
-      state.graph.data.datasets.forEach((dataset: any) => {
-        dataset.data.push(plotPoint);
-      });
-      state.graph.update();
+      state.graph.data.datasets[0].data.push(plotPoint);
+      state.graph.data.datasets[1].data.pop();
+      state.graph.data.datasets[1].data.push(plotPoint);
+      state.graph.update("none");
       return { graphData: state.graphData.concat(plotPoint) };
     }),
   setSettings: (newSettings: settings) =>

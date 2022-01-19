@@ -9,8 +9,8 @@ import BlumeCapel from "./blume-capel";
 import xy from "./xy";
 import transverse from "./transverse-field-ising";
 
-export const runner = (pathname: string) => {
-  let algo: any;
+export const alogPicker = (pathname: string) => {
+  let algo;
   switch (pathname) {
     case "/models/blume-capel":
       algo = BlumeCapel;
@@ -37,12 +37,17 @@ export const runner = (pathname: string) => {
       algo = xy;
       break;
   }
+  return algo;
+};
 
+export const runner = (pathname: string) => {
+  let algo = alogPicker(pathname);
   const { settings } = create(TSStore).getState();
   if (settings.simulation && !settings.freePlay) {
-    window.requestAnimationFrame(algo);
+    algo!(Date.now());
   } else if (settings.freePlay && !settings.simulation) {
-    window.requestAnimationFrame(algo);
+    algo!(Date.now());
+    // window.requestAnimationFrame(algo!);
   }
 };
 
