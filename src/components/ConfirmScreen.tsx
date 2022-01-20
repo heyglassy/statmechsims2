@@ -2,6 +2,7 @@ import Store from "../types/store";
 import { runner } from "../models/runner";
 import { useRouter } from "next/router";
 import type { Dispatch, SetStateAction } from "react";
+import { newChart } from "./Graph";
 
 interface Props {
   open: boolean;
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const ConfirmScreen = ({ open, setOpen }: Props) => {
-  const { settings, setSettings, initDashboard, graph } = Store(
+  const { settings, setSettings, initDashboard, graph, setGraph } = Store(
     (state) => state
   );
   const router = useRouter();
@@ -40,7 +41,8 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
           setSettings({ ...settings, simulation: true });
           if (!settings.simulation) {
             initDashboard();
-            graph.clear();
+            const chart = newChart(graph);
+            setGraph(chart);
           }
           runner(router.pathname);
           setOpen(!open);
