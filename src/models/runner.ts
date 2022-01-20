@@ -47,7 +47,6 @@ export const runner = (pathname: string) => {
     algo!(Date.now());
   } else if (settings.freePlay && !settings.simulation) {
     algo!(Date.now());
-    // window.requestAnimationFrame(algo!);
   }
 };
 
@@ -62,22 +61,34 @@ export const temperatureInc = () => {
     endSimulation,
   } = create(TSStore).getState();
 
-  if (dashboard.steps % settings.stepsPerFrame! === 0 && dashboard.steps > 0) {
-    // this code updaetes the dashboard and resets values to continue the experiment
-    let frame = canvas!.toDataURL();
-    updatePayload(frame);
-    dashboard.frames.savedFrames++;
-    incFrames(); // This increments the temperature as well.
-
+  if (settings.freePlayIncrement && settings.freePlay) {
     if (
-      settings.tempStep! > 0
-        ? dashboard.temperature > settings.finalTemp!
-        : dashboard.temperature < settings.finalTemp!
+      dashboard.steps % settings.stepsPerFrame! === 0 &&
+      dashboard.steps > 0
     ) {
-      if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
-        endSimulation();
-      } else {
-        incCycles(); // This also resets temperature to start the next cycle.
+      incFrames(); // This increments the temperature as well.
+    }
+  } else {
+    if (
+      dashboard.steps % settings.stepsPerFrame! === 0 &&
+      dashboard.steps > 0
+    ) {
+      // this code updaetes the dashboard and resets values to continue the experiment
+      let frame = canvas!.toDataURL();
+      updatePayload(frame);
+      dashboard.frames.savedFrames++;
+      incFrames(); // This increments the temperature as well.
+
+      if (
+        settings.tempStep! > 0
+          ? dashboard.temperature > settings.finalTemp!
+          : dashboard.temperature < settings.finalTemp!
+      ) {
+        if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
+          endSimulation();
+        } else {
+          incCycles(); // This also resets temperature to start the next cycle.
+        }
       }
     }
   }

@@ -119,8 +119,13 @@ const metropolis = (timestamp: number) => {
         ...dashboard,
         energy: Ecurrent / 10000,
         magnetization: Mcurrent / 10000,
-        temperature: settings.initialTemp!,
+        temperature: dashboard.temperature!,
       });
+
+      if (settings.freePlayIncrement) {
+        incSteps();
+        temperatureInc();
+      }
 
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       window.requestAnimationFrame(metropolis);

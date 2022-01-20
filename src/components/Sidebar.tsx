@@ -24,34 +24,72 @@ const Sidebar = () => {
     <nav className="flex flex-col h-screen w-80">
       <div className="h-3/4 left-0 bg-white overflow-y-scroll overscroll-y-auto p-3">
         <h1 className="text-3xl font-bold">Settings</h1>
-        <div className="flex items-center my-1">
-          <h2 className="text-sm mr-3 text-black font-bold text-opacity-50">
-            Set Freeplay Mode:
-          </h2>
-          <Switch
-            disabled={settings.simulation ? true : false}
-            checked={settings.freePlay}
-            onChange={() => {
-              setSettings({
-                ...settings,
-                freePlay: !settings.freePlay,
-                simulation: false,
-              });
-              initDashboard();
-              runner(router.pathname);
-            }}
-            className={`${
-              settings.freePlay ? "bg-green-400" : "bg-gray-500"
-            } relative inline-flex items-center h-6 rounded-full w-11`}
-          >
-            <span className="sr-only">Set Freeplay</span>
-            <span
+        <Switch.Group>
+          <div className="flex items-center my-1 justify-between">
+            <Switch.Label
+              className="text-md mr-3 text-black font-bold text-opacity-50"
+              passive
+            >
+              Set Freeplay Mode
+            </Switch.Label>
+
+            <Switch
+              disabled={settings.simulation ? true : false}
+              checked={settings.freePlay}
+              onChange={() => {
+                setSettings({
+                  ...settings,
+                  freePlay: !settings.freePlay,
+                  simulation: false,
+                });
+                initDashboard();
+                runner(router.pathname);
+              }}
               className={`${
-                settings.freePlay ? "translate-x-6" : "translate-x-1"
-              } inline-block w-4 h-4 transform bg-white rounded-full`}
-            ></span>
-          </Switch>
-        </div>
+                settings.freePlay ? "bg-green-400" : "bg-gray-500"
+              } relative inline-flex items-center h-6 rounded-full w-11`}
+            >
+              <span className="sr-only">Set Freeplay</span>
+              <span
+                className={`${
+                  settings.freePlay ? "translate-x-6" : "translate-x-1"
+                } inline-block w-4 h-4 transform bg-white rounded-full`}
+              ></span>
+            </Switch>
+          </div>
+
+          <div className="flex items-center my-1 justify-between">
+            <Switch.Label
+              className="text-sm mr-3 text-black font-bold text-opacity-50"
+              passive
+            >
+              Increment
+            </Switch.Label>
+
+            <Switch
+              disabled={settings.simulation ? true : false}
+              checked={settings.freePlayIncrement}
+              onChange={() => {
+                setSettings({
+                  ...settings,
+                  freePlayIncrement: !settings.freePlayIncrement,
+                });
+              }}
+              className={`${
+                settings.freePlayIncrement ? "bg-green-400" : "bg-gray-500"
+              } relative inline-flex items-center h-6 rounded-full w-11`}
+            >
+              <span className="sr-only">Set Freeplay Increment</span>
+              <span
+                className={`${
+                  settings.freePlayIncrement ? "translate-x-6" : "translate-x-1"
+                } inline-block w-4 h-4 transform bg-white rounded-full`}
+              ></span>
+            </Switch>
+          </div>
+        </Switch.Group>
+
+        <div className="flex items-center my-1 justify-between"></div>
         <div className="bg-black my-2 w-full h-px"></div>
         <div>
           <h1>Initial Temperature</h1>

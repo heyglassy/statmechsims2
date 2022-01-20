@@ -7,6 +7,7 @@ import Chart from "chart.js/auto";
 
 const defaultSettings: settings = {
   freePlay: false,
+  freePlayIncrement: false,
   initialTemp: 2.27,
   finalTemp: 5,
   qpotts: 5,

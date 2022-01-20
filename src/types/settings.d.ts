@@ -5,6 +5,7 @@ export as namespace Settigns;
 declare namespace Settings {
   type settings = {
     freePlay: boolean;
+    freePlayIncrement: boolean;
     simulation: boolean;
     initialTemp: number | null;
     finalTemp: number | null;
