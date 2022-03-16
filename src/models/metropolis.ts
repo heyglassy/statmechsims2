@@ -92,6 +92,49 @@ const metropolis = (timestamp: number) => {
           (dashboard.frames.savedFrames + 1) -
           dashboard.averageMagnetization * dashboard.averageMagnetization
       );
+//       setDashboard({
+//         ...dashboard,
+//         energy: Ecurrent / 10000,
+//         magnetization: Mcurrent / 10000,
+//         totalMagnetization: dashboard.totalMagnetization + Mcurrent / 10000,
+//         averageEnergy: dashboard.totalEnergy / dashboard.steps,
+//         averageMagnetization: dashboard.totalMagnetization / dashboard.steps,
+//         totalEnergy: dashboard.totalEnergy + Ecurrent / 10000,
+//         sigmaEnergy: isNaN(sigmaEnergy) ? null : sigmaEnergy,
+//         sigmaMagnetisation: isNaN(sigmaMagnetisation)
+//           ? null
+//           : sigmaMagnetisation,
+//       });
+//
+//       temperatureInc();
+//
+//       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
+//       incSteps();
+//       window.requestAnimationFrame(metropolis);
+//     }
+//
+//     if (settings.freePlay) {
+//       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
+//       setDashboard({
+//         ...dashboard,
+//         energy: Ecurrent / 10000,
+//         magnetization: Mcurrent / 10000,
+//         temperature: dashboard.temperature!,
+//       });
+//
+//       if (settings.freePlayIncrement) {
+//         incSteps();
+//         temperatureInc();
+//       }
+//
+//       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
+//       window.requestAnimationFrame(metropolis);
+//     }
+//   }
+// };
+//
+// export default metropolis;
+
       setDashboard({
         ...dashboard,
         energy: Ecurrent / 10000,
@@ -117,19 +160,12 @@ const metropolis = (timestamp: number) => {
       let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
       setDashboard({
         ...dashboard,
-        energy: Ecurrent / 10000,
         magnetization: Mcurrent / 10000,
-        temperature: dashboard.temperature!,
+        temperature: settings.initialTemp!,
       });
-
-      if (settings.freePlayIncrement) {
-        incSteps();
-        temperatureInc();
-      }
-
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
-      window.requestAnimationFrame(metropolis);
     }
+   window.requestAnimationFrame(metropolis);
   }
 };
 
