@@ -1,6 +1,6 @@
 import create from "zustand";
 import Store from "../store/store";
-import { temperatureInc } from "./runner";
+import { temperatureInc } from "../helpers/runner";
 
 export const colorBEG = (i: number, j: number, spins: Array<Array<number>>) => {
   let { context, width } = create(Store).getState();

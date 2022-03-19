@@ -1,8 +1,8 @@
 import { Switch } from "@headlessui/react";
-import { runner } from "../models/runner";
-import { setup, alignSpins, nanotube } from "../models/setup";
+import { runner } from "../helpers/runner";
+import { setup, alignSpins, nanotube } from "../helpers/setup";
 import { useRouter } from "next/router";
-import boundarySetup from "../models/boundaries";
+import boundarySetup from "../helpers/boundaries";
 import { useState } from "react";
 import ConfirmScreen from "./ConfirmScreen";
 import EndSimulation from "./EndSimulation";

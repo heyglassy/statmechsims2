@@ -1,6 +1,6 @@
 import create from "zustand";
 import Store from "../store/store";
-import { color2 } from "./color";
+import { color2 } from "../helpers/color";
 
 let wrap = "none";
 

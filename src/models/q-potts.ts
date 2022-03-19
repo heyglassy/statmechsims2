@@ -1,7 +1,7 @@
 import create from "zustand";
 import Store from "../store/store";
-import { color2 } from "./color";
-import { temperatureInc } from "./runner";
+import { color2 } from "../helpers/color";
+import { temperatureInc } from "../helpers/runner";
 
 const qpotts = () => {
   const { settings, spin, dashboard, incSteps, setSpin, setDashboard } =

@@ -1,13 +1,13 @@
-import metropolis from "./metropolis";
+import metropolis from "../models/metropolis";
 import Store from "../store/store";
 import create from "zustand";
-import qpotts from "./q-potts";
-import KawasakiLocal from "./kawasaki-local";
-import KawasakiNonLocal from "./kawasaki-non-local";
-import wolff from "./wolff";
-import BlumeCapel from "./blume-capel";
-import xy from "./xy";
-import transverse from "./transverse-field-ising";
+import qpotts from "../models/q-potts";
+import KawasakiLocal from "../models/kawasaki-local";
+import KawasakiNonLocal from "../models/kawasaki-non-local";
+import wolff from "../models/wolff";
+import BlumeCapel from "../models/blume-capel";
+import xy from "../models/xy";
+import transverse from "../models/transverse-field-ising";
 
 export const alogPicker = (pathname: string) => {
   let algo;

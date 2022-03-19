@@ -1,6 +1,6 @@
 import create from "zustand";
 import Store from "../store/store";
-import { temperatureInc } from "./runner";
+import { temperatureInc } from "../helpers/runner";
 
 const transverse = (timestamp: number) => {
   let { settings, context, setDashboard, dashboard, incSteps, color } =

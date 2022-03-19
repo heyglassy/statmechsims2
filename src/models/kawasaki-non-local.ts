@@ -1,8 +1,8 @@
 import create from "zustand";
 import Store from "../store/store";
-import { color } from "./color";
-import { getBottom, getLeft, getRight, getTop } from "./dipoles";
-import { temperatureInc } from "./runner";
+import { color } from "../helpers/color";
+import { getBottom, getLeft, getRight, getTop } from "../helpers/dipoles";
+import { temperatureInc } from "../helpers/runner";
 
 const KawasakiNonLocal = () => {
   let {

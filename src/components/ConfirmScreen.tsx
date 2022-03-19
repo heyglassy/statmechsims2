@@ -1,5 +1,5 @@
 import useStore from "../store/useStore";
-import { runner } from "../models/runner";
+import { runner } from "../helpers/runner";
 import { useRouter } from "next/router";
 import type { Dispatch, SetStateAction } from "react";
 import { newChart } from "./Graph";

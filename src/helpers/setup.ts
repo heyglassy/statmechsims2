@@ -1,10 +1,10 @@
 import Store from "../store/store";
 import create from "zustand";
-import qpotts from "./q-potts";
-import wolff from "./wolff";
-import transverse from "./transverse-field-ising";
+import qpotts from "../models/q-potts";
+import wolff from "../models/wolff";
+import transverse from "../models/transverse-field-ising";
 import { color, color2 } from "./color";
-import { colorBEG } from "./blume-capel";
+import { colorBEG } from "../models/blume-capel";
 import { alogPicker } from "./runner";
 
 export const setup = (model: string) => {
