@@ -521,6 +521,7 @@ const Sidebar = () => {
                 }}
               />
             </div>
+
             <div>
               <h1>Spin</h1>
               <select
@@ -549,6 +550,20 @@ const Sidebar = () => {
             }}
           />
         </div>
+                <div className="bg-black my-2 w-full h-px"></div>
+
+                 <h1 className="text-center">Hysteresis Demonstration</h1>
+                              <div className="flex items-center justify-between"><input
+                               className="bg-white rounded border-black border my-1 w-full h-8"
+                               type="button"
+                               value="Run Hysteresis Demo"
+                               onClick={() => {
+                               hysteresisRun();
+                               hyteresisPlot();
+                               }}
+                                />
+                              <div>
+                                       </div></div>
         <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex items-center">
           <h1>Show Fixed Spin</h1>
@@ -621,7 +636,23 @@ const Sidebar = () => {
               }}
             />
           </div>
-        </div>
+
+
+
+
+                                        <h1 className="text-center">Download Graph</h1>
+                                                     <div className="flex items-center justify-between"><input
+                                                      className="bg-white rounded border-black border my-1 w-full h-8"
+                                                      type="button"
+                                                      value="Downlad Graph"
+                                                      onClick={() => {
+                                                      downloadGraph();
+                                                      downloadSelectedGraph();
+                                                      }}
+                                                       />
+                                                     <div>
+                                                              </div></div>
+                                </div>
         <div className="mb-5 w-full h-px"></div>
       </div>
       <div className="sticky text-center h-32 p-7 bg-zinc-900 text-white">

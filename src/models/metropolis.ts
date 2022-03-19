@@ -91,6 +91,7 @@ const metropolis = (timestamp: number) => {
         (dashboard.frames.savedFrames + 1) -
         dashboard.averageMagnetization * dashboard.averageMagnetization
       );
+
       setDashboard({
         ...dashboard,
         energy: Ecurrent / 10000,
@@ -121,15 +122,9 @@ const metropolis = (timestamp: number) => {
         magnetization: Mcurrent / settings.stepsPerFrame!,
         temperature: dashboard.temperature!,
       });
-
-      if (settings.freePlayIncrement) {
-        incSteps();
-        temperatureInc();
-      }
-
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
-      window.requestAnimationFrame(metropolis);
     }
+    window.requestAnimationFrame(metropolis);
   }
 };
 
