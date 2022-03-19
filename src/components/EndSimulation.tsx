@@ -25,7 +25,7 @@ const EndSimulation = () => {
             onClick={() => {
               const date = new Date().toISOString();
               submitData.mutate({
-                pathname: router.pathname,
+                pathname: router.asPath,
                 settings: settings,
                 data: payloads,
                 date: date,
@@ -33,7 +33,7 @@ const EndSimulation = () => {
               frames.forEach((image, index) => {
                 submitImage.mutateAsync({
                   image: image,
-                  pathname: router.pathname,
+                  pathname: router.asPath,
                   index: index,
                   date: date,
                 });

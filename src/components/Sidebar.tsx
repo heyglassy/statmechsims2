@@ -43,17 +43,15 @@ const Sidebar = () => {
                   simulation: false,
                 });
                 initDashboard();
-                runner(router.pathname);
+                runner(router.asPath);
               }}
-              className={`${
-                settings.freePlay ? "bg-green-400" : "bg-gray-500"
-              } relative inline-flex items-center h-6 rounded-full w-11`}
+              className={`${settings.freePlay ? "bg-green-400" : "bg-gray-500"
+                } relative inline-flex items-center h-6 rounded-full w-11`}
             >
               <span className="sr-only">Set Freeplay</span>
               <span
-                className={`${
-                  settings.freePlay ? "translate-x-6" : "translate-x-1"
-                } inline-block w-4 h-4 transform bg-white rounded-full`}
+                className={`${settings.freePlay ? "translate-x-6" : "translate-x-1"
+                  } inline-block w-4 h-4 transform bg-white rounded-full`}
               ></span>
             </Switch>
           </div>
@@ -75,15 +73,13 @@ const Sidebar = () => {
                   freePlayIncrement: !settings.freePlayIncrement,
                 });
               }}
-              className={`${
-                settings.freePlayIncrement ? "bg-green-400" : "bg-gray-500"
-              } relative inline-flex items-center h-6 rounded-full w-11`}
+              className={`${settings.freePlayIncrement ? "bg-green-400" : "bg-gray-500"
+                } relative inline-flex items-center h-6 rounded-full w-11`}
             >
               <span className="sr-only">Set Freeplay Increment</span>
               <span
-                className={`${
-                  settings.freePlayIncrement ? "translate-x-6" : "translate-x-1"
-                } inline-block w-4 h-4 transform bg-white rounded-full`}
+                className={`${settings.freePlayIncrement ? "translate-x-6" : "translate-x-1"
+                  } inline-block w-4 h-4 transform bg-white rounded-full`}
               ></span>
             </Switch>
           </div>
@@ -149,7 +145,7 @@ const Sidebar = () => {
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
-        {router.pathname === "/models/q-potts" ? (
+        {router.asPath === "/models/q-potts" ? (
           <>
             <div className="bg-white my-2 w-full h-px"></div>
             <div>
@@ -323,7 +319,7 @@ const Sidebar = () => {
           />
         </div>
 
-        {router.pathname === "/models/xy" ? (
+        {router.asPath === "/models/xy" ? (
           <>
             <div className="bg-white my-2 w-full h-px"></div>
             <div>
@@ -418,7 +414,7 @@ const Sidebar = () => {
                 boundariesConditions: e.target.value,
               });
               initSpins();
-              setup(router.pathname);
+              setup(router.asPath);
               boundarySetup();
             }}
           >
@@ -546,25 +542,24 @@ const Sidebar = () => {
             type="button"
             value="Create Nanotube"
             onClick={() => {
-              nanotube(router.pathname);
+              nanotube(router.asPath);
             }}
           />
         </div>
-                <div className="bg-black my-2 w-full h-px"></div>
-
-                 <h1 className="text-center">Hysteresis Demonstration</h1>
-                              <div className="flex items-center justify-between"><input
-                               className="bg-white rounded border-black border my-1 w-full h-8"
-                               type="button"
-                               value="Run Hysteresis Demo"
-                               onClick={() => {
-                               hysteresisRun();
-                               hyteresisPlot();
-                               }}
-                                />
-                              <div>
-                                       </div></div>
         <div className="bg-black my-2 w-full h-px"></div>
+        {/* <h1 className="text-center">Hysteresis Demonstration</h1>
+        <div className="flex items-center justify-between"><input
+          className="bg-white rounded border-black border my-1 w-full h-8"
+          type="button"
+          value="Run Hysteresis Demo"
+          onClick={() => {
+            hysteresisRun();
+            hyteresisPlot();
+          }}
+        />
+          <div>
+          </div></div>
+        <div className="bg-black my-2 w-full h-px"></div> */}
         <div className="flex items-center">
           <h1>Show Fixed Spin</h1>
           <input
@@ -623,7 +618,7 @@ const Sidebar = () => {
               value="Align Spins"
               onClick={() => {
                 initSpins();
-                alignSpins(router.pathname);
+                alignSpins(router.asPath);
               }}
             />
             <input
@@ -632,28 +627,24 @@ const Sidebar = () => {
               value="Randomize"
               onClick={() => {
                 initSpins();
-                setup(router.pathname);
+                setup(router.asPath);
               }}
             />
           </div>
-
-
-
-
-                                        <h1 className="text-center">Download Graph</h1>
-                                                     <div className="flex items-center justify-between"><input
-                                                      className="bg-white rounded border-black border my-1 w-full h-8"
-                                                      type="button"
-                                                      value="Downlad Graph"
-                                                      onClick={() => {
-                                                      downloadGraph();
-                                                      downloadSelectedGraph();
-                                                      }}
-                                                       />
-                                                     <div>
-                                                              </div></div>
-                                </div>
-        <div className="mb-5 w-full h-px"></div>
+          {/* <div className="bg-black my-2 w-full h-px"></div> */}
+          {/* <div className="flex items-center justify-between"> */}
+          {/* <input
+              className="bg-white rounded border-black border my-1 w-full h-8"
+              type="button"
+              value="Downlad Graph"
+              onClick={() => {
+                downloadGraph();
+                downloadSelectedGraph();
+              }}
+            /> */}
+          {/* </div> */}
+        </div>
+        <div className="bg-black my-2 w-full h-px"></div>
       </div>
       <div className="sticky text-center h-32 p-7 bg-zinc-900 text-white">
         <input
@@ -662,20 +653,19 @@ const Sidebar = () => {
             settings.simulation
               ? "Stop Simulation"
               : settings.freePlay
-              ? "Turn Freeplay Mode off to run simulations"
-              : "Run Simulation"
+                ? "Turn Freeplay Mode off to run simulations"
+                : "Run Simulation"
           }
           onClick={() => {
             settings.simulation ? endSimulation() : setConfirm(true);
           }}
           disabled={settings.freePlay ? true : false}
-          className={`${
-            settings.simulation
-              ? "bg-red-500 text-xl"
-              : settings.freePlay
+          className={`${settings.simulation
+            ? "bg-red-500 text-xl"
+            : settings.freePlay
               ? "bg-gray-500 text-xs"
               : "bg-green-500 text-xl"
-          } h-20 w-64 rounded`}
+            } h-20 w-64 rounded`}
         />
       </div>
       {confirm ? <ConfirmScreen open={confirm} setOpen={setConfirm} /> : null}

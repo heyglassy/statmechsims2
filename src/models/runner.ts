@@ -41,7 +41,7 @@ export const alogPicker = (pathname: string) => {
 };
 
 export const runner = (pathname: string) => {
-  let algo = alogPicker(pathname);
+  const algo = alogPicker(pathname);
   const { settings } = create(Store).getState();
   if (settings.simulation && !settings.freePlay) {
     algo!(Date.now());

@@ -44,7 +44,7 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
             const chart = newChart(graph);
             setGraph(chart);
           }
-          runner(router.pathname);
+          runner(router.asPath);
           setOpen(!open);
         }}
       >

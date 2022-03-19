@@ -42,7 +42,7 @@ const Canvas = () => {
     const i = Math.floor(x);
     const j = Math.floor(y);
 
-    setSpin(i, j, router.pathname);
+    setSpin(i, j, router.asPath);
   };
 
   const mouseUp = (event: MouseEvent) => {
@@ -55,7 +55,7 @@ const Canvas = () => {
       const i = Math.floor(x);
       const j = Math.floor(y);
 
-      setSpin(i, j, router.pathname);
+      setSpin(i, j, router.asPath);
     }
   };
 
@@ -66,12 +66,12 @@ const Canvas = () => {
     if (context != null || context != undefined) {
       initSpins();
       setContext(canvas.current!);
-      setup(router.pathname);
+      setup(router.asPath);
       canvas.current!.onmousedown = coords;
       canvas.current!.onmouseup = mouseUp;
       canvas.current!.onmousemove = mousemove;
     }
-  }, [settings.latticeSize]);
+  }, [settings.latticeSize, router.asPath]);
 
   return (
     <canvas
