@@ -2,7 +2,7 @@ import create from "zustand";
 import Store from "../store/store";
 import { color2 } from "../helpers/color";
 
-let wrap = "none";
+const wrap = "none"; // TODO: Add TOR and PRO XY model features
 
 const mod = (a: number, b: number) => {
   let notMod = a % b;
