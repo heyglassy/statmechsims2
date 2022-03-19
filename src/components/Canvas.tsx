@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
-import Store from "../types/store";
+import useStore from "../state/useStore";
 import { setSpin, setup } from "../models/setup";
 import { useRouter } from "next/router";
 
 const Canvas = () => {
   const router = useRouter();
   const canvas = useRef<HTMLCanvasElement>(null);
-  let { initSpins, setContext, settings, setSettings } = Store(
+  let { initSpins, setContext, settings, setSettings } = useStore(
     (state) => state
   );
 

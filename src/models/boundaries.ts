@@ -1,5 +1,5 @@
 import create from "zustand";
-import TSStore from "../types/ts_store";
+import TSStore from "../state/store";
 import { color } from "./color";
 
 const boundarySetup = () => {

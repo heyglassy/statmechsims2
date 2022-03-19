@@ -1,5 +1,5 @@
 import metropolis from "./metropolis";
-import TSStore from "../types/ts_store";
+import TSStore from "../state/store";
 import create from "zustand";
 import qpotts from "./q-potts";
 import KawasakiLocal from "./kawasaki-local";

@@ -1,14 +1,14 @@
 import create from "zustand";
-import TSStore from "../types/ts_store";
+import TSStore from "../state/store";
 
 export const getLeft = (i: number, j: number) => {
   const { settings, spins } = create(TSStore).getState();
   if (j == 0) {
     if (
       settings.boundariesConditions ==
-        "Anti-periodic Boundaries (both directions)" ||
+      "Anti-periodic Boundaries (both directions)" ||
       settings.boundariesConditions ==
-        "Anti-periodic Boundaries (one directions)"
+      "Anti-periodic Boundaries (one directions)"
     )
       return -spins[i][settings.latticeSize - 1];
     if (settings.boundariesConditions == "Isolated Boundaries") return 0;
@@ -24,9 +24,9 @@ export const getRight = (i: number, j: number) => {
   if (j == settings.latticeSize - 1) {
     if (
       settings.boundariesConditions ==
-        "Anti-periodic Boundaries (both directions)" ||
+      "Anti-periodic Boundaries (both directions)" ||
       settings.boundariesConditions ==
-        "Anti-periodic Boundaries (one directions)"
+      "Anti-periodic Boundaries (one directions)"
     )
       return -spins[i][0];
     if (settings.boundariesConditions == "Isolated Boundaries") return 0;

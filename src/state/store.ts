@@ -1,9 +1,9 @@
 import create from "zustand/vanilla";
-import type { dashboard } from "./dashboard";
-import type { graphData, plotPoint } from "./graphs";
-import type { settings } from "./settings";
-import type { state } from "./state";
+import type { dashboard } from "../types/dashboard";
+import type { settings } from "../types/settings";
+import type { store } from "../types/store";
 import Chart from "chart.js/auto";
+import { graphData, plotPoint } from "../types/graphs";
 
 const defaultSettings: settings = {
   freePlay: false,
@@ -63,7 +63,7 @@ const defaultGraphData: graphData = [
   { x: 2, y: 2 },
 ];
 
-const TSStore = create<state>((set) => ({
+const Store = create<store>((set) => ({
   color: ["white", "#3772FF"],
   endScreen: false,
   spinBefore: [],
@@ -101,8 +101,8 @@ const TSStore = create<state>((set) => ({
   wall: [],
   context: null,
   setGraph: (newgraph: Chart) => {
-    set((state: state) => {
-      if (state.graph != null) {
+    set((store: store) => {
+      if (store.graph != null) {
         newgraph.update("normal");
       }
       return { graph: newgraph };
@@ -114,12 +114,12 @@ const TSStore = create<state>((set) => ({
     }),
   setNearestNeighs: (newneighs: Object) => set({ nearestneighs: newneighs }),
   updateGraph: (plotPoint: plotPoint) =>
-    set((state: state) => {
-      state.graph.data.datasets[0].data.push(plotPoint);
-      state.graph.data.datasets[1].data.pop();
-      state.graph.data.datasets[1].data.push(plotPoint);
-      state.graph.update("none");
-      return { graphData: state.graphData.concat(plotPoint) };
+    set((store: store) => {
+      store.graph.data.datasets[0].data.push(plotPoint);
+      store.graph.data.datasets[1].data.pop();
+      store.graph.data.datasets[1].data.push(plotPoint);
+      store.graph.update("none");
+      return { graphData: store.graphData.concat(plotPoint) };
     }),
   setSettings: (newSettings: settings) =>
     set(() => ({
@@ -127,44 +127,44 @@ const TSStore = create<state>((set) => ({
     })),
   resetSettings: () => set({ settings: defaultSettings }),
   setWall: (wall: Array<Array<number>>) => {
-    set((state: state) => ({
+    set(() => ({
       wall: wall,
     }));
   },
   initSpins: () =>
-    set((state: state) => {
-      let BfieldM = new Array(state.settings.latticeSize);
-      for (let i = 0; i < state.settings.latticeSize; i++) {
-        BfieldM[i] = new Array(state.settings.latticeSize);
-        for (let j = 0; j < state.settings.latticeSize; j++) {
+    set((store: store) => {
+      let BfieldM = new Array(store.settings.latticeSize);
+      for (let i = 0; i < store.settings.latticeSize; i++) {
+        BfieldM[i] = new Array(store.settings.latticeSize);
+        for (let j = 0; j < store.settings.latticeSize; j++) {
           BfieldM[i][j] = 0;
         }
       }
 
       let clusterChild = new Array<any>(
-        state.settings.latticeSize * state.settings.latticeSize
+        store.settings.latticeSize * store.settings.latticeSize
       );
       let sBefore = new Array<any>(
-        state.settings.latticeSize * state.settings.latticeSize
+        store.settings.latticeSize * store.settings.latticeSize
       );
       sBefore.fill(0);
 
       let spin = new Array<any>(
-        state.settings.latticeSize * state.settings.latticeSize
+        store.settings.latticeSize * store.settings.latticeSize
       );
 
       for (
         let i = 0;
-        i < state.settings.latticeSize * state.settings.latticeSize;
+        i < store.settings.latticeSize * store.settings.latticeSize;
         i++
       ) {
         spin[i] = Math.random() < 0.5 ? 1 : -1;
       }
 
-      let s = new Array<Array<number>>(state.settings.latticeSize);
-      for (let i = 0; i < state.settings.latticeSize; i++) {
-        s[i] = new Array<number>(state.settings.latticeSize);
-        for (let j = 0; j < state.settings.latticeSize; j++) {
+      let s = new Array<Array<number>>(store.settings.latticeSize);
+      for (let i = 0; i < store.settings.latticeSize; i++) {
+        s[i] = new Array<number>(store.settings.latticeSize);
+        for (let j = 0; j < store.settings.latticeSize; j++) {
           if (Math.random() < 0.5) s[i][j] = 1;
           else s[i][j] = -1;
         }
@@ -186,15 +186,15 @@ const TSStore = create<state>((set) => ({
       spin: spin,
     })),
   setContext: (canvas: HTMLCanvasElement) =>
-    set((state: state) => ({
+    set((store: store) => ({
       canvas: canvas,
       context: canvas.getContext("2d"),
-      width: 600 / state.settings.latticeSize,
+      width: 600 / store.settings.latticeSize,
     })),
   resetDashboard: () => {
-    set((state: state) => ({
+    set((store: store) => ({
       dashboard: {
-        ...state.dashboard,
+        ...store.dashboard,
         steps: 0,
         averageEnergy: 0,
         sigmaEnergy: 0,
@@ -204,7 +204,7 @@ const TSStore = create<state>((set) => ({
     }));
   },
   initDashboard: () =>
-    set((state: state) => {
+    set((store: store) => {
       return {
         endScreen: false,
         frames: [],
@@ -212,16 +212,16 @@ const TSStore = create<state>((set) => ({
           ...defaultDashboard,
           cycles: {
             currentCycle: 1,
-            totalCycles: state.settings.numberOfCycles!,
+            totalCycles: store.settings.numberOfCycles!,
           },
-          temperature: state.settings.initialTemp!,
+          temperature: store.settings.initialTemp!,
           frames: {
             savedFrames: 0,
             totalFrames:
-              (state.settings.finalTemp != 0
-                ? (state.settings.finalTemp! - state.settings.initialTemp!) /
-                  state.settings.tempStep!
-                : 1) * state.settings.numberOfCycles!,
+              (store.settings.finalTemp != 0
+                ? (store.settings.finalTemp! - store.settings.initialTemp!) /
+                store.settings.tempStep!
+                : 1) * store.settings.numberOfCycles!,
           },
         },
       };
@@ -234,61 +234,61 @@ const TSStore = create<state>((set) => ({
   },
 
   incSteps: () => {
-    set((state: state) => ({
+    set((store: store) => ({
       dashboard: {
-        ...state.dashboard,
-        steps: state.dashboard.steps + 1,
+        ...store.dashboard,
+        steps: store.dashboard.steps + 1,
       },
     }));
   },
 
   incFrames: () => {
-    set((state: state) => ({
+    set((store: store) => ({
       dashboard: {
-        ...state.dashboard,
+        ...store.dashboard,
         frames: {
-          ...state.dashboard.frames,
-          savedFrames: state.dashboard.frames.savedFrames + 1,
+          ...store.dashboard.frames,
+          savedFrames: store.dashboard.frames.savedFrames + 1,
         },
         temperature:
           Math.round(
-            (state.dashboard.temperature + state.settings.tempStep!) * 10000
+            (store.dashboard.temperature + store.settings.tempStep!) * 10000
           ) / 10000,
       },
     }));
   },
 
   incCycles: () => {
-    set((state: state) => ({
+    set((store: store) => ({
       dashboard: {
-        ...state.dashboard,
+        ...store.dashboard,
         cycles: {
-          ...state.dashboard.cycles,
-          currentCycle: state.dashboard.cycles.currentCycle + 1,
+          ...store.dashboard.cycles,
+          currentCycle: store.dashboard.cycles.currentCycle + 1,
         },
-        temperature: state.settings.initialTemp!,
+        temperature: store.settings.initialTemp!,
       },
     }));
   },
 
   endSimulation: () => {
-    set((state: state) => ({
+    set((store: store) => ({
       endScreen: true,
       settings: {
-        ...state.settings,
+        ...store.settings,
         simulation: false,
       },
     }));
   },
 
   updatePayload: (frame: string) => {
-    set((state: state) => {
+    set((store: store) => {
       return {
-        payloads: state.payloads.concat(state.dashboard),
-        frames: state.frames.concat(frame),
+        payloads: store.payloads.concat(store.dashboard),
+        frames: store.frames.concat(frame),
       };
     });
   },
 }));
 
-export default TSStore;
+export default Store;

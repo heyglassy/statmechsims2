@@ -1,5 +1,5 @@
 import create from "zustand";
-import TSStore from "../types/ts_store";
+import TSStore from "../state/store";
 import { temperatureInc } from "./runner";
 
 export const colorBEG = (i: number, j: number, spins: Array<Array<number>>) => {
@@ -171,14 +171,14 @@ const BlumeCapel = (timemstamp: number) => {
       let { Ecurrent, Mcurrent } = ComputeEforBEG();
       const sigmaEnergy = Math.sqrt(
         (dashboard.energy * dashboard.energy) /
-          (dashboard.frames.savedFrames + 1) -
-          dashboard.averageEnergy * dashboard.averageEnergy
+        (dashboard.frames.savedFrames + 1) -
+        dashboard.averageEnergy * dashboard.averageEnergy
       );
 
       const sigmaMagnetisation = Math.sqrt(
         (dashboard.magnetization * dashboard.magnetization) /
-          (dashboard.frames.savedFrames + 1) -
-          dashboard.averageMagnetization * dashboard.averageMagnetization
+        (dashboard.frames.savedFrames + 1) -
+        dashboard.averageMagnetization * dashboard.averageMagnetization
       );
 
       setDashboard({
@@ -202,12 +202,22 @@ const BlumeCapel = (timemstamp: number) => {
       window.requestAnimationFrame(BlumeCapel);
     }
     if (settings.freePlay) {
-      let { Ecurrent, Mcurrent } = ComputeEforBEG();
+      const { Ecurrent, Mcurrent } = ComputeEforBEG();
+
+      console.log(dashboard.temperature)
+
       setDashboard({
         ...dashboard,
-        magnetization: Mcurrent / 10000,
-        temperature: settings.initialTemp!,
+        energy: Ecurrent / settings.stepsPerFrame!,
+        magnetization: Mcurrent / settings.stepsPerFrame!,
+        temperature: dashboard.temperature!,
       });
+
+      if (settings.freePlayIncrement) {
+        incSteps();
+        temperatureInc();
+      }
+
       updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
       window.requestAnimationFrame(BlumeCapel);
     }

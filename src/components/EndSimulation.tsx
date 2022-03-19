@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import Store from "../types/store";
+import useStore from "../state/useStore";
 import { trpc } from "../utils/trpc";
 
 const EndSimulation = () => {
-  const { dashboard, settings, payloads, frames, graph, initDashboard } = Store(
+  const { dashboard, settings, payloads, frames, graph, initDashboard } = useStore(
     (state) => state
   );
   const router = useRouter();

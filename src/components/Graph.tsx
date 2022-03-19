@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import Store from "../types/store";
 import { Chart, ScriptableContext } from "chart.js";
-import { plotPoint } from "../types/graphs";
+import { graph, plotPoint } from "../types/graphs";
+import useStore from "../state/useStore";
 
-export const newChart = (graph: Chart<"scatter", never[], unknown>) => {
+export const newChart = (graph: graph) => {
   const pointColor = (ctx: ScriptableContext<"line">) => {
     if (ctx.dataset.data.length > 0 && ctx.dataIndex!) {
       let point: plotPoint = ctx.dataset.data[ctx.dataIndex] as plotPoint;
@@ -45,7 +45,7 @@ export const newChart = (graph: Chart<"scatter", never[], unknown>) => {
 };
 
 const Graphs = () => {
-  const { setGraph, graph } = Store();
+  const { setGraph, graph } = useStore();
 
   useEffect(() => {
     const chart = newChart(graph);

@@ -1,4 +1,4 @@
-import TSStore from "../types/ts_store";
+import TSStore from "../state/store";
 import create from "zustand";
 import qpotts from "./q-potts";
 import wolff from "./wolff";
@@ -91,8 +91,8 @@ export const setup = (model: string) => {
         } else if (
           randy >= settings.proportionSpin.positive! &&
           randy <=
-            settings.proportionSpin.negative! +
-              settings.proportionSpin.positive!
+          settings.proportionSpin.negative! +
+          settings.proportionSpin.positive!
         ) {
           local_spins[i][j] = -1;
         } else {
@@ -279,8 +279,8 @@ export const alignSpins = (model: string) => {
         } else if (
           randy >= settings.proportionSpin.positive! &&
           randy <=
-            settings.proportionSpin.negative! +
-              settings.proportionSpin.positive!
+          settings.proportionSpin.negative! +
+          settings.proportionSpin.positive!
         ) {
           local_spins[i][j] = -1;
         } else {

@@ -1,4 +1,4 @@
-import Store from "../types/store";
+import useStore from "../state/useStore";
 import { runner } from "../models/runner";
 import { useRouter } from "next/router";
 import type { Dispatch, SetStateAction } from "react";
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const ConfirmScreen = ({ open, setOpen }: Props) => {
-  const { settings, setSettings, initDashboard, graph, setGraph } = Store(
+  const { settings, setSettings, initDashboard, graph, setGraph } = useStore(
     (state) => state
   );
   const router = useRouter();

@@ -1,5 +1,5 @@
 import create from "zustand";
-import TSStore from "../types/ts_store";
+import TSStore from "../state/store";
 import { temperatureInc } from "./runner";
 
 const transverse = (timestamp: number) => {

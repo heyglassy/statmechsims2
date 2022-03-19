@@ -1,7 +1,3 @@
-export = Graphs;
-export as namespace Graphs;
-declare namespace Graphs {
-  type graph = Chart<"scatter", never[], unknown>;
-  type graphData = Array<plotPoint>;
-  type plotPoint = { x: number; y: number }; // x = temperature y = magnetization
-}
+export type graph = Chart<"scatter", never[], unknown>;
+export type graphData = Array<plotPoint>;
+export type plotPoint = { x: number; y: number }; // x = temperature y = magnetization

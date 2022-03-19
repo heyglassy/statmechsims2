@@ -1,6 +1,5 @@
-import type { settings } from "../types/settings";
 import create from "zustand";
-import TSStore from "../types/ts_store";
+import TSStore from "../state/store";
 import { color } from "./color";
 import { getBottom, getLeft, getRight, getTop } from "./dipoles";
 import { temperatureInc } from "./runner";
@@ -83,14 +82,14 @@ const metropolis = (timestamp: number) => {
 
       const sigmaEnergy = Math.sqrt(
         (dashboard.energy * dashboard.energy) /
-          (dashboard.frames.savedFrames + 1) -
-          dashboard.averageEnergy * dashboard.averageEnergy
+        (dashboard.frames.savedFrames + 1) -
+        dashboard.averageEnergy * dashboard.averageEnergy
       );
 
       const sigmaMagnetisation = Math.sqrt(
         (dashboard.magnetization * dashboard.magnetization) /
-          (dashboard.frames.savedFrames + 1) -
-          dashboard.averageMagnetization * dashboard.averageMagnetization
+        (dashboard.frames.savedFrames + 1) -
+        dashboard.averageMagnetization * dashboard.averageMagnetization
       );
       setDashboard({
         ...dashboard,
@@ -114,11 +113,12 @@ const metropolis = (timestamp: number) => {
     }
 
     if (settings.freePlay) {
-      let { Ecurrent, Mcurrent } = ComputeEforMetropolis();
+      const { Ecurrent, Mcurrent } = ComputeEforMetropolis();
+
       setDashboard({
         ...dashboard,
-        energy: Ecurrent / 10000,
-        magnetization: Mcurrent / 10000,
+        energy: Ecurrent / settings.stepsPerFrame!,
+        magnetization: Mcurrent / settings.stepsPerFrame!,
         temperature: dashboard.temperature!,
       });
 
