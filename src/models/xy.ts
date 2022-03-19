@@ -1,5 +1,5 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 import { color2 } from "./color";
 
 let wrap = "none";
@@ -35,7 +35,7 @@ const torind = (arr: Array<Array<number>>, i: number, j: number) => {
 };
 
 const model = () => {
-  const { settings, spins, setSpins, dashboard } = create(TSStore).getState();
+  const { settings, spins, setSpins, dashboard } = create(Store).getState();
   let newphases = new Array(settings.latticeSize);
   for (let i = 0; i < settings.latticeSize; i++) {
     newphases[i] = new Array(settings.latticeSize);
@@ -92,7 +92,7 @@ const xy = () => {
     incSteps,
     canvas,
     setDashboard,
-  } = create(TSStore).getState();
+  } = create(Store).getState();
 
   model();
 

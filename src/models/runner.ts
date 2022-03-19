@@ -1,5 +1,5 @@
 import metropolis from "./metropolis";
-import TSStore from "../state/store";
+import Store from "../store/store";
 import create from "zustand";
 import qpotts from "./q-potts";
 import KawasakiLocal from "./kawasaki-local";
@@ -42,7 +42,7 @@ export const alogPicker = (pathname: string) => {
 
 export const runner = (pathname: string) => {
   let algo = alogPicker(pathname);
-  const { settings } = create(TSStore).getState();
+  const { settings } = create(Store).getState();
   if (settings.simulation && !settings.freePlay) {
     algo!(Date.now());
   } else if (settings.freePlay && !settings.simulation) {
@@ -59,7 +59,7 @@ export const temperatureInc = () => {
     updatePayload,
     incCycles,
     endSimulation,
-  } = create(TSStore).getState();
+  } = create(Store).getState();
 
   if (settings.freePlayIncrement && settings.freePlay) {
     if (

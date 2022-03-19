@@ -1,8 +1,8 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 
 export const getLeft = (i: number, j: number) => {
-  const { settings, spins } = create(TSStore).getState();
+  const { settings, spins } = create(Store).getState();
   if (j == 0) {
     if (
       settings.boundariesConditions ==
@@ -19,7 +19,7 @@ export const getLeft = (i: number, j: number) => {
 };
 
 export const getRight = (i: number, j: number) => {
-  const { settings, spins } = create(TSStore).getState();
+  const { settings, spins } = create(Store).getState();
 
   if (j == settings.latticeSize - 1) {
     if (
@@ -37,7 +37,7 @@ export const getRight = (i: number, j: number) => {
 };
 
 export const getTop = (i: number, j: number) => {
-  const { settings, spins } = create(TSStore).getState();
+  const { settings, spins } = create(Store).getState();
 
   if (i == 0) {
     if (
@@ -58,7 +58,7 @@ export const getTop = (i: number, j: number) => {
 };
 
 export const getBottom = (i: number, j: number) => {
-  const { settings, spins } = create(TSStore).getState();
+  const { settings, spins } = create(Store).getState();
 
   if (i == settings.latticeSize - 1) {
     if (

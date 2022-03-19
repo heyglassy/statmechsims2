@@ -1,10 +1,10 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 import { color } from "./color";
 
 const boundarySetup = () => {
   const { settings, spins, localMagnetic, setLocalMagnetic } =
-    create(TSStore).getState();
+    create(Store).getState();
 
   if (
     settings.boundariesConditions == "Plus-Minus Boundaries (one direction)"

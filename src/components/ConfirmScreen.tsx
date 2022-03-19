@@ -1,4 +1,4 @@
-import useStore from "../state/useStore";
+import useStore from "../store/useStore";
 import { runner } from "../models/runner";
 import { useRouter } from "next/router";
 import type { Dispatch, SetStateAction } from "react";

@@ -1,11 +1,11 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 import { color2 } from "./color";
 import { temperatureInc } from "./runner";
 
 const qpotts = () => {
   const { settings, spin, dashboard, incSteps, setSpin, setDashboard } =
-    create(TSStore).getState();
+    create(Store).getState();
   const N = settings.latticeSize * settings.latticeSize;
 
   const get_index = (x: number, y: number) => {

@@ -1,5 +1,5 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 import { temperatureInc } from "./runner";
 
 const wolff = () => {
@@ -13,7 +13,7 @@ const wolff = () => {
     setDashboard,
     incSteps,
     color,
-  } = create(TSStore).getState();
+  } = create(Store).getState();
 
   let sizeSquaredW = settings.latticeSize * settings.latticeSize;
   let width = 600 / settings.latticeSize;

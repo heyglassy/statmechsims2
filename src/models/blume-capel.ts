@@ -1,9 +1,9 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 import { temperatureInc } from "./runner";
 
 export const colorBEG = (i: number, j: number, spins: Array<Array<number>>) => {
-  let { context, width } = create(TSStore).getState();
+  let { context, width } = create(Store).getState();
 
   if (spins[i][j] == 1) {
     context!.fillStyle = "#FE0105"; // purple
@@ -27,7 +27,7 @@ const BlumeCapel = (timemstamp: number) => {
     localMagnetic,
     incSteps,
     setSpins,
-  } = create(TSStore).getState();
+  } = create(Store).getState();
 
   let CouplingConstant: number;
   if (settings.magnetism! == "Ferromagnetic") {

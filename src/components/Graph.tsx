@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Chart, ScriptableContext } from "chart.js";
 import { graph, plotPoint } from "../types/graphs";
-import useStore from "../state/useStore";
+import useStore from "../store/useStore";
 
 export const newChart = (graph: graph) => {
   const pointColor = (ctx: ScriptableContext<"line">) => {

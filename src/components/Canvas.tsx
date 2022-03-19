@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import useStore from "../state/useStore";
+import useStore from "../store/useStore";
 import { setSpin, setup } from "../models/setup";
 import { useRouter } from "next/router";
 

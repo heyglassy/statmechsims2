@@ -1,5 +1,5 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 import { color } from "./color";
 import { getBottom, getLeft, getRight, getTop } from "./dipoles";
 import { temperatureInc } from "./runner";
@@ -13,7 +13,7 @@ const metropolis = (timestamp: number) => {
     updateGraph,
     incSteps,
     localMagnetic,
-  } = create(TSStore).getState();
+  } = create(Store).getState();
 
   let CouplingConstant: number;
   if (settings.magnetism! == "Ferromagnetic") {

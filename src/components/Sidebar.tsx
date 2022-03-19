@@ -6,7 +6,7 @@ import boundarySetup from "../models/boundaries";
 import { useState } from "react";
 import ConfirmScreen from "./ConfirmScreen";
 import EndSimulation from "./EndSimulation";
-import useStore from "../state/useStore";
+import useStore from "../store/useStore";
 
 const Sidebar = () => {
   let {

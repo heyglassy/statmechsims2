@@ -1,4 +1,4 @@
-import TSStore from "../state/store";
+import Store from "../store/store";
 import create from "zustand";
 import qpotts from "./q-potts";
 import wolff from "./wolff";
@@ -9,7 +9,7 @@ import { alogPicker } from "./runner";
 
 export const setup = (model: string) => {
   const { settings, context, setWall, setNearestNeighs, setSpins, width } =
-    create(TSStore).getState();
+    create(Store).getState();
 
   if (
     model == "/models/metropolis" ||
@@ -178,7 +178,7 @@ export const alignSpins = (model: string) => {
     setSpins,
     setSpin,
     width,
-  } = create(TSStore).getState();
+  } = create(Store).getState();
 
   if (
     model == "/models/metropolis" ||
@@ -348,7 +348,7 @@ export const nanotube = (model: string) => {
     localMagnetic,
     setLocalMagnetic,
     setSpins,
-  } = create(TSStore).getState();
+  } = create(Store).getState();
 
   // Don't ask me why this is here, I have not a clue.  ¯\_(ツ)_/¯
   if (settings.nanotubeSimulation.spin) {
@@ -415,7 +415,7 @@ export const nanotube = (model: string) => {
 
 export const setSpin = (i: number, j: number, page: string) => {
   const { settings, spins, setSpins, localMagnetic, setLocalMagnetic } =
-    create(TSStore).getState();
+    create(Store).getState();
 
   if (settings.localMagneticField! == 0.0) {
     spins[i][j] *= -1;

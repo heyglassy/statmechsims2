@@ -1,5 +1,5 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 
 /**
  * This function colors the canvas for Metropolis and both Kawasaki models.
@@ -7,7 +7,7 @@ import TSStore from "../state/store";
 
 export const color = (i: number, j: number) => {
   const { context, width, spins, settings, color, localMagnetic } =
-    create(TSStore).getState();
+    create(Store).getState();
 
   if (localMagnetic[i][j] > 0.0001) {
     context!.fillStyle == "purple";
@@ -30,7 +30,7 @@ export const color = (i: number, j: number) => {
  */
 
 export const color2 = (i: number, j: number, c: number) => {
-  const { context, width } = create(TSStore).getState();
+  const { context, width } = create(Store).getState();
 
   context!.fillStyle = `hsl(${c}, 100%, 50%)`;
   context!.fillRect(i * width, j * width, width, width);

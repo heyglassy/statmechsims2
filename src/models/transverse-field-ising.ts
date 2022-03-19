@@ -1,10 +1,10 @@
 import create from "zustand";
-import TSStore from "../state/store";
+import Store from "../store/store";
 import { temperatureInc } from "./runner";
 
 const transverse = (timestamp: number) => {
   let { settings, context, setDashboard, dashboard, incSteps, color } =
-    create(TSStore).getState();
+    create(Store).getState();
 
   var l = 125;
   var w = 600 / l - 1;
