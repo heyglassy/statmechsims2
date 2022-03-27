@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import useStore from "../store/useStore";
+import useStore from "../stores/hooks";
 import { trpc } from "../utils/trpc";
 
 const EndSimulation = () => {

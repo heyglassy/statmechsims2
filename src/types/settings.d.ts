@@ -1,5 +1,3 @@
-import { dashboard } from "./dashboard";
-
 export interface settings {
   freePlay: boolean;
   freePlayIncrement: boolean;
@@ -30,4 +28,6 @@ export interface settings {
     height: number | null;
     spin: boolean;
   };
+  resetSettings: () => void;
+  setSettings: (settings: settings) => void;
 };

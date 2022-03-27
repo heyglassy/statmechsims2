@@ -1,5 +1,5 @@
 import create from "zustand";
-import Store from "../store/store";
+import { Store } from "../stores/store";
 
 export const getLeft = (i: number, j: number) => {
   const { settings, spins } = create(Store).getState();

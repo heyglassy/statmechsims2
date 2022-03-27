@@ -6,19 +6,22 @@ import boundarySetup from "../helpers/boundaries";
 import { useState } from "react";
 import ConfirmScreen from "./ConfirmScreen";
 import EndSimulation from "./EndSimulation";
-import useStore from "../store/useStore";
+import produce from "immer"
+import { useSettings, useStore } from "../stores/hooks";
 
 const Sidebar = () => {
-  let {
-    settings,
-    endSimulation,
-    setSettings,
-    initDashboard,
-    initSpins,
-    endScreen,
-  } = useStore((state) => state);
+  // let {
+  //   settings,
+  //   endSimulation,
+  //   setSettings,
+  //   initDashboard,
+  //   initSpins,
+  //   endScreen,
+  // } = useStore((state) => state);
+  const settings = useSettings();
   const router = useRouter();
   const [confirm, setConfirm] = useState(false);
+
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -37,12 +40,16 @@ const Sidebar = () => {
               disabled={settings.simulation ? true : false}
               checked={settings.freePlay}
               onChange={() => {
-                setSettings({
-                  ...settings,
-                  freePlay: !settings.freePlay,
-                  simulation: false,
-                });
-                initDashboard();
+                // setSettings({
+                //   ...settings,
+                //   freePlay: !settings.freePlay,
+                //   simulation: false,
+                // });
+                settings.setSettings(produce(settings, (draft) => {
+                  draft.freePlay = !settings.freePlay;
+                  draft.simulation = false;
+                }));
+                // initDashboard();
                 runner(router.asPath);
               }}
               className={`${settings.freePlay ? "bg-green-400" : "bg-gray-500"

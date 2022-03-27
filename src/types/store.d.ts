@@ -1,10 +1,7 @@
 import { dashboard } from "./dashboard";
-import type { graph, graphData, plotPoint } from "./graphs";
-import type { payload } from "./payload";
-import type { settings } from "./settings";
+import { settings } from "./settings";
 
 export interface store {
-  color: Array<string>;
   endScreen: boolean;
   spinBefore: Array<any>;
   clusteredChildren: Array<any>;

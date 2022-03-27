@@ -1,5 +1,5 @@
 import create from "zustand";
-import Store from "../store/store";
+import { Store } from "../stores/store";
 import { temperatureInc } from "../helpers/runner";
 
 export const colorBEG = (i: number, j: number, spins: Array<Array<number>>) => {

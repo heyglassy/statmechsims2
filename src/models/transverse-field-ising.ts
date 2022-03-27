@@ -1,10 +1,13 @@
 import create from "zustand";
-import Store from "../store/store";
+import { colorStore, Store } from "../stores/store";
 import { temperatureInc } from "../helpers/runner";
 
 const transverse = (timestamp: number) => {
-  let { settings, context, setDashboard, dashboard, incSteps, color } =
+  let { settings, context, setDashboard, dashboard, incSteps } =
     create(Store).getState();
+
+  const { primaryColor, secondaryColor } = create(colorStore).getState();
+
 
   var l = 125;
   var w = 600 / l - 1;
@@ -151,9 +154,9 @@ const transverse = (timestamp: number) => {
   function draw() {
     let y0, y1;
     for (var i = 0; i < l; ++i) {
-      context!.fillStyle = spin[i] > 0 ? color[0] : color[1];
+      context!.fillStyle = spin[i] > 0 ? secondaryColor : primaryColor;
       context!.fillRect(i * (w + 1), 0, w, y);
-      context!.fillStyle = spin[i] > 0 ? color[1] : color[0];
+      context!.fillStyle = spin[i] > 0 ? primaryColor : secondaryColor;
       for (var j = 0; j < wall[i].length; j += 2) {
         y0 = wall[i][j] * y;
         y1 = wall[i][j + 1] * y;

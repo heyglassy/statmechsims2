@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import useStore from "../store/useStore";
+import { useStore } from "../stores/hooks";
 import { setSpin, setup } from "../helpers/setup";
 import { useRouter } from "next/router";
 

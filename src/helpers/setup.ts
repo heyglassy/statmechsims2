@@ -1,4 +1,4 @@
-import Store from "../store/store";
+import { Store } from "../stores/store";
 import create from "zustand";
 import qpotts from "../models/q-potts";
 import wolff from "../models/wolff";

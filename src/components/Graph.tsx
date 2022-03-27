@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Chart, ScriptableContext } from "chart.js";
 import { graph, plotPoint } from "../types/graphs";
-import useStore from "../store/useStore";
+import { useStore } from "../stores/hooks";
 
 export const newChart = (graph: graph) => {
   const pointColor = (ctx: ScriptableContext<"line">) => {
@@ -46,6 +46,7 @@ export const newChart = (graph: graph) => {
 
 const Graphs = () => {
   const { setGraph, graph } = useStore();
+  // const [graph, setGraph] = useState("")
 
   useEffect(() => {
     const chart = newChart(graph);
@@ -54,7 +55,10 @@ const Graphs = () => {
 
   return (
     <div className="mx-3 mb-3 w-5/6">
-      <h1 className="text-2xl text-white font-bold">Graphs</h1>
+      <div>
+        <h1 className="text-2xl text-white font-bold">Graphs</h1>
+        {/* <input type="" */}
+      </div>
       <div className="bg-white my-1 w-full h-px"></div>
       <canvas id="temp_vs_mag_graph" className="m-3 bg-white"></canvas>
     </div>

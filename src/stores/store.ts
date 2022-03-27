@@ -5,66 +5,12 @@ import type { store } from "../types/store";
 import Chart from "chart.js/auto";
 import { graphData, plotPoint } from "../types/graphs";
 
-const defaultSettings: settings = {
-  freePlay: false,
-  freePlayIncrement: false,
-  initialTemp: 2.27,
-  finalTemp: 5,
-  qpotts: 5,
-  tempStep: 0.01,
-  fixedTemp: false,
-  equilibriationDelay: 0,
-  numberOfCycles: 5,
-  latticeSize: 100,
-  stepsPerFrame: 10000,
-  couplingStrength: 0.1,
-  magneticField: 0,
-  localMagneticField: 0,
-  magnetism: "Ferromagnetic",
-  boundariesConditions: "Ferromagnetic",
-  geometicPattern: "Ferromagnetic",
-  nanotubeSimulation: {
-    width: 2,
-    height: 50,
-    diameter: 15,
-    spin: true,
-  },
-  fixedSpin: false,
-  proportionSpin: {
-    positive: 0.33,
-    negative: 0.33,
-  },
-  simulation: false,
-};
-
-const defaultDashboard: dashboard = {
-  frames: {
-    savedFrames: 0,
-    totalFrames: 0,
-  },
-  cycles: {
-    currentCycle: 0,
-    totalCycles: 0,
-  },
-  steps: 0,
-  temperature: 0,
-  energy: 0,
-  totalEnergy: 0,
-  averageEnergy: 0,
-  sigmaEnergy: 0,
-  magnetization: 0,
-  totalMagnetization: 0,
-  averageMagnetization: 0,
-  sigmaMagnetisation: 0,
-};
-
 const defaultGraphData: graphData = [
   { x: 1, y: 1 },
   { x: 2, y: 2 },
 ];
 
 const Store = create<store>((set) => ({
-  color: ["white", "#3772FF"],
   endScreen: false,
   spinBefore: [],
   spin: [],
@@ -291,4 +237,5 @@ const Store = create<store>((set) => ({
   },
 }));
 
-export default Store;
+
+export default Store

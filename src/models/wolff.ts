@@ -1,5 +1,5 @@
 import create from "zustand";
-import Store from "../store/store";
+import { colorStore, Store } from "../stores/store";
 import { temperatureInc } from "../helpers/runner";
 
 const wolff = () => {
@@ -12,23 +12,24 @@ const wolff = () => {
     clusteredChildren,
     setDashboard,
     incSteps,
-    color,
   } = create(Store).getState();
+
+  const { primaryColor, secondaryColor } = create(colorStore).getState();
 
   let sizeSquaredW = settings.latticeSize * settings.latticeSize;
   let width = 600 / settings.latticeSize;
 
   function draw() {
-    context!.fillStyle = color[1];
+    context!.fillStyle = secondaryColor;
     for (let i = 0; i < settings.latticeSize; ++i) {
       for (let j = 0; j < settings.latticeSize; ++j) {
         const idx = i * settings.latticeSize + j;
         if (spin[idx] == 1 && spinBefore[idx] != 1) {
-          context!.fillStyle = color[1];
+          context!.fillStyle = secondaryColor;
           context!.fillRect(j * width, i * width, width, width);
         }
         if (spin[idx] == -1 && spinBefore[idx] != -1) {
-          context!.fillStyle = color[0];
+          context!.fillStyle = primaryColor;
           context!.fillRect(j * width, i * width, width, width);
         }
       }

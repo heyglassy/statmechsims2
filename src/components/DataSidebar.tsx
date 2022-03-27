@@ -1,4 +1,4 @@
-import useStore from "../store/useStore";
+import { useStore } from "../stores/hooks";
 
 const DataSidebar = () => {
   const { dashboard, initDashboard } = useStore();

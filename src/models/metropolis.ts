@@ -1,5 +1,5 @@
 import create from "zustand";
-import Store from "../store/store";
+import { Store } from "../stores/store";
 import { color } from "../helpers/color";
 import { getBottom, getLeft, getRight, getTop } from "../helpers/dipoles";
 import { temperatureInc } from "../helpers/runner";

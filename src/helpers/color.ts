@@ -1,13 +1,15 @@
 import create from "zustand";
-import Store from "../store/store";
+import { Store, colorStore } from "../stores/store";
 
 /**
  * This function colors the canvas for Metropolis and both Kawasaki models.
  */
 
 export const color = (i: number, j: number) => {
-  const { context, width, spins, settings, color, localMagnetic } =
+  const { context, width, spins, settings, localMagnetic } =
     create(Store).getState();
+
+  const { primaryColor, secondaryColor } = create(colorStore).getState();
 
   if (localMagnetic[i][j] > 0.0001) {
     context!.fillStyle == "purple";
@@ -15,11 +17,11 @@ export const color = (i: number, j: number) => {
     context!.fillStyle == "green";
   } else {
     if (settings.magnetism == "Biparite" && i % 2 == j % 2) {
-      if (spins[i][j] == 1) context!.fillStyle = color[1];
-      else context!.fillStyle = color[0];
+      if (spins[i][j] == 1) context!.fillStyle = primaryColor;
+      else context!.fillStyle = secondaryColor;
     } else {
-      if (spins[i][j] == 1) context!.fillStyle = color[0];
-      else context!.fillStyle = color[1];
+      if (spins[i][j] == 1) context!.fillStyle = secondaryColor;
+      else context!.fillStyle = primaryColor;
     }
   }
   context!.fillRect(i * width, j * width, width, width);

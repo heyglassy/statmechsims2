@@ -1,5 +1,5 @@
 import metropolis from "../models/metropolis";
-import Store from "../store/store";
+import { Store } from "../stores/store";
 import create from "zustand";
 import qpotts from "../models/q-potts";
 import KawasakiLocal from "../models/kawasaki-local";
@@ -43,7 +43,7 @@ export const alogPicker = (pathname: string) => {
 export const runner = (pathname: string) => {
   const algo = alogPicker(pathname);
   const { settings } = create(Store).getState();
-  if (settings.simulation && !settings.freePlay) {
+  if (settings.simulation && !settings.freePlay) { // this stuff should be handled in the switches themselves not in the runner.
     algo!(Date.now());
   } else if (settings.freePlay && !settings.simulation) {
     algo!(Date.now());
