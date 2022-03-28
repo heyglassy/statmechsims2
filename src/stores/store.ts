@@ -3,12 +3,6 @@ import type { dashboard } from "../types/dashboard";
 import type { settings } from "../types/settings";
 import type { store } from "../types/store";
 import Chart from "chart.js/auto";
-import { graphData, plotPoint } from "../types/graphs";
-
-const defaultGraphData: graphData = [
-  { x: 1, y: 1 },
-  { x: 2, y: 2 },
-];
 
 const Store = create<store>((set) => ({
   endScreen: false,
@@ -16,33 +10,12 @@ const Store = create<store>((set) => ({
   spin: [],
   localMagnetic: [],
   clusteredChildren: [],
-  settings: defaultSettings,
+  settings: {},
   payloads: [],
   nearestneighs: [],
-  dashboard: defaultDashboard,
+  dashboard: {},
   canvas: null,
   frames: [],
-  width: 0,
-  graph: new Chart("temp_vs_mag_graph", {
-    type: "scatter",
-    data: {
-      datasets: [
-        {
-          label: "Temperature vs Magnetization",
-          data: [],
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  }),
-  graphData: defaultGraphData,
   spins: [],
   wall: [],
   context: null,
@@ -67,11 +40,6 @@ const Store = create<store>((set) => ({
       store.graph.update("none");
       return { graphData: store.graphData.concat(plotPoint) };
     }),
-  setSettings: (newSettings: settings) =>
-    set(() => ({
-      settings: { ...newSettings },
-    })),
-  resetSettings: () => set({ settings: defaultSettings }),
   setWall: (wall: Array<Array<number>>) => {
     set(() => ({
       wall: wall,

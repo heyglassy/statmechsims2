@@ -9,8 +9,8 @@ const Model = () => {
       <Sidebar />
       <Canvas />
       <div className="flex flex-col">
-        <DataSidebar />
-        <Graph />
+        {/* <DataSidebar /> */}
+        {/* <Graph /> */}
       </div>
     </div>
   )

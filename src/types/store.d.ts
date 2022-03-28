@@ -17,7 +17,6 @@ export interface store {
   graphData: graphData;
   graph: graph;
   frames: Array<string>;
-  width: number;
   payloads: Array<dashboard>;
   setLocalMagnetic: (localMagnetic: Array<Array<number>>) => void;
   setGraph: (graph: any) => void;

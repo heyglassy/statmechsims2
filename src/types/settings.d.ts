@@ -1,7 +1,4 @@
 export interface settings {
-  freePlay: boolean;
-  freePlayIncrement: boolean;
-  simulation: boolean;
   initialTemp: number | null;
   finalTemp: number | null;
   tempStep: number | null;
@@ -28,6 +25,6 @@ export interface settings {
     height: number | null;
     spin: boolean;
   };
-  resetSettings: () => void;
-  setSettings: (settings: settings) => void;
+  reset: () => void;
+  set: (settings: settings) => void;
 };

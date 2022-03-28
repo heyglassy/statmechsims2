@@ -1,14 +1,16 @@
 import { useEffect, useRef } from "react";
-import { useStore } from "../stores/hooks";
+import { useCanvas, useSettings, useSimulation } from "../stores/hooks";
 import { setSpin, setup } from "../helpers/setup";
 import { useRouter } from "next/router";
+import produce from "immer";
+import initSpins from "../helpers/initializers/spins";
 
 const Canvas = () => {
   const router = useRouter();
-  const canvas = useRef<HTMLCanvasElement>(null);
-  let { initSpins, setContext, settings, setSettings } = useStore(
-    (state) => state
-  );
+  const newCanvas = useRef<HTMLCanvasElement>(null);
+  const settings = useSettings()
+  const simulation = useSimulation()
+  const canvas = useCanvas()
 
   let mousedown = false;
 
@@ -60,16 +62,27 @@ const Canvas = () => {
   };
 
   useEffect(() => {
-    setSettings({ ...settings, freePlay: false });
-    const context = canvas.current?.getContext("2d", { alpha: false });
+    simulation.set(produce(simulation, (draft) => {
+      draft.freePlay = false;
+    }))
+    const context = newCanvas.current?.getContext("2d", { alpha: false });
 
     if (context != null || context != undefined) {
-      initSpins();
-      setContext(canvas.current!);
+      // initSpins();
+      // setContext(newCanvas.current!);
+      // setup(router.asPath);
+
+      initSpins()
+      canvas.init(newCanvas.current!)
       setup(router.asPath);
-      canvas.current!.onmousedown = coords;
-      canvas.current!.onmouseup = mouseUp;
-      canvas.current!.onmousemove = mousemove;
+
+      newCanvas.current!.onmousedown = coords;
+      newCanvas.current!.onmouseup = mouseUp;
+      newCanvas.current!.onmousemove = mousemove;
+      // canvas.current!.onmousedown = coords;
+      // canvas.current!.onmouseup = mouseUp;
+      // canvas.current!.onmousemove = mousemove;
+
     }
   }, [settings.latticeSize, router.asPath]);
 
@@ -78,7 +91,7 @@ const Canvas = () => {
       className=" w-600 h-600 bg-white ml-5 mt-5"
       width="600px"
       height="600px"
-      ref={canvas}
+      ref={newCanvas}
     ></canvas>
   );
 };

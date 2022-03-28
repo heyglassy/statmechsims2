@@ -1,4 +1,3 @@
-import { Store } from "../stores/store";
 import create from "zustand";
 import qpotts from "../models/q-potts";
 import wolff from "../models/wolff";
@@ -6,10 +5,15 @@ import transverse from "../models/transverse-field-ising";
 import { color, color2 } from "./color";
 import { colorBEG } from "../models/blume-capel";
 import { alogPicker } from "./runner";
+import Settings from "../stores/settings";
+import Simulation from "../stores/simulation";
+import produce from "immer";
 
 export const setup = (model: string) => {
-  const { settings, context, setWall, setNearestNeighs, setSpins, width } =
-    create(Store).getState();
+  // const { settings, context, setWall, setNearestNeighs, setSpins, width } =
+  //   create(Store).getState();
+  const settings = Settings.getState()
+  const simulation = Simulation.getState()
 
   if (
     model == "/models/metropolis" ||
@@ -78,7 +82,10 @@ export const setup = (model: string) => {
           }
         }
       }
-      setNearestNeighs(nearestneighs);
+      // setNearestNeighs(nearestneighs);
+      simulation.set(produce(simulation, draft => {
+        draft.nearestNeighs = nearestneighs
+      }))
     }
   } else if (model == "/models/blume-capel") {
     let local_spins = new Array(settings.latticeSize);

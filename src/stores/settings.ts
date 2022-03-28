@@ -31,8 +31,8 @@ const Settings = create<settings>((set, get) => ({
         diameter: 15,
         spin: true,
     },
-    resetSettings: () => set({}, true),
-    setSettings: (settings) => set(settings),
+    reset: () => set({}, true),
+    set: (settings) => set(settings),
 }));
 
 export default Settings;

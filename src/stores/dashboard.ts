@@ -35,13 +35,13 @@ const Dashboard = create<dashboard>((set) => ({
     totalMagnetization: 0,
     averageMagnetization: 0,
     sigmaMagnetisation: 0,
-    resetDashboard: () => set({}, true),
-    initDashboard: () => set(dashboard => produce(dashboard, state => {
+    reset: () => set({}, true),
+    init: () => set(dashboard => produce(dashboard, state => {
         state.temperature = getState().initialTemp!;
         state.cycles.totalCycles = getState().numberOfCycles!
         state.frames.totalFrames = calculateTotalFrames(getState())
     })),
-    setDashboard: (dashboard) => set(dashboard)
+    set: (dashboard) => set(dashboard)
 }));
 
 export default Dashboard

@@ -17,7 +17,7 @@ export interface dashboard {
   totalMagnetization: number;
   averageMagnetization: number;
   sigmaMagnetisation: number | null;
-  resetDashboard: () => void;
-  initDashboard: () => void;
-  setDashboard: (dashboard: dashboard) => void;
+  reset: () => void;
+  init: () => void;
+  set: (dashboard: dashboard) => void;
 }
