@@ -1,12 +1,15 @@
-import create from "zustand";
-import { colorStore, Store } from "../stores/store";
+// import { colorStore, Store } from "../stores/store";
 import { temperatureInc } from "../helpers/runner";
+import Canvas from "../stores/canvas";
+import Settings from "../stores/settings";
 
 const transverse = (timestamp: number) => {
-  let { settings, context, setDashboard, dashboard, incSteps } =
-    create(Store).getState();
+  // let { settings, context, setDashboard, dashboard, incSteps } =
+  //   create(Store).getState();
 
-  const { primaryColor, secondaryColor } = create(colorStore).getState();
+  // const { primaryColor, secondaryColor } = create(colorStore).getState();
+  const { context, primaryColor, secondaryColor } = Canvas.getState();
+  const settings = Settings.getState()
 
 
   var l = 125;
@@ -167,26 +170,26 @@ const transverse = (timestamp: number) => {
   update();
   draw();
 
-  if (settings.freePlay || settings.simulation) {
-    if (settings.simulation) {
-      temperatureInc();
+  // if (settings.freePlay || settings.simulation) {
+  //   if (settings.simulation) {
+  //     temperatureInc();
 
-      incSteps();
-      setTimeout(() => {
-        window.requestAnimationFrame(transverse);
-      }, 60);
-    }
+  //     incSteps();
+  //     setTimeout(() => {
+  //       window.requestAnimationFrame(transverse);
+  //     }, 60);
+  //   }
 
-    if (settings.freePlay) {
-      setDashboard({
-        ...dashboard,
-        temperature: settings.initialTemp!,
-      });
-      setTimeout(() => {
-        window.requestAnimationFrame(transverse);
-      }, 60);
-    }
-  }
+  //   if (settings.freePlay) {
+  //     setDashboard({
+  //       ...dashboard,
+  //       temperature: settings.initialTemp!,
+  //     });
+  //     setTimeout(() => {
+  //       window.requestAnimationFrame(transverse);
+  //     }, 60);
+  //   }
+  // }
 };
 
 export default transverse;

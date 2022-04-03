@@ -1,9 +1,11 @@
 import create from "zustand";
 import { Store } from "../stores/store";
 import { temperatureInc } from "../helpers/runner";
+import Canvas from "../stores/canvas";
 
 export const colorBEG = (i: number, j: number, spins: Array<Array<number>>) => {
-  let { context, width } = create(Store).getState();
+  // let { context, width } = create(Store).getState();
+  const { context, width } = Canvas.getState()
 
   if (spins[i][j] == 1) {
     context!.fillStyle = "#FE0105"; // purple

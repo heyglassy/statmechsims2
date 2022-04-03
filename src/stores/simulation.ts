@@ -8,6 +8,7 @@ const Simulation = create<simulation>((set) => ({
     currentUrl: "/model/metropolis",
     localMagnetic: [],
     spin: [],
+    spins: [[], []],
     spinBefore: [],
     nearestNeighs: {},
     clusteredChildren: [],
@@ -16,7 +17,6 @@ const Simulation = create<simulation>((set) => ({
     freePlay: false,
     freePlayIncrememt: false,
     frames: [],
-    spins: [[]],
     set: (simulation) => set(simulation),
 }));
 

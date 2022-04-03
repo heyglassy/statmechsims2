@@ -9,12 +9,14 @@ import Settings from "../stores/settings";
 import Simulation from "../stores/simulation";
 import produce from "immer";
 import { useSettings } from "../stores/hooks";
+import Canvas from "../stores/canvas";
 
 export const setup = (model: string) => {
   // const { settings, context, setWall, setNearestNeighs, setSpins, width } =
   //   create(Store).getState();
   const settings = Settings.getState()
   const simulation = Simulation.getState()
+  const { context, width } = Canvas.getState()
 
   if (
     model == "/models/metropolis" ||
@@ -109,7 +111,10 @@ export const setup = (model: string) => {
       }
     }
 
-    setSpins(local_spins);
+    // setSpins(local_spins);
+    simulation.set(produce(simulation, (draft) => {
+      draft.spins = local_spins
+    }))
 
     for (let a = 0; a < settings.latticeSize; a++) {
       for (let b = 0; b < settings.latticeSize; b++) {
@@ -156,7 +161,9 @@ export const setup = (model: string) => {
 
       t_spin[i] = Math.random() < 0.5 ? 1 : -1;
     }
-    setWall(wall);
+    simulation.set(produce(simulation, (draft) => {
+      draft.wall = wall
+    }))
     window.requestAnimationFrame(transverse);
   } else if (model == "/models/q-potts") {
     window.requestAnimationFrame(qpotts);
@@ -173,7 +180,13 @@ export const setup = (model: string) => {
         context!.fillRect(i * width, j * width, width, width);
       }
     }
-    setSpins(s);
+    // setSpins(s);
+    // simulation.set(produce(simulation, (draft) = {
+    //   draft.spins = s
+    // }))
+    simulation.set(produce(simulation, (draft) => {
+      draft.spins = s
+    }))
   }
 };
 
