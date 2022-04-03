@@ -1,11 +1,20 @@
 import { useRouter } from "next/router";
-import useStore from "../stores/hooks";
+import React, { Dispatch, SetStateAction } from "react";
+import useStore, { useDashboard, useSettings } from "../stores/hooks";
 import { trpc } from "../utils/trpc";
 
-const EndSimulation = () => {
-  const { dashboard, settings, payloads, frames, graph, initDashboard } = useStore(
-    (state) => state
-  );
+interface Props {
+  // open2: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const EndSimulation: React.FC<Props> = ({ setOpen }) => {
+  // const { dashboard, settings, payloads, frames, graph, initDashboard } = useStore(
+  //   (state) => state
+  // );
+
+  const dashboard = useDashboard();
+  const settings = useSettings();
   const router = useRouter();
 
   const submitImage = trpc.useMutation(["imageupload"]);
@@ -24,22 +33,23 @@ const EndSimulation = () => {
             className="rounded bg-blue-500 text-white w-36 h-12"
             onClick={() => {
               const date = new Date().toISOString();
-              submitData.mutate({
-                pathname: router.asPath,
-                settings: settings,
-                data: payloads,
-                date: date,
-              });
-              frames.forEach((image, index) => {
-                submitImage.mutateAsync({
-                  image: image,
-                  pathname: router.asPath,
-                  index: index,
-                  date: date,
-                });
-              });
-              graph.clear();
-              initDashboard();
+              // submitData.mutate({
+              //   pathname: router.asPath,
+              //   settings: settings,
+              //   data: payloads,
+              //   date: date,
+              // });
+              // frames.forEach((image, index) => {
+              //   submitImage.mutateAsync({
+              //     image: image,
+              //     pathname: router.asPath,
+              //     index: index,
+              //     date: date,
+              //   });
+              // });
+              // graph.clear();
+              // initDashboard();
+              setOpen(false)
             }}
           >
             Save to Database
@@ -48,8 +58,9 @@ const EndSimulation = () => {
         <button
           className="rounded bg-gray-500 text-white w-36 h-12"
           onClick={() => {
-            graph.clear();
-            initDashboard();
+            // graph.clear();
+            // initDashboard();
+            setOpen(false)
           }}
         >
           Discard

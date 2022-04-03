@@ -9,6 +9,7 @@ import EndSimulation from "./EndSimulation";
 import produce from "immer"
 import { useDashboard, useSettings, useSimulation, useStore } from "../stores/hooks";
 import Dashboard from "../stores/dashboard";
+import Simulation from "../stores/simulation";
 
 const Sidebar = () => {
   // let {
@@ -23,6 +24,7 @@ const Sidebar = () => {
   const dashboard = useDashboard()
   const router = useRouter();
   const [confirm, setConfirm] = useState(false);
+  const [endScreen, setEndScreen] = useState(false);
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -766,7 +768,8 @@ const Sidebar = () => {
           }
           onClick={() => {
             // settings.simulation ? endSimulation() : setConfirm(true);
-            simulation.running ? null : setConfirm(true);
+            simulation.running ? simulation.set(produce(simulation, (draft) => { draft.running = false })) : setConfirm(true);
+            simulation.running ? setEndScreen(true) : null;
           }}
           disabled={simulation.freePlay ? true : false}
           className={`${simulation.running
@@ -778,7 +781,7 @@ const Sidebar = () => {
         />
       </div>
       {confirm ? <ConfirmScreen open={confirm} setOpen={setConfirm} /> : null}
-      {/* {endScreen ? <EndSimulation /> : null} */}
+      {endScreen ? <EndSimulation setOpen={setEndScreen} /> : null}
     </nav>
   );
 };

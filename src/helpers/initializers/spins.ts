@@ -51,7 +51,6 @@ const initSpins = () => {
         draft.spinBefore = sBefore
         draft.clusteredChildren = clusterChild
     }))
-
 }
 
 export default initSpins

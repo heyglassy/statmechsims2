@@ -5,6 +5,7 @@ import Settings from "./settings";
 const settings = Settings.getState()
 
 const Simulation = create<simulation>((set) => ({
+    currentUrl: "/model/metropolis",
     localMagnetic: [],
     spin: [],
     spinBefore: [],
@@ -15,7 +16,7 @@ const Simulation = create<simulation>((set) => ({
     freePlay: false,
     freePlayIncrememt: false,
     frames: [],
-    spins: [],
+    spins: [[]],
     set: (simulation) => set(simulation),
 }));
 

@@ -1,4 +1,5 @@
 export interface simulation {
+    currentUrl: string;
     localMagnetic: Array<Array<number>>;
     spin: Array<any>;
     spins: Array<Array<number>>;

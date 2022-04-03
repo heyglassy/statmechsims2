@@ -8,6 +8,7 @@ import { alogPicker } from "./runner";
 import Settings from "../stores/settings";
 import Simulation from "../stores/simulation";
 import produce from "immer";
+import { useSettings } from "../stores/hooks";
 
 export const setup = (model: string) => {
   // const { settings, context, setWall, setNearestNeighs, setSpins, width } =
@@ -30,11 +31,11 @@ export const setup = (model: string) => {
       model == "/models/kawasaki-non-local"
     ) {
       let nearestneighs = new Object();
-      for (var m = 0; m < settings.latticeSize; m++) {
-        for (var n = 0; n < settings.latticeSize; n++) {
-          var pair = [];
-          var indexNeighs = [];
-          for (var zz = 0; zz < 4; zz++) {
+      for (let m = 0; m < settings.latticeSize; m++) {
+        for (let n = 0; n < settings.latticeSize; n++) {
+          let pair = [];
+          let indexNeighs = [];
+          for (let zz = 0; zz < 4; zz++) {
             if (zz == 0) {
               //look up
               if (m == 0) {
@@ -91,7 +92,7 @@ export const setup = (model: string) => {
     let local_spins = new Array(settings.latticeSize);
     for (let i = 0; i < settings.latticeSize; i++) {
       local_spins[i] = new Array(settings.latticeSize);
-      for (var j = 0; j < settings.latticeSize; j++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
         let randy = Math.random();
         if (randy <= settings.proportionSpin.positive!) {
           local_spins[i][j] = 1;
@@ -167,7 +168,7 @@ export const setup = (model: string) => {
       s[i] = new Array(settings.latticeSize);
       for (let j = 0; j < settings.latticeSize; j++) {
         s[i][j] = Math.random() * 2 * Math.PI;
-        var c = Math.random() * 360;
+        let c = Math.random() * 360;
         context!.fillStyle = `hsl(${c}, 100%, 50%)`;
         context!.fillRect(i * width, j * width, width, width);
       }
@@ -219,11 +220,11 @@ export const alignSpins = (model: string) => {
       model == "/models/kawasaki-non-local"
     ) {
       let nearestneighs = new Object();
-      for (var m = 0; m < settings.latticeSize; m++) {
-        for (var n = 0; n < settings.latticeSize; n++) {
-          var pair = [];
-          var indexNeighs = [];
-          for (var zz = 0; zz < 4; zz++) {
+      for (let m = 0; m < settings.latticeSize; m++) {
+        for (let n = 0; n < settings.latticeSize; n++) {
+          let pair = [];
+          let indexNeighs = [];
+          for (let zz = 0; zz < 4; zz++) {
             if (zz == 0) {
               //look up
               if (m == 0) {
@@ -280,7 +281,7 @@ export const alignSpins = (model: string) => {
     let randy = Math.random();
     for (let i = 0; i < settings.latticeSize; i++) {
       local_spins[i] = new Array(settings.latticeSize);
-      for (var j = 0; j < settings.latticeSize; j++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
         if (randy <= settings.proportionSpin.positive!) {
           local_spins[i][j] = 1;
         } else if (
@@ -421,31 +422,38 @@ export const nanotube = (model: string) => {
 };
 
 export const setSpin = (i: number, j: number, page: string) => {
-  const { settings, spins, setSpins, localMagnetic, setLocalMagnetic } =
-    create(Store).getState();
+  // const { settings, spins, setSpins, localMagnetic, setLocalMagnetic } =
+  //   create(Store).getState();
 
-  if (settings.localMagneticField! == 0.0) {
-    spins[i][j] *= -1;
-  } else {
-    if (spins[i][j] == 1 && settings.localMagneticField! < -0.1) {
-      spins[i][j] *= -1;
-    } else if (spins[i][j] == -1 && settings.localMagneticField! > 0.1) {
-      spins[i][j] *= 1;
-    }
-  }
+  const settings = Settings.getState();
+  const simulaton = Simulation.getState()
 
-  if (page == "/models/blume-capel") {
-    const spin = Math.floor(Math.random() * 3);
-    if (spin == 2) {
-      spins[i][j] = -1;
+  simulaton.set(produce(simulaton, (draft) => {
+    if (settings.localMagneticField! == 0.0) {
+      draft.spins[i][j] *= -1;
+    } else {
+      if (simulaton.spins[i][j] == 1 && settings.localMagneticField! < -0.1) {
+        draft.spins[i][j] *= -1;
+      } else if (simulaton.spins[i][j] == -1 && settings.localMagneticField! > 0.1) {
+        draft.spins[i][j] *= 1;
+      }
     }
 
-    spins[i][j] = spin;
-    spins[i][j] = colorBEG(i, j, spins);
-  } else {
-    color(i, j);
-  }
-  localMagnetic[i][j] = settings.localMagneticField!;
-  setLocalMagnetic(localMagnetic);
-  setSpins(spins);
+    if (page == "/models/blume-capel") {
+      const spin = Math.floor(Math.random() * 3);
+      if (spin == 2) {
+        draft.spins[i][j] = -1;
+      }
+
+      draft.spins[i][j] = spin;
+      colorBEG(i, j, draft.spins);
+      // spins[i][j] = colorBEG(i, j, spins);
+    } else {
+      color(i, j);
+    }
+    draft.localMagnetic[i][j] = settings.localMagneticField!;
+  }))
+
+  // setLocalMagnetic(localMagnetic);
+  // setSpins(spins);
 };

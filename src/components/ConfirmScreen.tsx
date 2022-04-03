@@ -1,20 +1,22 @@
-import useStore, { useSettings } from "../stores/hooks";
+import useStore, { useSettings, useSimulation } from "../stores/hooks";
 import { runner } from "../helpers/runner";
 import { useRouter } from "next/router";
 import type { Dispatch, SetStateAction } from "react";
 import { newChart } from "./Graph";
 import produce from "immer";
+import React from "react";
 
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const ConfirmScreen = ({ open, setOpen }: Props) => {
+const ConfirmScreen: React.FC<Props> = ({ open, setOpen }: Props) => {
   // const { settings, setSettings, initDashboard, graph, setGraph } = useStore(
   //   (state) => state
   // );
   const settings = useSettings()
+  const simulation = useSimulation()
   const router = useRouter();
 
   const checkTemp = (): JSX.Element => {
@@ -40,8 +42,8 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
       <button
         className="bg-green-500 text-white rounded mt-4 w-32 h-8"
         onClick={() => {
-          settings.set(produce(settings, (draft) => {
-            draft.simulation = true;
+          simulation.set(produce(simulation, (draft) => {
+            draft.running = true
           }))
           // setSettings({ ...settings, simulation: true });
           // if (!settings.simulation) {

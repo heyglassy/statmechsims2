@@ -1,7 +1,7 @@
 import create from "zustand/vanilla";
 import type { settings } from "../types/settings";
 
-const Settings = create<settings>((set, get) => ({
+const Settings = create<settings>((set) => ({
     freePlay: false,
     freePlayIncrement: false,
     simulation: false,

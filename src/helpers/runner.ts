@@ -9,36 +9,36 @@ import BlumeCapel from "../models/blume-capel";
 import xy from "../models/xy";
 import transverse from "../models/transverse-field-ising";
 
-export const alogPicker = (pathname: string) => {
-  let algo;
-  switch (pathname) {
-    case "/models/blume-capel":
-      algo = BlumeCapel;
-      break;
-    case "/models/kawasaki-local":
-      algo = KawasakiLocal;
-      break;
-    case "/models/kawasaki-non-local":
-      algo = KawasakiNonLocal;
-      break;
-    case "/models/metropolis":
-      algo = metropolis;
-      break;
-    case "/models/q-potts":
-      algo = qpotts;
-      break;
-    case "/models/transverse-field-ising":
-      algo = transverse;
-      break;
-    case "/models/wolff":
-      algo = wolff;
-      break;
-    case "/models/xy":
-      algo = xy;
-      break;
-  }
-  return algo;
-};
+// export const alogPicker = (pathname: string) => {
+//   let algo;
+//   switch (pathname) {
+//     case "/models/blume-capel":
+//       algo = BlumeCapel;
+//       break;
+//     case "/models/kawasaki-local":
+//       algo = KawasakiLocal;
+//       break;
+//     case "/models/kawasaki-non-local":
+//       algo = KawasakiNonLocal;
+//       break;
+//     case "/models/metropolis":
+//       algo = metropolis;
+//       break;
+//     case "/models/q-potts":
+//       algo = qpotts;
+//       break;
+//     case "/models/transverse-field-ising":
+//       algo = transverse;
+//       break;
+//     case "/models/wolff":
+//       algo = wolff;
+//       break;
+//     case "/models/xy":
+//       algo = xy;
+//       break;
+//   }
+//   return algo;
+// };
 
 export const runner = (pathname: string) => {
   const algo = alogPicker(pathname);
