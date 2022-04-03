@@ -8,6 +8,8 @@ const transverse = (timestamp: number) => {
   //   create(Store).getState();
 
   // const { primaryColor, secondaryColor } = create(colorStore).getState();
+
+  //TODO: Disable canvas painting.
   const { context, primaryColor, secondaryColor } = Canvas.getState();
   const settings = Settings.getState()
 

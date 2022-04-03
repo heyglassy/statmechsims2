@@ -11,6 +11,8 @@ const qpotts = () => {
   // const { settings, spin, dashboard, incSteps, setSpin, setDashboard } =
   //   create(Store).getState();
 
+  //TODO: Fix initial state
+
   const settings = Settings.getState();
   const dashboard = Dashboard.getState()
   const simulation = Simulation.getState()

@@ -35,6 +35,9 @@ const torind = (arr: Array<Array<number>>, i: number, j: number) => {
 };
 
 const model = () => {
+
+  //TODO: Fix initial state
+
   const { settings, spins, setSpins, dashboard } = create(Store).getState();
   let newphases = new Array(settings.latticeSize);
   for (let i = 0; i < settings.latticeSize; i++) {
