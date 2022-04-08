@@ -14,18 +14,18 @@ const transverse = (timestamp: number) => {
   const settings = Settings.getState()
 
 
-  var l = 125;
-  var w = 600 / l - 1;
-  var y = 600;
+  let l = 125;
+  let w = 600 / l - 1;
+  let y = 600;
 
-  var n_spin = 125;
-  var temp = settings.initialTemp!;
-  var gamma = settings.magneticField!;
+  let n_spin = 125;
+  let temp = settings.initialTemp!;
+  let gamma = settings.magneticField!;
 
-  var spin = new Array(n_spin);
-  var wall = new Array(n_spin);
+  let spin = new Array(n_spin);
+  let wall = new Array(n_spin);
 
-  for (var i = 0; i < n_spin; ++i) {
+  for (let i = 0; i < n_spin; ++i) {
     spin[i] = Math.random() < 0.5 ? 1 : -1;
     wall[i] = init_wall();
   }
@@ -39,10 +39,10 @@ const transverse = (timestamp: number) => {
   }
 
   function make_wall() {
-    var theta = temp / gamma;
-    var pos = exp_dist(theta);
-    var width;
-    var wall = new Array();
+    let theta = temp / gamma;
+    let pos = exp_dist(theta);
+    let width;
+    let wall = new Array();
     while (pos < 1.0) {
       width = exp_dist(theta);
       wall.push(pos);
@@ -52,22 +52,22 @@ const transverse = (timestamp: number) => {
   }
 
   function init_wall() {
-    var wall = make_wall();
+    let wall = make_wall();
     if (wall.length % 2 > 0) wall.pop();
     wall.push(1.0);
     return wall;
   }
 
   function create_cluster(idx: any) {
-    var w0 = wall[idx];
-    var w1 = make_wall();
+    let w0 = wall[idx];
+    let w1 = make_wall();
     w1.push(1.0);
 
-    var x0, x1;
-    var x = 0.0;
-    var i0 = 0;
-    var i1 = 0;
-    var w = new Array();
+    let x0, x1;
+    let x = 0.0;
+    let i0 = 0;
+    let i1 = 0;
+    let w = new Array();
     while (x < 1.0) {
       x0 = w0[i0];
       x1 = w1[i1];
@@ -80,9 +80,9 @@ const transverse = (timestamp: number) => {
       }
       w.push(x);
     }
-    var spin = new Array(w.length);
-    var ene = new Array(w.length);
-    for (var i = 0; i < ene.length; ++i) ene[i] = 0.0;
+    let spin = new Array(w.length);
+    let ene = new Array(w.length);
+    for (let i = 0; i < ene.length; ++i) ene[i] = 0.0;
 
     return {
       num: w.length,
@@ -93,12 +93,12 @@ const transverse = (timestamp: number) => {
   }
 
   function add_ene(cluster: any, idx: any) {
-    var w1 = wall[idx];
-    var i1 = 0;
-    var x1 = w1[i1++];
-    var s1 = spin[idx];
+    let w1 = wall[idx];
+    let i1 = 0;
+    let x1 = w1[i1++];
+    let s1 = spin[idx];
 
-    var bottom = 0.0,
+    let bottom = 0.0,
       top = 0.0;
     for (i = 0; i < cluster.num; ++i) {
       top = cluster.wall[i];
@@ -119,7 +119,7 @@ const transverse = (timestamp: number) => {
   }
 
   function flip_cluster(cluster: any) {
-    var p;
+    let p;
     if (cluster.num == 1) {
       p = prob(cluster.ene[0]);
     } else {
@@ -135,7 +135,7 @@ const transverse = (timestamp: number) => {
   }
 
   function update_spin(idx: any) {
-    var cluster = create_cluster(idx);
+    let cluster = create_cluster(idx);
     add_ene(cluster, (idx + 1) % n_spin);
     add_ene(cluster, (idx - 1 + n_spin) % n_spin);
     flip_cluster(cluster);
@@ -151,18 +151,18 @@ const transverse = (timestamp: number) => {
   }
 
   function update() {
-    for (var i = 0; i < n_spin; ++i) {
-      var idx = Math.floor(Math.random() * n_spin);
+    for (let i = 0; i < n_spin; ++i) {
+      let idx = Math.floor(Math.random() * n_spin);
       update_spin(idx);
     }
   }
   function draw() {
     let y0, y1;
-    for (var i = 0; i < l; ++i) {
+    for (let i = 0; i < l; ++i) {
       context!.fillStyle = spin[i] > 0 ? secondaryColor : primaryColor;
       context!.fillRect(i * (w + 1), 0, w, y);
       context!.fillStyle = spin[i] > 0 ? primaryColor : secondaryColor;
-      for (var j = 0; j < wall[i].length; j += 2) {
+      for (let j = 0; j < wall[i].length; j += 2) {
         y0 = wall[i][j] * y;
         y1 = wall[i][j + 1] * y;
         context!.fillRect(i * (w + 1), y0, w, y1 - y0);

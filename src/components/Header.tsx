@@ -3,15 +3,11 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Models } from "../helpers/models";
 
 interface MyLinkProps {
   href: string;
   children: JSX.Element;
-}
-
-interface Models {
-  url: string;
-  name: string;
 }
 
 const MyLink = ({ href, children }: MyLinkProps) => {
@@ -23,17 +19,6 @@ const MyLink = ({ href, children }: MyLinkProps) => {
     </Link>
   );
 };
-
-const ModelsList: Array<Models> = [
-  { url: "/models/metropolis", name: "Metropolis" },
-  { url: "/models/kawasaki-non-local", name: "Kawasaki (non-local)" },
-  { url: "/models/kawasaki-local", name: "Kawasaki (local)" },
-  { url: "/models/blume-capel", name: "Blume-Capel" },
-  { url: "/models/wolff", name: "Wolff" },
-  { url: "/models/xy", name: "XY" },
-  { url: "/models/transverse-field-ising", name: "Transverse-field Ising" },
-  { url: "/models/q-potts", name: "Q-Potts" },
-];
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -56,11 +41,11 @@ const Header: React.FC = () => {
         </h2>
         <Menu as="div">
           <Menu.Button className="inline-flex justify-center w-52 items-center rounded-md text-white border-solid border-blue-500 border-2 p-2 hover:bg-blue-500 hover:text-white hover:border-none">
-            {ModelsList.find((model) => model.url == router.asPath)?.name}
+            {Models.find((model) => model.url == router.asPath)?.name}
             <ChevronDownIcon className="w-5 h-5" />
           </Menu.Button>
           <Menu.Items className="bg-blue-500 text-white w-52 rounded-md px-3 py-3 mt-1 flex items-center flex-col fixed">
-            {ModelsList.map((model, key) => {
+            {Models.map((model, key) => {
               return (
                 <MyLink href={model.url} key={key}>
                   <Menu.Item as="div">{model.name}</Menu.Item>

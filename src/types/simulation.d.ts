@@ -11,5 +11,6 @@ export interface simulation {
     freePlay: boolean,
     freePlayIncrememt: boolean,
     frames: Array<string>;
-    set: (simulation: simulation) => void;
+    temperature: number;
+    set: (query: object) => void;
 }

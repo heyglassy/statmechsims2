@@ -28,8 +28,8 @@ const KawasakiNonLocal = () => {
     i2: number,
     j2: number
   ) {
-    var thisS = spins[i1][j1];
-    var thatS = spins[i2][j2];
+    let thisS = spins[i1][j1];
+    let thatS = spins[i2][j2];
 
     const left1 = getLeft(i1, j1);
     const right1 = getRight(i1, j1);
@@ -69,13 +69,13 @@ const KawasakiNonLocal = () => {
   }
 
   const model = () => {
-    var i1 = Math.floor(Math.random() * settings.latticeSize);
-    var j1 = Math.floor(Math.random() * settings.latticeSize);
-    var i2 = Math.floor(Math.random() * settings.latticeSize);
-    var j2 = Math.floor(Math.random() * settings.latticeSize);
+    let i1 = Math.floor(Math.random() * settings.latticeSize);
+    let j1 = Math.floor(Math.random() * settings.latticeSize);
+    let i2 = Math.floor(Math.random() * settings.latticeSize);
+    let j2 = Math.floor(Math.random() * settings.latticeSize);
     if (spins[i1][j1] != spins[i2][j2]) {
       // s is a closure; it is the 2D array 'grid' that is mapped to the canvas
-      var _EdiffforM = deltaUforKawasakiforM(i1, j1, i2, j2);
+      let _EdiffforM = deltaUforKawasakiforM(i1, j1, i2, j2);
       if (dashboard.temperature == 0) {
         //to avoid dividing by zero
         if (_EdiffforM < 0.0 || (_EdiffforM == 0 && Math.random() < 0.5)) {
@@ -100,13 +100,13 @@ const KawasakiNonLocal = () => {
   let ComputeEforKawasaki = () => {
     let Ecurrent = 0.0;
     let Mcurrent = 0.0;
-    for (var i = 0; i < settings.latticeSize; i++) {
-      for (var j = 0; j < settings.latticeSize; j++) {
-        var right = getRight(i, j);
-        var left = getLeft(i, j);
-        var top = getTop(i, j);
-        var bottom = getBottom(i, j);
-        var thisS = spins[i][j];
+    for (let i = 0; i < settings.latticeSize; i++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
+        let right = getRight(i, j);
+        let left = getLeft(i, j);
+        let top = getTop(i, j);
+        let bottom = getBottom(i, j);
+        let thisS = spins[i][j];
         Ecurrent =
           Ecurrent -
           0.5 * CouplingConstant * thisS * (right + left + top + bottom) -

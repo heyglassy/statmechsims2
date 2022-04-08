@@ -44,13 +44,14 @@ const initSpins = () => {
         }
     }
 
-    simulation.set(produce(simulation, (draft) => {
-        draft.localMagnetic = BfieldM
-        draft.spin = spin
-        draft.spins = s
-        draft.spinBefore = sBefore
-        draft.clusteredChildren = clusterChild
-    }))
+    // simulation.set(produce(simulation, (draft) => {
+    //     draft.localMagnetic = BfieldM
+    //     draft.spin = spin
+    //     draft.spins = s
+    //     draft.spinBefore = sBefore
+    //     draft.clusteredChildren = clusterChild
+    // }))
+    simulation.set({ localMagnetic: BfieldM, spin: spin, spins: s, spinBefore: sBefore, clusteredChildren: clusterChild })
 }
 
 export default initSpins

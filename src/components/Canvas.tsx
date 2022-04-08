@@ -62,9 +62,10 @@ const Canvas = () => {
   };
 
   useEffect(() => {
-    simulation.set(produce(simulation, (draft) => {
-      draft.freePlay = false;
-    }))
+    // simulation.set(produce(simulation, (draft) => {
+    //   draft.freePlay = false;
+    // }))
+    simulation.set({ freePlay: false })
     const context = newCanvas.current?.getContext("2d", { alpha: false });
 
     if (context != null || context != undefined) {

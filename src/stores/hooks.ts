@@ -6,6 +6,8 @@ import Dashboard from "./dashboard";
 import Simulation from "./simulation";
 import Canvas from "./canvas";
 
+
+
 const useStore = create(Store);
 const useColor = create(Color);
 const useSettings = create(Settings);

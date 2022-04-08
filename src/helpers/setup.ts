@@ -86,9 +86,10 @@ export const setup = (model: string) => {
         }
       }
       // setNearestNeighs(nearestneighs);
-      simulation.set(produce(simulation, draft => {
-        draft.nearestNeighs = nearestneighs
-      }))
+      // simulation.set(produce(simulation, draft => {
+      //   draft.nearestNeighs = nearestneighs
+      // }))
+      simulation.set({ ...simulation, nearestNeighs: nearestneighs })
     }
   } else if (model == "/models/blume-capel") {
     let local_spins = new Array(settings.latticeSize);
@@ -112,9 +113,10 @@ export const setup = (model: string) => {
     }
 
     // setSpins(local_spins);
-    simulation.set(produce(simulation, (draft) => {
-      draft.spins = local_spins
-    }))
+    // simulation.set(produce(simulation, (draft) => {
+    //   draft.spins = local_spins
+    // }))
+    simulation.set({ spins: local_spins })
 
     for (let a = 0; a < settings.latticeSize; a++) {
       for (let b = 0; b < settings.latticeSize; b++) {

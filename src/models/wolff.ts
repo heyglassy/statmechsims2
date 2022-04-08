@@ -44,7 +44,7 @@ const wolff = () => {
         }
       }
     }
-    // for (var i = 0; i < sizeSquaredW; ++i) {
+    // for (let i = 0; i < sizeSquaredW; ++i) {
     // spinBefore[i] = spin[i];
     simulation.set(produce(simulation, (draft) => {
       draft.spinBefore = simulation.spin
@@ -57,13 +57,13 @@ const wolff = () => {
     simulation.set(produce(simulation, (draft) => {
 
 
-      var prob = 1.0 - Math.exp(-2.0 / dashboard.temperature);
-      var InnerLoopCountLocal = 0;
+      let prob = 1.0 - Math.exp(-2.0 / dashboard.temperature);
+      let InnerLoopCountLocal = 0;
 
       makeCluster(prob);
       while (InnerLoopCountLocal < sizeSquaredW / width) {
-        var updateCluster = simulation.clusteredChildren[randomInt(0, sizeSquaredW)];
-        for (var i = 0; i < sizeSquaredW; ++i) {
+        let updateCluster = simulation.clusteredChildren[randomInt(0, sizeSquaredW)];
+        for (let i = 0; i < sizeSquaredW; ++i) {
           if (draft.clusteredChildren[i] == updateCluster) {
             draft.spin[i] = -simulation.spin[i];
             InnerLoopCountLocal++;
@@ -72,7 +72,7 @@ const wolff = () => {
       }
 
       function parentOf(child: any) {
-        var parent = simulation.clusteredChildren[child];
+        let parent = simulation.clusteredChildren[child];
         while (child != parent) {
           child = parent;
           parent = simulation.clusteredChildren[child];
@@ -81,36 +81,36 @@ const wolff = () => {
       }
 
       function connect(i: any, j: any) {
-        var ri = parentOf(i);
-        var rj = parentOf(j);
-        var root = ri < rj ? ri : rj;
-        var child = i;
+        let ri = parentOf(i);
+        let rj = parentOf(j);
+        let root = ri < rj ? ri : rj;
+        let child = i;
         while (child != root) {
-          var parent = simulation.clusteredChildren[child];
+          let parent = simulation.clusteredChildren[child];
           draft.clusteredChildren[child] = root;
           child = parent;
         }
-        var child = j;
+        child = j;
         while (child != root) {
-          var parent = simulation.clusteredChildren[child];
+          let parent = simulation.clusteredChildren[child];
           draft.clusteredChildren[child] = root;
           child = parent;
         }
       }
 
       function makeCluster(prob: any) {
-        for (var i = 0; i < sizeSquaredW; ++i) draft.clusteredChildren[i] = i;
-        for (var i = 0; i < sizeSquaredW; ++i) {
+        for (let i = 0; i < sizeSquaredW; ++i) draft.clusteredChildren[i] = i;
+        for (let i = 0; i < sizeSquaredW; ++i) {
           // horizontal bonds
-          var j = (i + 1) % sizeSquaredW;
+          let j = (i + 1) % sizeSquaredW;
           if (draft.spin[i] == simulation.spin[j] && Math.random() < prob) connect(i, j);
         }
-        for (var i = 0; i < sizeSquaredW; ++i) {
+        for (let i = 0; i < sizeSquaredW; ++i) {
           // vartical bonds
-          var j = (i + settings.latticeSize) % sizeSquaredW;
+          let j = (i + settings.latticeSize) % sizeSquaredW;
           if (draft.spin[i] == simulation.spin[j] && Math.random() < prob) connect(i, j);
         }
-        for (var i = 0; i < sizeSquaredW; ++i) {
+        for (let i = 0; i < sizeSquaredW; ++i) {
           draft.clusteredChildren[i] = parentOf(i);
         }
       }

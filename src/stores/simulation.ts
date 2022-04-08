@@ -4,7 +4,7 @@ import Settings from "./settings";
 
 const settings = Settings.getState()
 
-const Simulation = create<simulation>((set) => ({
+const Simulation = create<simulation>((set, get) => ({
     currentUrl: "/model/metropolis",
     localMagnetic: [],
     spin: [],
@@ -17,7 +17,8 @@ const Simulation = create<simulation>((set) => ({
     freePlay: false,
     freePlayIncrememt: false,
     frames: [],
-    set: (simulation) => set(simulation),
+    temperature: 0,
+    set: (query) => set({ ...get(), ...query }),
 }));
 
 export default Simulation

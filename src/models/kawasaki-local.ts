@@ -26,8 +26,8 @@ const KawasakiLocal = () => {
 
   //energy change with local magnetic field
   function deltaUforKawasakiforM(i1: any, j1: any, i2: any, j2: any) {
-    var thisS = spins[i1][j1];
-    var thatS = spins[i2][j2];
+    let thisS = spins[i1][j1];
+    let thatS = spins[i2][j2];
 
     const left1 = getLeft(i1, j1);
     const right1 = getRight(i1, j1);
@@ -69,13 +69,13 @@ const KawasakiLocal = () => {
   let ComputeEforKawasaki = () => {
     let Ecurrent = 0.0;
     let Mcurrent = 0.0;
-    for (var i = 0; i < settings.latticeSize; i++) {
-      for (var j = 0; j < settings.latticeSize; j++) {
+    for (let i = 0; i < settings.latticeSize; i++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
         const right = getRight(i, j);
         const left = getLeft(i, j);
         const top = getTop(i, j);
         const bottom = getBottom(i, j);
-        var thisS = spins[i][j];
+        let thisS = spins[i][j];
         Ecurrent =
           Ecurrent -
           0.5 * CouplingConstant * thisS * (right + left + top + bottom) -
@@ -87,13 +87,13 @@ const KawasakiLocal = () => {
   };
 
   let model = () => {
-    var i1 = Math.floor(Math.random() * settings.latticeSize);
-    var j1 = Math.floor(Math.random() * settings.latticeSize);
-    var dictkey = [i1, j1];
-    var tryit = nearestneighs[dictkey]; // nearestneighs is defined below this function, Inherited from previous model, FIX
-    var randtry = tryit[Math.floor(Math.random() * 4)];
-    var i2 = randtry[0];
-    var j2 = randtry[1];
+    let i1 = Math.floor(Math.random() * settings.latticeSize);
+    let j1 = Math.floor(Math.random() * settings.latticeSize);
+    let dictkey = [i1, j1];
+    let tryit = nearestneighs[dictkey]; // nearestneighs is defined below this function, Inherited from previous model, FIX
+    let randtry = tryit[Math.floor(Math.random() * 4)];
+    let i2 = randtry[0];
+    let j2 = randtry[1];
 
     if (spins[i1][j1] != spins[i2][j2]) {
       let _EdiffforM = deltaUforKawasakiforM(i1, j1, i2, j2);

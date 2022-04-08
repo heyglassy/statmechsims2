@@ -10,6 +10,7 @@ import produce from "immer"
 import { useDashboard, useSettings, useSimulation, useStore } from "../stores/hooks";
 import Dashboard from "../stores/dashboard";
 import Simulation from "../stores/simulation";
+import freePlay from "../helpers/freePlay";
 
 const Sidebar = () => {
   // let {
@@ -49,12 +50,15 @@ const Sidebar = () => {
                 //   simulation: false,
                 // });
                 // initDashboard();
-                simulation.set(produce(simulation, (draft) => {
-                  draft.freePlay = !simulation.freePlay;
-                  draft.running = false;
-                }));
-                dashboard.init();
-                runner(router.asPath);
+                // simulation.set(produce(simulation, (draft) => {
+                //   draft.freePlay = !simulation.freePlay;
+                //   draft.running = false;
+                // }));
+                console.log(simulation.freePlay)
+                simulation.set({ freePlay: !simulation.freePlay, running: false })
+                freePlay(Date.now())
+                // dashboard.init();
+                // runner(router.asPath);
               }}
               className={`${simulation.freePlay ? "bg-green-400" : "bg-gray-500"
                 } relative inline-flex items-center h-6 rounded-full w-11`}
@@ -83,9 +87,10 @@ const Sidebar = () => {
                 //   ...settings,
                 //   freePlayIncrement: !settings.freePlayIncrement,
                 // });
-                simulation.set(produce(simulation, (draft) => {
-                  draft.freePlayIncrememt = !simulation.freePlayIncrememt;
-                }));
+                // simulation.set(produce(simulation, (draft) => {
+                //   draft.freePlayIncrememt = !simulation.freePlayIncrememt;
+                // }));
+                simulation.set({ freePlayIncrememt: !simulation.freePlayIncrememt })
               }}
               className={`${simulation.freePlayIncrememt ? "bg-green-400" : "bg-gray-500"
                 } relative inline-flex items-center h-5 rounded-full w-8`}
@@ -768,7 +773,8 @@ const Sidebar = () => {
           }
           onClick={() => {
             // settings.simulation ? endSimulation() : setConfirm(true);
-            simulation.running ? simulation.set(produce(simulation, (draft) => { draft.running = false })) : setConfirm(true);
+            // simulation.running ? simulation.set(produce(simulation, (draft) => { draft.running = false })) : setConfirm(true);
+            // simulation.running ? simulation.set({ ...simulation, running: false }) : setConfirm(true);
             simulation.running ? setEndScreen(true) : null;
           }}
           disabled={simulation.freePlay ? true : false}

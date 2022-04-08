@@ -41,16 +41,16 @@ const BlumeCapel = (timemstamp: number) => {
 
   //energy change with local magnetic field
   const deltaUforBEGforM = (i1: number, j1: number, i2: number, j2: number) => {
-    var thisS = newSpins[i1][j1];
-    var thatS = newSpins[i2][j2];
-    var left1 = getLeftBEM(i1, j1);
-    var right1 = getRightBEM(i1, j1);
-    var top1 = getTopBEM(i1, j1);
-    var bottom1 = getBottomBEM(i1, j1);
-    var left2 = getLeftBEM(i2, j2);
-    var right2 = getRightBEM(i2, j2);
-    var top2 = getTopBEM(i2, j2);
-    var bottom2 = getBottomBEM(i2, j2);
+    let thisS = newSpins[i1][j1];
+    let thatS = newSpins[i2][j2];
+    let left1 = getLeftBEM(i1, j1);
+    let right1 = getRightBEM(i1, j1);
+    let top1 = getTopBEM(i1, j1);
+    let bottom1 = getBottomBEM(i1, j1);
+    let left2 = getLeftBEM(i2, j2);
+    let right2 = getRightBEM(i2, j2);
+    let top2 = getTopBEM(i2, j2);
+    let bottom2 = getBottomBEM(i2, j2);
     if (
       (j2 == j1 + 1 && i2 == i1) ||
       (j1 == j2 + 1 && i1 == i2) ||
@@ -81,13 +81,13 @@ const BlumeCapel = (timemstamp: number) => {
   const ComputeEforBEG = () => {
     let Ecurrent = 0.0;
     let Mcurrent = 0.0;
-    for (var i = 0; i < settings.latticeSize; i++) {
-      for (var j = 0; j < settings.latticeSize; j++) {
-        var right = getRightBEM(i, j);
-        var left = getLeftBEM(i, j);
-        var top = getTopBEM(i, j);
-        var bottom = getBottomBEM(i, j);
-        var thisSS = spins[i][j];
+    for (let i = 0; i < settings.latticeSize; i++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
+        let right = getRightBEM(i, j);
+        let left = getLeftBEM(i, j);
+        let top = getTopBEM(i, j);
+        let bottom = getBottomBEM(i, j);
+        let thisSS = spins[i][j];
         Ecurrent =
           Ecurrent -
           0.5 * CouplingConstant * thisSS * (right + left + top + bottom) -
@@ -134,14 +134,14 @@ const BlumeCapel = (timemstamp: number) => {
   }
 
   const model = () => {
-    var i1 = Math.floor(Math.random() * settings.latticeSize);
-    var j1 = Math.floor(Math.random() * settings.latticeSize);
-    var i2 = Math.floor(Math.random() * settings.latticeSize);
-    var j2 = Math.floor(Math.random() * settings.latticeSize);
+    let i1 = Math.floor(Math.random() * settings.latticeSize);
+    let j1 = Math.floor(Math.random() * settings.latticeSize);
+    let i2 = Math.floor(Math.random() * settings.latticeSize);
+    let j2 = Math.floor(Math.random() * settings.latticeSize);
     if (newSpins[i1][j1] != newSpins[i2][j2]) {
-      var thisS = newSpins[i1][j1];
-      var thatS = newSpins[i2][j2];
-      var EdiffforM = deltaUforBEGforM(i1, j1, i2, j2);
+      let thisS = newSpins[i1][j1];
+      let thatS = newSpins[i2][j2];
+      let EdiffforM = deltaUforBEGforM(i1, j1, i2, j2);
       if (dashboard.temperature == 0) {
         //to avoid dividing by zero
         if (EdiffforM < 0.0 || (EdiffforM == 0 && Math.random() < 0.5)) {
