@@ -1,31 +1,34 @@
-import produce from "immer";
-import metropolis from "../models/metropolis";
-import Settings from "../stores/settings";
-import Simulation from "../stores/simulation";
+import metropolis, { ComputeEforMetropolis } from "../models/metropolis";
 import Store2 from "../types/store2";
-import { Models } from "./models";
 
 const freePlay = (timestamp: number) => {
-    // const simulation = Simulation.getState();
-    // const initialTemp = Settings.getState().initialTemp;
-    // const stepsPerFrame = Settings.getState().stepsPerFrame;
+    const { simulation, settings: { initialTemp, stepsPerFrame }, graphs, dashboard } = Store2.getState();
 
-    const { simulation, settings: { initialTemp, stepsPerFrame } } = Store2.getState();
-
-    // const model = Models.find(model => model.url === simulation.currentUrl)!.algo;
-    // simulation.set(produce(simulation, draft => {
-    //     draft.temperature = settings.initialTemp!
-    // }));
-    // console.log("FreePlay", simulation.freePlay)
     simulation.set({ temperature: initialTemp! });
 
     if (simulation.freePlay) {
-        // for (let a = 0; a < stepsPerFrame!; a++) {
-        metropolis(timestamp)
-        // }
+        metropolis()
+        const { Ecurrent, Mcurrent } = ComputeEforMetropolis()
+
+        graphs.update({ x: simulation.temperature, y: Mcurrent / stepsPerFrame! });
+        dashboard.set({
+            energy: Ecurrent / stepsPerFrame!,
+            magnetization: Mcurrent / stepsPerFrame!,
+            temperature: simulation.temperature,
+        })
     }
 
     simulation.freePlay && window.requestAnimationFrame(freePlay)
 }
 
 export default freePlay;
+
+    // const simulation = Simulation.getState();
+    // const initialTemp = Settings.getState().initialTemp;
+    // const stepsPerFrame = Settings.getState().stepsPerFrame;
+
+    // const model = Models.find(model => model.url === simulation.currentUrl)!.algo;
+    // simulation.set(produce(simulation, draft => {
+    //     draft.temperature = settings.initialTemp!
+    // }));
+    // console.log("FreePlay", simulation.freePlay)

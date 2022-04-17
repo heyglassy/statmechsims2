@@ -1,7 +1,5 @@
 import { GetState, SetState } from "zustand";
 import { canvas } from "../types/canvas";
-import { State } from "../types/store2";
-import Settings from "./settings";
 
 const Canvas = ((set: SetState<any>, get: GetState<any>): canvas => ({
     primaryColor: "white",

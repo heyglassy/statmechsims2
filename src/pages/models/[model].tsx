@@ -1,32 +1,17 @@
 import Sidebar from "../../components/Sidebar"
 import { useRouter } from "next/router";
-import produce from "immer";
 import Canvas from "../../components/Canvas";
 import { useEffect } from "react";
 import useStore from "../../stores/hooks";
-import { simulation } from "../../types/simulation";
+import DataSidebar from "../../components/DataSidebar";
+import Graphs from "../../components/Graph";
 
 const Model = () => {
   const router = useRouter();
-  // const simulation = useSimulation();
   const { simulation: { set } } = useStore()
-
-  // const state = useStore()
-  // console.log(state)
-
-  if (router.query) {
-    // simulation.set(produce(simulation, (draft) => {
-    //   draft.currentUrl = router.asPath;
-    // }))
-    // simulation.set({ ...simulation, currentUrl: router.asPath })
-  }
 
   useEffect(() => {
     if (router.query) {
-      // simulation.set(produce(simulation, (draft) => {
-      //   draft.currentUrl = router.asPath;
-      // }))
-      // set({ ...simulation, currentUrl: router.asPath })
       set({ currentUrl: router.asPath })
     }
   }, [set, router.query, router.asPath])
@@ -36,11 +21,23 @@ const Model = () => {
       <Sidebar />
       <Canvas />
       <div className="flex flex-col">
-        {/* <DataSidebar /> */}
-        {/* <Graph /> */}
+        <DataSidebar />
+        <Graphs />
       </div>
     </div>
   )
 }
 
 export default Model
+
+  // if (router.query) {
+  //   // simulation.set(produce(simulation, (draft) => {
+  //   //   draft.currentUrl = router.asPath;
+  //   // }))
+  //   // simulation.set({ ...simulation, currentUrl: router.asPath })
+  // }
+
+      // simulation.set(produce(simulation, (draft) => {
+      //   draft.currentUrl = router.asPath;
+      // }))
+      // set({ ...simulation, currentUrl: router.asPath })

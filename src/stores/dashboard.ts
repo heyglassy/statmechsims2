@@ -1,6 +1,4 @@
 import { dashboard } from "../types/dashboard";
-import { settings } from "../types/settings";
-import produce from "immer"
 import { GetState, SetState } from "zustand";
 import { MyState } from "../types/store2";
 
@@ -15,7 +13,7 @@ const calculateTotalFrames = (initialTemp: number, tempStep: number, finalTemp: 
 }
 
 const Dashboard = ((set: SetState<MyState>, get: GetState<MyState>): dashboard => ({
-    frames: {
+    framesInfo: {
         savedFrames: 0,
         totalFrames: 0,
     },

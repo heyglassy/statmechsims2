@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Chart, ScriptableContext } from "chart.js";
-import { graph, plotPoint } from "../types/graphs";
-import { useStore } from "../stores/hooks";
+import useStore from "../stores/hooks";
+import { plotPoint } from "../types/graphs";
 
-export const newChart = (graph: graph) => {
+export const newChart = () => {
   const pointColor = (ctx: ScriptableContext<"line">) => {
     if (ctx.dataset.data.length > 0 && ctx.dataIndex!) {
       let point: plotPoint = ctx.dataset.data[ctx.dataIndex] as plotPoint;
@@ -11,7 +11,6 @@ export const newChart = (graph: graph) => {
     }
   };
 
-  graph.destroy();
   const chart = new Chart("temp_vs_mag_graph", {
     type: "scatter",
     data: {
@@ -45,12 +44,12 @@ export const newChart = (graph: graph) => {
 };
 
 const Graphs = () => {
-  const { setGraph, graph } = useStore();
-  // const [graph, setGraph] = useState("")
+  const { graphs } = useStore();
 
   useEffect(() => {
-    const chart = newChart(graph);
-    setGraph(chart);
+    graphs.current.destroy();
+    const chart = newChart();
+    graphs.set({ current: chart });
   }, []);
 
   return (

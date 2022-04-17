@@ -1,9 +1,9 @@
 import { graphs } from "../types/graphs";
 import Chart from "chart.js/auto";
 import { MyState } from "../types/store2";
-import { SetState } from "zustand";
+import { GetState, SetState } from "zustand";
 
-const Graphs = ((set: SetState<MyState>): graphs => ({
+const Graphs = ((set: SetState<MyState>, get: GetState<MyState>): graphs => ({
     current: new Chart("temp_vs_mag_graph", {
         type: "scatter",
         data: {
@@ -23,11 +23,17 @@ const Graphs = ((set: SetState<MyState>): graphs => ({
             },
         },
     }),
-    graphData: [
-        { x: 1, y: 1 },
-        { x: 2, y: 2 },
-    ],
+    graphData: [],
     plotPoint: { x: 1, y: 1 },
+    set: (update) => set({ graphs: { ...get().graphs, ...update } }),
+    update: (plotPoint) => set(({ graphs: graphs }) => {
+        graphs.plotPoint = plotPoint;
+        graphs.current.data.datasets[0].data.push(plotPoint);
+        graphs.current.data.datasets[1].data.pop();
+        graphs.current.data.datasets[1].data.push(plotPoint);
+        graphs.current.update("none");
+        graphs.graphData.concat(plotPoint);
+    }),
 }));
 
 export default Graphs
