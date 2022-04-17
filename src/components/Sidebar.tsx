@@ -3,14 +3,12 @@ import { runner } from "../helpers/runner";
 import { setup, alignSpins, nanotube } from "../helpers/setup";
 import { useRouter } from "next/router";
 import boundarySetup from "../helpers/boundaries";
-import { useDebugValue, useState } from "react";
+import { useState } from "react";
 import ConfirmScreen from "./ConfirmScreen";
 import EndSimulation from "./EndSimulation";
 import produce from "immer"
-import { useDashboard, useSettings, useSimulation, useStore } from "../stores/hooks";
-import Dashboard from "../stores/dashboard";
-import Simulation from "../stores/simulation";
 import freePlay from "../helpers/freePlay";
+import useStore from "../stores/hooks";
 
 const Sidebar = () => {
   // let {
@@ -20,9 +18,10 @@ const Sidebar = () => {
   //   initSpins,
   //   endScreen,
   // } = useStore((state) => state);
-  const settings = useSettings();
-  const simulation = useSimulation();
-  const dashboard = useDashboard()
+  // const settings = useSettings();
+  // const simulation = useSimulation();
+  const { settings, simulation } = useStore();
+  // const dashboard = useDashboard()
   const router = useRouter();
   const [confirm, setConfirm] = useState(false);
   const [endScreen, setEndScreen] = useState(false);
@@ -30,7 +29,8 @@ const Sidebar = () => {
   return (
     <nav className="flex flex-col h-screen w-80">
       <div className="h-3/4 left-0 bg-white overflow-y-scroll overscroll-y-auto p-3">
-        <h1 className="text-3xl font-bold">Settings</h1>
+        <h1 className="text-3xl font-bold">{simulation.currentUrl}</h1>
+        <h1 className="text-3xl font-bold">{simulation.freePlay ? "True" : "False"}</h1>
         <Switch.Group>
           <div className="flex items-center justify-between">
             <Switch.Label
@@ -54,7 +54,6 @@ const Sidebar = () => {
                 //   draft.freePlay = !simulation.freePlay;
                 //   draft.running = false;
                 // }));
-                console.log(simulation.freePlay)
                 simulation.set({ freePlay: !simulation.freePlay, running: false })
                 freePlay(Date.now())
                 // dashboard.init();

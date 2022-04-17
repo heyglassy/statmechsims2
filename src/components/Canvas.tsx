@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useCanvas, useSettings, useSimulation } from "../stores/hooks";
+import useStore, { useCanvas, useSettings, useSimulation } from "../stores/hooks";
 import { setSpin, setup } from "../helpers/setup";
 import { useRouter } from "next/router";
 import produce from "immer";
@@ -8,12 +8,15 @@ import initSpins from "../helpers/initializers/spins";
 const Canvas = () => {
   const router = useRouter();
   const newCanvas = useRef<HTMLCanvasElement>(null);
-  const settings = useSettings()
-  const simulation = useSimulation()
-  const canvas = useCanvas()
+  // const settings = useSettings()
+  // const simulation = useSimulation()
+  // const canvas = useCanvas()
+
+  const { settings, simulation, canvas } = useStore();
+  // const test = useStore(state => { state.settings, state.simulation, state.canvas });
 
   let mousedown = false;
-
+  // 
   const findCoords = (event: MouseEvent) => {
     let x = 0;
     let y = 0;

@@ -8,15 +8,16 @@ import { alogPicker } from "./runner";
 import Settings from "../stores/settings";
 import Simulation from "../stores/simulation";
 import produce from "immer";
-import { useSettings } from "../stores/hooks";
 import Canvas from "../stores/canvas";
+import Store2 from "../types/store2";
 
 export const setup = (model: string) => {
   // const { settings, context, setWall, setNearestNeighs, setSpins, width } =
   //   create(Store).getState();
-  const settings = Settings.getState()
-  const simulation = Simulation.getState()
-  const { context, width } = Canvas.getState()
+  // const settings = Settings.getState()
+  // const simulation = Simulation.getState()
+  // const { context, width } = Canvas.getState()
+  const { settings, simulation, canvas: { context, width } } = Store2.getState();
 
   if (
     model == "/models/metropolis" ||
@@ -440,16 +441,18 @@ export const setSpin = (i: number, j: number, page: string) => {
   // const { settings, spins, setSpins, localMagnetic, setLocalMagnetic } =
   //   create(Store).getState();
 
-  const settings = Settings.getState();
-  const simulaton = Simulation.getState()
+  // const settings = Settings.getState();
+  // const simulaton = Simulation.getState()
 
-  simulaton.set(produce(simulaton, (draft) => {
+  const { settings, simulation } = Store2.getState()
+
+  simulation.set(produce(simulation, (draft) => {
     if (settings.localMagneticField! == 0.0) {
       draft.spins[i][j] *= -1;
     } else {
-      if (simulaton.spins[i][j] == 1 && settings.localMagneticField! < -0.1) {
+      if (simulation.spins[i][j] == 1 && settings.localMagneticField! < -0.1) {
         draft.spins[i][j] *= -1;
-      } else if (simulaton.spins[i][j] == -1 && settings.localMagneticField! > 0.1) {
+      } else if (simulation.spins[i][j] == -1 && settings.localMagneticField! > 0.1) {
         draft.spins[i][j] *= 1;
       }
     }

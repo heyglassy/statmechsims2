@@ -1,21 +1,28 @@
+import { GetState, SetState } from "zustand";
 import { canvas } from "../types/canvas";
-import create from "zustand/vanilla";
+import { State } from "../types/store2";
 import Settings from "./settings";
 
-const settings = Settings.getState()
-
-const Canvas = create<canvas>((set) => ({
+const Canvas = ((set: SetState<any>, get: GetState<any>): canvas => ({
     primaryColor: "white",
     secondaryColor: "#3772FF",
     width: 0,
     current: null,
     context: null,
     init: (newCanvas) => set({
-        current: newCanvas,
-        context: newCanvas.getContext("2d"),
-        width: 600 / settings.latticeSize,
+        canvas: {
+            ...get().canvas,
+            current: newCanvas,
+            context: newCanvas.getContext("2d"),
+            width: 600 / get().settings.latticeSize
+        }
     }),
-    set: (canvas: canvas) => set(canvas),
+    set: (update) => set({
+        canvas: {
+            ...get().canvas,
+            ...update,
+        }
+    }),
 }));
 
 export default Canvas;

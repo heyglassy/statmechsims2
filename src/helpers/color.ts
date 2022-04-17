@@ -2,6 +2,7 @@ import create from "zustand";
 import Canvas from "../stores/canvas";
 import Settings from "../stores/settings";
 import Simulation from "../stores/simulation";
+import Store2 from "../types/store2";
 
 /**
  * This function colors the canvas for Metropolis and both Kawasaki models.
@@ -12,9 +13,12 @@ export const color = (i: number, j: number) => {
   //   create(Store).getState();
 
   // const { primaryColor, secondaryColor } = create(colorStore).getState();
-  const { context, primaryColor, secondaryColor, width } = Canvas.getState();
-  const { localMagnetic, spins } = Simulation.getState()
-  const settings = Settings.getState()
+  // const { context, primaryColor, secondaryColor, width } = Canvas.getState();
+  // const { localMagnetic, spins } = Simulation.getState()
+  // const settings = Settings.getState()
+
+  const { settings, simulation: { localMagnetic, spins }, canvas: { context, width, primaryColor, secondaryColor }
+  } = Store2.getState()
 
   if (localMagnetic[i][j] > 0.0001) {
     context!.fillStyle == "purple";
@@ -40,7 +44,7 @@ export const color = (i: number, j: number) => {
  */
 
 export const color2 = (i: number, j: number, c: number) => {
-  const { context, width } = Canvas.getState();
+  const { canvas: { context, width } } = Store2.getState()
 
   context!.fillStyle = `hsl(${c}, 100%, 50%)`;
   context!.fillRect(i * width, j * width, width, width);

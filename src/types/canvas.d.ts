@@ -1,9 +1,12 @@
+import { GetState } from "zustand";
+import { MyState, Optional } from "./store2";
+
 export interface canvas {
     primaryColor: string;
     secondaryColor: string;
     width: number;
     current: HTMLCanvasElement | null;
     context: CanvasRenderingContext2D | null;
-    set: (canvas: canvas) => void;
-    init: (newCanvas: HTMLCanvasElement) => void;
+    set: (update: Optional<canvas>) => void;
+    init: (newCanvas: HTMLCanvasElement, get: GetState<MyState>) => void;
 }

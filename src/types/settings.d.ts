@@ -1,3 +1,5 @@
+import { simulation } from "./simulation";
+
 export interface settings {
   initialTemp: number | null;
   finalTemp: number | null;
@@ -26,5 +28,5 @@ export interface settings {
     spin: boolean;
   };
   reset: () => void;
-  set: (settings: settings) => void;
+  set: (update: Optional<settings>) => void;
 };

@@ -1,10 +1,8 @@
-import create from "zustand/vanilla";
+import { GetState, SetState } from "zustand";
 import type { settings } from "../types/settings";
+import { MyState, Optional } from "../types/store2";
 
-const Settings = create<settings>((set) => ({
-    freePlay: false,
-    freePlayIncrement: false,
-    simulation: false,
+const Settings = ((set: SetState<MyState>, get: GetState<MyState>): settings => ({
     initialTemp: 2.27,
     finalTemp: 5,
     tempStep: 0.01,
@@ -32,7 +30,12 @@ const Settings = create<settings>((set) => ({
         spin: true,
     },
     reset: () => set({}, true),
-    set: (settings) => set(settings),
+    set: (update) => set({
+        settings: {
+            ...get().settings,
+            ...update,
+        }
+    }),
 }));
 
 export default Settings;

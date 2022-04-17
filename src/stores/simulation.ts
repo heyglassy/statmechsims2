@@ -1,10 +1,8 @@
-import create from "zustand/vanilla"
-import { simulation } from "../types/simulation"
-import Settings from "./settings";
+import { GetState, SetState } from "zustand";
+import { simulation } from "../types/simulation";
+import { MyState, Optional } from "../types/store2";
 
-const settings = Settings.getState()
-
-const Simulation = create<simulation>((set, get) => ({
+const Simulation = ((set: SetState<MyState>, get: GetState<MyState>): simulation => ({
     currentUrl: "/model/metropolis",
     localMagnetic: [],
     spin: [],
@@ -18,7 +16,7 @@ const Simulation = create<simulation>((set, get) => ({
     freePlayIncrememt: false,
     frames: [],
     temperature: 0,
-    set: (query) => set({ ...get(), ...query }),
+    set: (update: Optional<simulation>) => set({ simulation: { ...get().simulation, ...update } }),
 }));
 
 export default Simulation

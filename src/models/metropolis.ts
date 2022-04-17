@@ -3,6 +3,7 @@ import { color } from "../helpers/color";
 import { getBottom, getLeft, getRight, getTop } from "../helpers/dipoles";
 import Settings from "../stores/settings";
 import Simulation from "../stores/simulation";
+import Store2 from "../types/store2";
 
 const metropolis = (timestamp: number) => {
   // let {
@@ -15,8 +16,12 @@ const metropolis = (timestamp: number) => {
   //   localMagnetic,
   // } = create(Store).getState();
 
-  const { magneticField, magnetism, latticeSize } = Settings.getState();
-  let { spins, set, localMagnetic, temperature, running, freePlay } = Simulation.getState();
+  // const { magneticField, magnetism, latticeSize } = Settings.getState();
+  // let { spins, set, localMagnetic, temperature, running, freePlay } = Simulation.getState();
+
+
+  const { magneticField, magnetism, latticeSize, stepsPerFrame } = Store2.getState().settings;
+  let { spins, set, localMagnetic, temperature, running, freePlay } = Store2.getState().simulation;
 
   let CouplingConstant: number;
   if (magnetism! == "Ferromagnetic") {
@@ -37,24 +42,24 @@ const metropolis = (timestamp: number) => {
     );
   };
 
-  const ComputeEforMetropolis = () => {
-    let Ecurrent = 0.0;
-    let Mcurrent = 0.0;
+  // const ComputeEforMetropolis = () => {
+  //   let Ecurrent = 0.0;
+  //   let Mcurrent = 0.0;
 
-    for (let i = 0; i < latticeSize; i++) {
-      for (let j = 0; j < latticeSize; j++) {
-        const right = getRight(i, j);
-        const bottom = getBottom(i, j);
-        let thisS = spins[i][j];
-        Ecurrent =
-          Ecurrent -
-          CouplingConstant * thisS * (right + bottom) -
-          thisS * magneticField!;
-        Mcurrent += thisS;
-      }
-    }
-    return { Ecurrent, Mcurrent };
-  }
+  //   for (let i = 0; i < latticeSize; i++) {
+  //     for (let j = 0; j < latticeSize; j++) {
+  //       const right = getRight(i, j);
+  //       const bottom = getBottom(i, j);
+  //       let thisS = spins[i][j];
+  //       Ecurrent =
+  //         Ecurrent -
+  //         CouplingConstant * thisS * (right + bottom) -
+  //         thisS * magneticField!;
+  //       Mcurrent += thisS;
+  //     }
+  //   }
+  //   return { Ecurrent, Mcurrent };
+  // }
 
   const model = () => {
     const i = Math.floor(Math.random() * latticeSize);
@@ -89,14 +94,17 @@ const metropolis = (timestamp: number) => {
 
     };
 
-    set({ spins, temperature, localMagnetic });
+    // set({ spins, temperature, localMagnetic });
   }
 
 
   if (freePlay || running) {
-    // for (let a = 0; a < settings.stepsPerFrame!; a++) {
-    // console.log("aaa", freePlay)
-    model();
+    for (let a = 0; a < stepsPerFrame!; a++) {
+      // console.log("aaa", freePlay)
+      // for (let i = 0; i < 10000; i++) {
+      model();
+    }
+    set({ spins, temperature, localMagnetic });
     // }
     if (running) {
       // this code runs the model
@@ -137,7 +145,7 @@ const metropolis = (timestamp: number) => {
     }
 
     if (freePlay) {
-      const { Ecurrent, Mcurrent } = ComputeEforMetropolis();
+      // const { Ecurrent, Mcurrent } = ComputeEforMetropolis();
       // console.log(Ecurrent, Mcurrent);
 
       // setDashboard({

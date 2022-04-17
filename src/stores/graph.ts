@@ -1,8 +1,9 @@
 import { graphs } from "../types/graphs";
-import create from "zustand/vanilla";
 import Chart from "chart.js/auto";
+import { MyState } from "../types/store2";
+import { SetState } from "zustand";
 
-const Graphs = create<graphs>((set) => ({
+const Graphs = ((set: SetState<MyState>): graphs => ({
     current: new Chart("temp_vs_mag_graph", {
         type: "scatter",
         data: {

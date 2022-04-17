@@ -1,9 +1,14 @@
 import produce from "immer";
 import Settings from "../../stores/settings";
 import Simulation from "../../stores/simulation";
+import Store2 from "../../types/store2";
 
-const settings = Settings.getState()
-const simulation = Simulation.getState()
+// const settings = Settings.getState()
+// const simulation = Simulation.getState()
+
+const { settings, simulation } = Store2.getState()
+
+
 
 
 const initSpins = () => {
