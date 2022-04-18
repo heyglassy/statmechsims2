@@ -2,6 +2,7 @@
 import { temperatureInc } from "../helpers/runner";
 import Canvas from "../stores/canvas";
 import Settings from "../stores/settings";
+import Store2 from "../types/store2";
 
 const transverse = (timestamp: number) => {
   // let { settings, context, setDashboard, dashboard, incSteps } =
@@ -10,17 +11,20 @@ const transverse = (timestamp: number) => {
   // const { primaryColor, secondaryColor } = create(colorStore).getState();
 
   //TODO: Disable canvas painting.
-  const { context, primaryColor, secondaryColor } = Canvas.getState();
-  const settings = Settings.getState()
+  // const { context, primaryColor, secondaryColor } = Canvas.getState();
+  // const settings = Settings.getState()
 
+  const { magneticField } = Store2.getState().settings;
+  const { temperature } = Store2.getState().simulation
+  const { context, secondaryColor, primaryColor } = Store2.getState().canvas
 
   let l = 125;
   let w = 600 / l - 1;
   let y = 600;
 
   let n_spin = 125;
-  let temp = settings.initialTemp!;
-  let gamma = settings.magneticField!;
+  let temp = temperature!;
+  let gamma = magneticField!;
 
   let spin = new Array(n_spin);
   let wall = new Array(n_spin);
@@ -100,7 +104,7 @@ const transverse = (timestamp: number) => {
 
     let bottom = 0.0,
       top = 0.0;
-    for (i = 0; i < cluster.num; ++i) {
+    for (let i = 0; i < cluster.num; ++i) {
       top = cluster.wall[i];
 
       while (x1 < top) {
@@ -128,7 +132,7 @@ const transverse = (timestamp: number) => {
     cluster.spin[0] = Math.random() < p ? +1 : -1;
     cluster.spin[cluster.num - 1] = cluster.spin[0];
 
-    for (i = 1; i < cluster.num - 1; ++i) {
+    for (let i = 1; i < cluster.num - 1; ++i) {
       p = prob(cluster.ene[i]);
       cluster.spin[i] = Math.random() < p ? +1 : -1;
     }
@@ -142,7 +146,7 @@ const transverse = (timestamp: number) => {
 
     spin[idx] = cluster.spin[0];
     wall[idx] = new Array();
-    for (i = 0; i < cluster.num - 1; ++i) {
+    for (let i = 0; i < cluster.num - 1; ++i) {
       if (cluster.spin[i] != cluster.spin[i + 1]) {
         wall[idx].push(cluster.wall[i]);
       }

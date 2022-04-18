@@ -4,7 +4,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Models } from "../helpers/models";
-import useStore from "../stores/hooks";
 
 interface MyLinkProps {
   href: string;
@@ -23,7 +22,7 @@ const MyLink = ({ href, children }: MyLinkProps) => {
 
 const Header: React.FC = () => {
   const router = useRouter();
-  const state = useStore();
+
   return (
     <>
       <Head>

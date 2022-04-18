@@ -16,6 +16,8 @@ const Simulation = ((set: SetState<MyState>, get: GetState<MyState>): simulation
     freePlayIncrememt: false,
     frames: [],
     temperature: 0,
+    calcStats: () => { },
+    algo: () => { },
     set: (update: Optional<simulation>) => set({ simulation: { ...get().simulation, ...update } }),
 }));
 

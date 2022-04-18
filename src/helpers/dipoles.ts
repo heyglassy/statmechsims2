@@ -1,5 +1,3 @@
-import Settings from "../stores/settings";
-import Simulation from "../stores/simulation";
 import Store2 from "../types/store2";
 
 export const getLeft = (i: number, j: number) => {

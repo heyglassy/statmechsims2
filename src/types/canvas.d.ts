@@ -8,5 +8,5 @@ export interface canvas {
     current: HTMLCanvasElement | null;
     context: CanvasRenderingContext2D | null;
     set: (update: Optional<canvas>) => void;
-    init: (newCanvas: HTMLCanvasElement, get: GetState<MyState>) => void;
+    init: (newCanvas: HTMLCanvasElement) => void;
 }

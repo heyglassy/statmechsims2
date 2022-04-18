@@ -12,5 +12,7 @@ export interface simulation {
     freePlayIncrememt: boolean,
     frames: Array<string>;
     temperature: number;
+    calcStats: any
+    algo: any
     set: (update: Optional<simulation>) => void;
 }

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import useStore from "../../stores/hooks";
 import DataSidebar from "../../components/DataSidebar";
 import Graphs from "../../components/Graph";
+import { Models } from "../../helpers/models";
 
 const Model = () => {
   const router = useRouter();
@@ -12,7 +13,11 @@ const Model = () => {
 
   useEffect(() => {
     if (router.query) {
-      set({ currentUrl: router.asPath })
+      const modelInfo = Models.find((model) => model.url == router.asPath)!
+      if (modelInfo) {
+
+        set({ currentUrl: router.asPath, calcStats: modelInfo.calcStats, algo: modelInfo.algo })
+      }
     }
   }, [set, router.query, router.asPath])
 
