@@ -1,7 +1,8 @@
+import Settings from "../stores/settings";
 import Store2 from "../types/store2";
 
 const freePlay = (timestamp: number) => {
-    const { simulation, settings: { initialTemp, stepsPerFrame }, graphs, dashboard } = Store2.getState();
+    const { simulation, settings: { initialTemp, stepsPerFrame, tempStep, set }, graphs, dashboard } = Store2.getState();
 
     simulation.set({ temperature: initialTemp! });
 
@@ -13,7 +14,6 @@ const freePlay = (timestamp: number) => {
         // const { Ecurrent, Mcurrent } = simulation.calcStats()
         if (simulation.calcStats) {
             const { Ecurrent, Mcurrent } = simulation.calcStats()
-            console.log(`Ecurrent: ${Ecurrent}, Mcurrent: ${Mcurrent}`);
 
             graphs.update({ x: simulation.temperature, y: Mcurrent / stepsPerFrame! });
             dashboard.set({
@@ -21,6 +21,16 @@ const freePlay = (timestamp: number) => {
                 magnetization: Mcurrent / stepsPerFrame!,
                 temperature: simulation.temperature,
             })
+        }
+        if (simulation.freePlayIncrememt) {
+            let newTemp;
+            if (simulation.temperature < 0 || simulation.temperature > 5) {
+                newTemp = simulation.temperature < 0 ? 5 : 0;
+            } else {
+                newTemp = simulation.temperature + tempStep!;
+            }
+            simulation.set({ temperature: newTemp });
+            set({ initialTemp: newTemp })
         }
     }
 
