@@ -1,5 +1,16 @@
 www.statmechsims.com
 
+# Todo
+- Add jX, jY (default) = 1
+```
+    return (
+    (jY * (top + bottom) + jX (left * right)) * CouplingConstant * spin * (top + bottom + left + right) +
+    2.0 * spin * (magneticField! + localMagnetic[i][j])
+    );
+```
+- Anti-Ferromagnetic sets jX, jY = 1
+- Fix magnetic calculations.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
