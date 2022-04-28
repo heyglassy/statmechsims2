@@ -36,7 +36,7 @@ const metropolis = () => {
   const { localMagnetic, temperature } = Store2.getState().simulation
   const CouplingConstant = getCouplingConstant(magnetism);
 
-  let { spins, energy, magnetism: simulationMagnetism } = Store2.getState().simulation
+  let { spins } = Store2.getState().simulation
 
   const deltaUofM = (i: number, j: number) => {
     const left = getLeft(i, j);
@@ -54,28 +54,15 @@ const metropolis = () => {
     // );
   };
 
-  const deltaU = (i: number, j: number) => {
-    let left = getLeft(i, j)
-    let right = getRight(i, j)
-    let top = getTop(i, j)
-    let bottom = getBottom(i, j)
-    const spin = spins[i][j]
-
-    return (2.0 * CouplingConstant * spin * (left + right + top + bottom) + 2.0 * spin * magneticField!)
-  }
-
   const model = () => {
     const i = Math.floor(Math.random() * latticeSize);
     const j = Math.floor(Math.random() * latticeSize);
     const _EdiffforM = deltaUofM(i, j);
-    const _Ediff = deltaU(i, j)
 
     if (temperature == 0) {
       if (_EdiffforM < 0.0 || (_EdiffforM == 0 && Math.random() < 0.5)) {
         spins[i][j] *= -1;
         color(i, j);
-        energy += _Ediff
-        simulationMagnetism += (2 * spins[i][j])
       }
     } else if (
       _EdiffforM < 0.0 ||
@@ -83,15 +70,13 @@ const metropolis = () => {
     ) {
       spins[i][j] *= -1;
       color(i, j);
-      energy += _Ediff
-      simulationMagnetism += (2 * spins[i][j])
     };
   }
 
-  // if (freePlay || running) {
   for (let a = 0; a < stepsPerFrame!; a++) {
     model();
   }
+
   return { spins, temperature, localMagnetic }
 }
 export default metropolis;
