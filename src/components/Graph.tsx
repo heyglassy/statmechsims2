@@ -3,6 +3,11 @@ import { Chart, ScriptableContext } from "chart.js";
 import useStore from "../stores/hooks";
 import { plotPoint } from "../types/graphs";
 
+
+// jX jY
+// Fix Blume Capel, Wolff
+// xy axis (1 -1, 0, 5)
+
 export const newChart = () => {
   const pointColor = (ctx: ScriptableContext<"line">) => {
     if (ctx.dataset.data.length > 0 && ctx.dataIndex!) {
@@ -57,8 +62,12 @@ const Graphs = () => {
       <div>
         <h1 className="text-2xl text-white font-bold">Graphs</h1>
         {/* <input type="" */}
+        {/* <select onClick={ }>
+          <option>Magnetization</option>
+          <option>Magnetic susceptibility</option>
+        </select> */}
       </div>
-      <div className="bg-white my-1 w-full h-px"></div>
+      {/* <div className="bg-white my-1 w-full h-px"></div> */}
       <canvas id="temp_vs_mag_graph" className="m-3 bg-white"></canvas>
     </div>
   );

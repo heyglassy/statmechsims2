@@ -1,4 +1,3 @@
-import Settings from "../stores/settings";
 import Store2 from "../types/store2";
 
 const freePlay = (timestamp: number) => {
@@ -7,21 +6,32 @@ const freePlay = (timestamp: number) => {
     simulation.set({ temperature: initialTemp! });
 
     if (simulation.freePlay) {
-        // const { spins, temperature, localMagnetic } = simulation.algo()
-        // simulation.set({ spins, temperature, localMagnetic });
-        simulation.set({ ...simulation.algo() })
+        const sim = simulation.algo()
+        const oldSpins = simulation.spins
+        simulation.set({ ...sim })
+        console.log("compare", simulation.spins === oldSpins)
+        // console.log(sim.energy)
 
         // const { Ecurrent, Mcurrent } = simulation.calcStats()
         if (simulation.calcStats) {
+            console.log("???")
             const { Ecurrent, Mcurrent } = simulation.calcStats()
+            console.log(Mcurrent)
 
             graphs.update({ x: simulation.temperature, y: Mcurrent / stepsPerFrame! });
+            // graphs.update({ x: simulation.temperature, y: sim.magnetism / stepsPerFrame! });
+            // dashboard.set({
+            //     energy: sim.energy / stepsPerFrame!,
+            //     magnetization: sim.magnetism / stepsPerFrame!,
+            //     temperature: simulation.temperature,
+            // })
             dashboard.set({
                 energy: Ecurrent / stepsPerFrame!,
                 magnetization: Mcurrent / stepsPerFrame!,
-                temperature: simulation.temperature,
+                temperature: simulation.temperature
             })
         }
+
         if (simulation.freePlayIncrememt) {
             let newTemp;
             if (simulation.temperature < 0 || simulation.temperature > 5) {
@@ -38,13 +48,3 @@ const freePlay = (timestamp: number) => {
 }
 
 export default freePlay;
-
-    // const simulation = Simulation.getState();
-    // const initialTemp = Settings.getState().initialTemp;
-    // const stepsPerFrame = Settings.getState().stepsPerFrame;
-
-    // const model = Models.find(model => model.url === simulation.currentUrl)!.algo;
-    // simulation.set(produce(simulation, draft => {
-    //     draft.temperature = settings.initialTemp!
-    // }));
-    // console.log("FreePlay", simulation.freePlay)

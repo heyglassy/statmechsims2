@@ -14,5 +14,10 @@ export interface simulation {
     temperature: number;
     calcStats: any
     algo: any
+    energy: number,
+    totalEnergy: number,
+    magnetism: number,
+    totalMagnetism: number,
+    loopCount: number,
     set: (update: Optional<simulation>) => void;
 }

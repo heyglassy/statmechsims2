@@ -9,7 +9,7 @@ www.statmechsims.com
     );
 ```
 - Anti-Ferromagnetic sets jX, jY = 1
-- Fix magnetic calculations.
+- Fix clicking on canvas
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

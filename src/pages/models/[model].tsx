@@ -11,6 +11,7 @@ const Model = () => {
   const router = useRouter();
   const { simulation: { set } } = useStore()
 
+  //TODO SIMPLIFY
   useEffect(() => {
     if (router.query) {
       const modelInfo = Models.find((model) => model.url == router.asPath)!

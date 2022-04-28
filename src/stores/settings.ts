@@ -16,8 +16,8 @@ const Settings = ((set: SetState<MyState>, get: GetState<MyState>): settings => 
     magneticField: 0,
     localMagneticField: 0,
     magnetism: "Ferromagnetic",
-    boundariesConditions: "Ferromagnetic",
-    geometicPattern: "Ferromagnetic",
+    boundariesConditions: "Periodic Boundaries",
+    geometicPattern: "Random",
     fixedSpin: false,
     proportionSpin: {
         positive: 0.33,

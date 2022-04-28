@@ -93,7 +93,10 @@ export const ComputeEforBEG = () => {
 
 const BlumeCapel = (timemstamp: number) => {
   const { magneticField, latticeSize, magnetism, stepsPerFrame } = Store2.getState().settings;
-  const { spins, temperature, localMagnetic } = Store2.getState().simulation
+  const { temperature, localMagnetic } = Store2.getState().simulation
+
+  let { spins } = Store2.getState().simulation
+  let tempSpins = spins
   const CouplingConstant = getCouplingConstant(magnetism);
 
   //energy change with local magnetic field
@@ -101,8 +104,8 @@ const BlumeCapel = (timemstamp: number) => {
   //returns the dipole to the left of s[i][j] taking into account boundary conditions
   const model = () => {
     let i1 = Math.floor(Math.random() * latticeSize);
-    let j1 = Math.floor(Math.random() * latticeSize);
     let i2 = Math.floor(Math.random() * latticeSize);
+    let j1 = Math.floor(Math.random() * latticeSize);
     let j2 = Math.floor(Math.random() * latticeSize);
 
     const deltaUforBEGforM = (i1: number, j1: number, i2: number, j2: number) => {
@@ -126,9 +129,9 @@ const BlumeCapel = (timemstamp: number) => {
     }
 
     if (spins[i1][j1] != spins[i2][j2]) {
-      let EdiffforM = deltaUforBEGforM(i1, j1, i2, j2);
       let thisS = spins[i1][j1];
       let thatS = spins[i2][j2];
+      let EdiffforM = deltaUforBEGforM(i1, j1, i2, j2);
       if (temperature == 0) {
         //to avoid dividing by zero
         if (EdiffforM < 0.0 || (EdiffforM == 0 && Math.random() < 0.5)) {
@@ -154,6 +157,9 @@ const BlumeCapel = (timemstamp: number) => {
   for (let a = 0; a < stepsPerFrame!; a++) {
     model();
   }
+
+  console.log("Double check before return", spins === tempSpins)
+
   return { spins, temperature, localMagnetic };
 }
 

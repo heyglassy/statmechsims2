@@ -19,7 +19,7 @@ export const Models: Array<models> = [
     { url: "/models/kawasaki-non-local", name: "Kawasaki (non-local)", algo: KawasakiNonLocal, calcStats: ComputeEforKawasaki },
     { url: "/models/kawasaki-local", name: "Kawasaki (local)", algo: KawasakiLocal, calcStats: ComputeEforKawasaki },
     { url: "/models/blume-capel", name: "Blume-Capel", algo: BlumeCapel, calcStats: ComputeEforBEG },
-    { url: "/models/wolff", name: "Wolff", algo: wolff },
+    { url: "/models/wolff", name: "Wolff", algo: wolff, calcStats: ComputeEforMetropolis },
     { url: "/models/xy", name: "XY", algo: xy },
     { url: "/models/transverse-field-ising", name: "Transverse-field Ising", algo: transverse },
     { url: "/models/q-potts", name: "Q-Potts", algo: qpotts },
