@@ -1,5 +1,5 @@
+// TODO: Replace this entire file
 import { Switch } from "@headlessui/react";
-import { runner } from "../helpers/runner";
 import { setup, alignSpins, nanotube } from "../helpers/setup";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -10,20 +10,10 @@ import freePlay from "../helpers/freePlay";
 import useStore from "../stores/hooks";
 
 const Sidebar = () => {
-  // let {
-  //   endSimulation,
-  //   setSettings,
-  //   initDashboard,
-  //   initSpins,
-  //   endScreen,
-  // } = useStore((state) => state);
-  // const settings = useSettings();
-  // const simulation = useSimulation();
-  const { settings, simulation } = useStore();
-  // const dashboard = useDashboard()
   const router = useRouter();
   const [confirm, setConfirm] = useState(false);
   const [endScreen, setEndScreen] = useState(false);
+  const { settings, simulation } = useStore();
 
   return (
     <nav className="flex flex-col h-screen w-80">
@@ -43,20 +33,9 @@ const Sidebar = () => {
               disabled={simulation.running ? true : false}
               checked={simulation.freePlay}
               onChange={() => {
-                // setSettings({
-                //   ...settings,
-                //   freePlay: !settings.freePlay,
-                //   simulation: false,
-                // });
-                // initDashboard();
-                // simulation.set(produce(simulation, (draft) => {
-                //   draft.freePlay = !simulation.freePlay;
-                //   draft.running = false;
-                // }));
+                // dashboard.reset(); 
                 simulation.set({ freePlay: !simulation.freePlay, running: false })
                 freePlay(Date.now())
-                // dashboard.init();
-                // runner(router.asPath);
               }}
               className={`${simulation.freePlay ? "bg-green-400" : "bg-gray-500"
                 } relative inline-flex items-center h-6 rounded-full w-11`}
@@ -81,13 +60,6 @@ const Sidebar = () => {
               disabled={simulation.running ? true : false}
               checked={simulation.freePlayIncrememt}
               onChange={() => {
-                // setSettings({
-                //   ...settings,
-                //   freePlayIncrement: !settings.freePlayIncrement,
-                // });
-                // simulation.set(produce(simulation, (draft) => {
-                //   draft.freePlayIncrememt = !simulation.freePlayIncrememt;
-                // }));
                 simulation.set({ freePlayIncrememt: !simulation.freePlayIncrememt })
               }}
               className={`${simulation.freePlayIncrememt ? "bg-green-400" : "bg-gray-500"
@@ -112,29 +84,20 @@ const Sidebar = () => {
             value={settings.initialTemp!}
             min="0"
             max="5"
-            step="0.01"
+            step="0.001"
             onChange={(e) =>
-              // setSettings({ ...settings, initialTemp: Number(e.target.value) })
-              settings.set(produce(settings, (draft) => {
-                draft.initialTemp = Number(e.target.value);
-              }))
+              settings.set({ initialTemp: Number(e.target.value) })
             }
           />
           <input
             min="0"
             max="5"
-            step="0.01"
+            step="0.001"
             type="number"
             name="temp"
             value={settings.initialTemp!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   initialTemp: e.target.value ? Number(e.target.value) : null,
-              // })
-              settings.set(produce(settings, (draft) => {
-                draft.initialTemp = e.target.value ? Number(e.target.value) : null;
-              }))
+              settings.set({ initialTemp: Number(e.target.value) })
             }
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
@@ -147,12 +110,10 @@ const Sidebar = () => {
             name="temp"
             min="0"
             max="5"
+            step="0.001"
             value={settings.finalTemp!}
             onChange={(e) =>
-              // setSettings({ ...settings, finalTemp: Number(e.target.value) })
-              settings.set(produce(settings, (draft) => {
-                draft.finalTemp = Number(e.target.value);
-              }))
+              settings.set({ finalTemp: Number(e.target.value) })
             }
           />
           <input
@@ -160,18 +121,11 @@ const Sidebar = () => {
             name="temp"
             min="0"
             max="5"
+            step="0.001"
             value={settings.finalTemp!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   finalTemp: e.target.value ? Number(e.target.value) : null,
-              // })
-              settings.set(produce(settings, (draft) => {
-                draft.finalTemp = e.target.value ? Number(e.target.value) : null;
-              }))
-
+              settings.set({ finalTemp: Number(e.target.value) })
             }
-            step="0.1"
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
@@ -187,10 +141,7 @@ const Sidebar = () => {
                 max="10"
                 value={settings.qpotts}
                 onChange={(e) =>
-                  // setSettings({ ...settings, qpotts: Number(e.target.value) })
-                  settings.set(produce(settings, (draft) => {
-                    draft.qpotts = Number(e.target.value);
-                  }))
+                  settings.set({ qpotts: Number(e.target.value) })
                 }
               />
               <input
@@ -200,10 +151,7 @@ const Sidebar = () => {
                 max="10"
                 value={settings.qpotts}
                 onChange={(e) =>
-                  // setSettings({ ...settings, qpotts: Number(e.target.value) })
-                  settings.set(produce(settings, (draft) => {
-                    draft.qpotts = Number(e.target.value);
-                  }))
+                  settings.set({ qpotts: Number(e.target.value) })
                 }
                 step="0.1"
                 className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -216,10 +164,7 @@ const Sidebar = () => {
           <h1>Temperature Step</h1>
           <select
             onChange={(e) =>
-              // setSettings({ ...settings, tempStep: Number(e.target.value) })
-              settings.set(produce(settings, (draft) => {
-                draft.tempStep = Number(e.target.value);
-              }))
+              settings.set({ tempStep: Number(e.target.value) })
             }
           >
             <option>1</option>
@@ -242,28 +187,13 @@ const Sidebar = () => {
             max="5000"
             value={settings.equilibriationDelay!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   equilibriationDelay: Number(e.target.value),
-              // })
-              settings.set(produce(settings, (draft) => {
-                draft.equilibriationDelay = Number(e.target.value);
-              }))
+              settings.set({ equilibriationDelay: Number(e.target.value) })
             }
           />
           <input
             value={settings.equilibriationDelay!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   equilibriationDelay: e.target.value
-              //     ? Number(e.target.value)
-              //     : null,
-              // })
-              settings.set(produce(settings, (draft) => {
-                draft.equilibriationDelay = e.target.value ? Number(e.target.value) : null;
-              }))
-
+              settings.set({ equilibriationDelay: Number(e.target.value) })
             }
             type="number"
             name="temp"
@@ -277,14 +207,7 @@ const Sidebar = () => {
           <input
             value={settings.numberOfCycles!}
             onChange={(e) =>
-              settings.set(produce(settings, (draft) => {
-                draft.numberOfCycles = e.target.value ? Number(e.target.value) : null;
-              }))
-
-              // setSettings({
-              //   ...settings,
-              //   numberOfCycles: e.target.value ? Number(e.target.value) : null,
-              // })
+              settings.set({ numberOfCycles: e.target.value ? Number(e.target.value) : null })
             }
             type="number"
             name="temp"
@@ -298,11 +221,7 @@ const Sidebar = () => {
           <select
             value={settings.latticeSize}
             onChange={(e) =>
-              // setSettings({ ...settings, latticeSize: Number(e.target.value) })
-              settings.set(produce(settings, (draft) => {
-                draft.latticeSize = Number(e.target.value);
-              }))
-
+              settings.set({ latticeSize: Number(e.target.value) })
             }
           >
             <option>3</option>
@@ -325,14 +244,7 @@ const Sidebar = () => {
           <select
             value={settings.stepsPerFrame!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   stepsPerFrame: Number(e.target.value),
-              // })
-              settings.set(produce(settings, (draft) => {
-                draft.stepsPerFrame = Number(e.target.value);
-              }))
-
+              settings.set({ stepsPerFrame: Number(e.target.value) })
             }
           >
             <option>10</option>
@@ -354,13 +266,7 @@ const Sidebar = () => {
             min="-20"
             max="20"
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   magneticField: Number(e.target.value),
-              // })
-              settings.set(produce(settings, (draft) => {
-                draft.magneticField = Number(e.target.value);
-              }))
+              settings.set({ magneticField: Number(e.target.value) })
             }
           />
           <input
@@ -370,14 +276,7 @@ const Sidebar = () => {
             name="temp"
             value={settings.magneticField!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   magneticField: e.target.value ? Number(e.target.value) : null,
-              // })
-              settings.set(produce(settings, (draft) => {
-                draft.magneticField = e.target.value ? Number(e.target.value) : null;
-              }))
-
+              settings.set({ magneticField: Number(e.target.value) })
             }
             step="0.1"
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -397,14 +296,7 @@ const Sidebar = () => {
                 max="0.4"
                 step="0.1"
                 onChange={(e) =>
-                  // setSettings({
-                  //   ...settings,
-                  //   couplingStrength: Number(e.target.value),
-                  // })
-                  settings.set(produce(settings, (draft) => {
-                    draft.couplingStrength = Number(e.target.value);
-                  }))
-
+                  settings.set({ couplingStrength: Number(e.target.value) })
                 }
               />
               <input
@@ -414,14 +306,7 @@ const Sidebar = () => {
                 name="temp"
                 value={settings.couplingStrength}
                 onChange={(e) =>
-                  // setSettings({
-                  //   ...settings,
-                  //   couplingStrength: Number(e.target.value),
-                  // })
-                  settings.set(produce(settings, (draft) => {
-                    draft.couplingStrength = Number(e.target.value);
-                  }))
-
+                  settings.set({ couplingStrength: Number(e.target.value) })
                 }
                 step="0.1"
                 className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -439,14 +324,7 @@ const Sidebar = () => {
             min="0"
             max="10"
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   localMagneticField: Number(e.target.value),
-              // })
-              settings.set(produce(settings, (draft) => {
-                draft.localMagneticField = Number(e.target.value);
-              }))
-
+              settings.set({ localMagneticField: Number(e.target.value) })
             }
           />
           <input
@@ -462,10 +340,7 @@ const Sidebar = () => {
               //     ? Number(e.target.value)
               //     : null,
               // })
-              settings.set(produce(settings, (draft) => {
-                draft.localMagneticField = e.target.value ? Number(e.target.value) : null;
-              }))
-
+              settings.set({ localMagneticField: e.target.value ? Number(e.target.value) : null })
             }
             step="0.1"
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -494,19 +369,7 @@ const Sidebar = () => {
           <select
             className="w-48"
             onChange={(e) => {
-              // setSettings({
-              //   ...settings,
-              //   boundariesConditions: e.target.value,
-              // });
-              // settings.set(produce(settings, (draft) => {
-              //   draft.boundariesConditions = e.target.value;
-              // }))
-
               settings.set({ boundariesConditions: e.target.value });
-
-              // initSpins();
-              // setup(router.asPath);
-              // boundarySetup();
             }}
           >
             <option selected>Periodic Boundaries</option>
@@ -524,14 +387,7 @@ const Sidebar = () => {
           <h1>Geometic Pattern</h1>
           <select
             onChange={(e) => {
-              // setSettings({
-              //   ...settings,
-              //   geometicPattern: e.target.value,
-              // });
-              settings.set(produce(settings, (draft) => {
-                draft.geometicPattern = e.target.value;
-              }))
-
+              settings.set({ geometicPattern: e.target.value });
             }}
           >
             <option selected>Random</option>
@@ -564,13 +420,6 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  // setSettings({
-                  //   ...settings,
-                  //   nanotubeSimulation: {
-                  //     ...settings.nanotubeSimulation,
-                  //     width: e.target.value ? Number(e.target.value) : null,
-                  //   },
-                  // });
                   settings.set(produce(settings, (draft) => {
                     draft.nanotubeSimulation.width = e.target.value ? Number(e.target.value) : null;
                   }))
@@ -586,17 +435,9 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  // setSettings({
-                  //   ...settings,
-                  //   nanotubeSimulation: {
-                  //     ...settings.nanotubeSimulation,
-                  //     diameter: e.target.value ? Number(e.target.value) : null,
-                  //   },
-                  // });
                   settings.set(produce(settings, (draft) => {
                     draft.nanotubeSimulation.diameter = e.target.value ? Number(e.target.value) : null;
                   }))
-
                 }}
               />
             </div>
@@ -609,17 +450,9 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  // setSettings({
-                  //   ...settings,
-                  //   nanotubeSimulation: {
-                  //     ...settings.nanotubeSimulation,
-                  //     height: e.target.value ? Number(e.target.value) : null,
-                  //   },
-                  // });
                   settings.set(produce(settings, (draft) => {
                     draft.nanotubeSimulation.height = e.target.value ? Number(e.target.value) : null;
                   }))
-
                 }}
               />
             </div>
@@ -629,15 +462,8 @@ const Sidebar = () => {
               <select
                 className="border border-black rounded"
                 onChange={(e) => {
-                  // setSettings({
-                  //   ...settings,
-                  //   nanotubeSimulation: {
-                  //     ...settings.nanotubeSimulation,
-                  //     spin: Number(e.target.value) == 1 ? true : false,
-                  //   },
-                  // });
                   settings.set(produce(settings, (draft) => {
-                    draft.nanotubeSimulation.spin = Number(e.target.value) == 1 ? true : false;
+                    draft.nanotubeSimulation.spin = Number(e.target.value) == 1 ? true : false
                   }))
                 }}
               >
@@ -686,13 +512,6 @@ const Sidebar = () => {
             type="number"
             value={settings.proportionSpin.positive!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   proportionSpin: {
-              //     ...settings.proportionSpin,
-              //     positive: e.target.value ? Number(e.target.value) : null,
-              //   },
-              // })
               settings.set(produce(settings, (draft) => {
                 draft.proportionSpin.positive = e.target.value ? Number(e.target.value) : null;
               }))
@@ -709,13 +528,6 @@ const Sidebar = () => {
             type="number"
             value={settings.proportionSpin.negative!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   proportionSpin: {
-              //     ...settings.proportionSpin,
-              //     negative: e.target.value ? Number(e.target.value) : null,
-              //   },
-              // })
               settings.set(produce(settings, (draft) => {
                 draft.proportionSpin.negative = e.target.value ? Number(e.target.value) : null;
               }))
@@ -732,7 +544,6 @@ const Sidebar = () => {
               type="button"
               value="Align Spins"
               onClick={() => {
-                // initSpins();
                 alignSpins(router.asPath);
               }}
             />
@@ -741,7 +552,6 @@ const Sidebar = () => {
               type="button"
               value="Randomize"
               onClick={() => {
-                // initSpins();
                 setup(router.asPath);
               }}
             />
