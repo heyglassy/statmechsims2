@@ -1,3 +1,6 @@
+import { Chart } from "chart.js";
+import { Optional } from "./utils";
+
 export type plotPoint = { x: number; y: number }; // x = temperature y = magnetization
 
 export interface graphs {

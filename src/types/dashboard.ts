@@ -1,4 +1,4 @@
-import { Optional } from "./store2";
+import { Optional } from "./utils";
 
 export interface dashboard {
   framesInfo: {
@@ -20,6 +20,5 @@ export interface dashboard {
   averageMagnetization: number;
   sigmaMagnetisation: number | null;
   reset: () => void;
-  // init: () => void;
   set: (update: Optional<dashboard>) => void;
 }

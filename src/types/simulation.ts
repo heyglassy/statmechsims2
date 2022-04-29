@@ -1,3 +1,5 @@
+import { Optional } from "./utils";
+
 export interface simulation {
     currentUrl: string;
     localMagnetic: Array<Array<number>>;

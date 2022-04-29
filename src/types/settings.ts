@@ -1,4 +1,4 @@
-import { simulation } from "./simulation";
+import { Optional } from "./utils";
 
 export interface settings {
   initialTemp: number | null;

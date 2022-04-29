@@ -1,5 +1,4 @@
-import { GetState } from "zustand";
-import { MyState, Optional } from "./store2";
+import { Optional } from "./utils";
 
 export interface canvas {
     primaryColor: string;
