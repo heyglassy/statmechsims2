@@ -1,15 +1,6 @@
-import produce from "immer";
-import Settings from "../../stores/settings";
-import Simulation from "../../stores/simulation";
-import Store2 from "../../types/store2";
-
-// const settings = Settings.getState()
-// const simulation = Simulation.getState()
+import Store2 from "../../stores/store2";
 
 const { settings, simulation } = Store2.getState()
-
-
-
 
 const initSpins = () => {
     let BfieldM = new Array(settings.latticeSize);
@@ -49,13 +40,6 @@ const initSpins = () => {
         }
     }
 
-    // simulation.set(produce(simulation, (draft) => {
-    //     draft.localMagnetic = BfieldM
-    //     draft.spin = spin
-    //     draft.spins = s
-    //     draft.spinBefore = sBefore
-    //     draft.clusteredChildren = clusterChild
-    // }))
     simulation.set({ localMagnetic: BfieldM, spin: spin, spins: s, spinBefore: sBefore, clusteredChildren: clusterChild })
 }
 

@@ -8,6 +8,8 @@ import EndSimulation from "./EndSimulation";
 import produce from "immer"
 import freePlay from "../helpers/freePlay";
 import useStore from "../stores/hooks";
+import initSpins from "../helpers/initializers/spins";
+import boundarySetup from "../helpers/boundaries";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -370,6 +372,9 @@ const Sidebar = () => {
             className="w-48"
             onChange={(e) => {
               settings.set({ boundariesConditions: e.target.value });
+              initSpins();
+              setup(router.asPath);
+              boundarySetup();
             }}
           >
             <option selected>Periodic Boundaries</option>
