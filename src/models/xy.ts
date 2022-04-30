@@ -1,5 +1,5 @@
 import { color2 } from "../helpers/color";
-import Store2 from "../types/store2";
+import Store2 from "../stores/store2";
 
 const wrap = "none"; // TODO: Add TOR and PRO XY model features
 

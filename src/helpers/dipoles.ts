@@ -1,4 +1,4 @@
-import Store2 from "../types/store2";
+import Store2 from "../stores/store2";
 
 export const getLeft = (i: number, j: number) => {
   // const { settings, spins } = create(Store).getState();

@@ -7,7 +7,7 @@ import Canvas from "../stores/canvas";
 import Dashboard from "../stores/dashboard";
 import Settings from "../stores/settings";
 import Simulation from "../stores/simulation";
-import Store2 from "../types/store2";
+import Store2 from "../stores/store2";
 
 const wolff = () => {
   // let {

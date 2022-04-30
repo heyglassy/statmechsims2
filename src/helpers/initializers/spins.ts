@@ -1,8 +1,7 @@
 import Store2 from "../../stores/store2";
 
-const { settings, simulation } = Store2.getState()
-
 const initSpins = () => {
+    const { settings, simulation } = Store2.getState()
     let BfieldM = new Array(settings.latticeSize);
     for (let i = 0; i < settings.latticeSize; i++) {
         BfieldM[i] = new Array(settings.latticeSize);

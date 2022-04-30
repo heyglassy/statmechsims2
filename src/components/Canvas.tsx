@@ -1,22 +1,16 @@
 import { useEffect, useRef } from "react";
-import useStore, { useCanvas, useSettings, useSimulation } from "../stores/hooks";
 import { setSpin, setup } from "../helpers/setup";
 import { useRouter } from "next/router";
-import produce from "immer";
 import initSpins from "../helpers/initializers/spins";
+import useStore from "../stores/hooks";
 
 const Canvas = () => {
   const router = useRouter();
   const newCanvas = useRef<HTMLCanvasElement>(null);
-  // const settings = useSettings()
-  // const simulation = useSimulation()
-  // const canvas = useCanvas()
-
-  const { settings, simulation, canvas } = useStore();
-  // const test = useStore(state => { state.settings, state.simulation, state.canvas });
+  const { settings, canvas } = useStore();
 
   let mousedown = false;
-  // 
+
   const findCoords = (event: MouseEvent) => {
     let x = 0;
     let y = 0;
@@ -50,7 +44,7 @@ const Canvas = () => {
     setSpin(i, j, router.asPath);
   };
 
-  const mouseUp = (event: MouseEvent) => {
+  const mouseUp = () => {
     mousedown = false;
   };
 
@@ -65,17 +59,9 @@ const Canvas = () => {
   };
 
   useEffect(() => {
-    // simulation.set(produce(simulation, (draft) => {
-    //   draft.freePlay = false;
-    // }))
-    simulation.set({ freePlay: false })
-    const context = newCanvas.current?.getContext("2d", { alpha: false });
+    const context = newCanvas.current!.getContext("2d", { alpha: false });
 
     if (context != null || context != undefined) {
-      // initSpins();
-      // setContext(newCanvas.current!);
-      // setup(router.asPath);
-
       initSpins()
       canvas.init(newCanvas.current!)
       setup(router.asPath);
@@ -83,12 +69,8 @@ const Canvas = () => {
       newCanvas.current!.onmousedown = coords;
       newCanvas.current!.onmouseup = mouseUp;
       newCanvas.current!.onmousemove = mousemove;
-      // canvas.current!.onmousedown = coords;
-      // canvas.current!.onmouseup = mouseUp;
-      // canvas.current!.onmousemove = mousemove;
-
     }
-  }, [settings.latticeSize, router.asPath]);
+  }, [settings.latticeSize, router.asPath, newCanvas]);
 
   return (
     <canvas

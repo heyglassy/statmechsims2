@@ -1,10 +1,7 @@
 // import { colorStore, Store } from "../stores/store";
-import { temperatureInc } from "../helpers/runner";
-import Canvas from "../stores/canvas";
-import Settings from "../stores/settings";
-import Store2 from "../types/store2";
+import Store2 from "../stores/store2";
 
-const transverse = (timestamp: number) => {
+const transverse = () => {
   // let { settings, context, setDashboard, dashboard, incSteps } =
   //   create(Store).getState();
 

@@ -10,6 +10,7 @@ import freePlay from "../helpers/freePlay";
 import useStore from "../stores/hooks";
 import initSpins from "../helpers/initializers/spins";
 import boundarySetup from "../helpers/boundaries";
+import { MakePattern } from "../helpers/patternSelect";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -20,8 +21,6 @@ const Sidebar = () => {
   return (
     <nav className="flex flex-col h-screen w-80">
       <div className="h-3/4 left-0 bg-white overflow-y-scroll overscroll-y-auto p-3">
-        <h1 className="text-3xl font-bold">{simulation.currentUrl}</h1>
-        <h1 className="text-3xl font-bold">{simulation.freePlay ? "True" : "False"}</h1>
         <Switch.Group>
           <div className="flex items-center justify-between">
             <Switch.Label
@@ -393,6 +392,7 @@ const Sidebar = () => {
           <select
             onChange={(e) => {
               settings.set({ geometicPattern: e.target.value });
+              MakePattern(e.target.value)
             }}
           >
             <option selected>Random</option>
@@ -500,15 +500,6 @@ const Sidebar = () => {
           <div>
           </div></div>
         <div className="bg-black my-2 w-full h-px"></div> */}
-        <div className="flex items-center">
-          <h1>Show Fixed Spin</h1>
-          <input
-            className="ml-5 bg-gray-100 border border-black rounded"
-            type="checkbox"
-            name="temp"
-          />
-        </div>
-        <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex">
           <h1>Proportion +1 Spin</h1>
           <input
@@ -557,6 +548,7 @@ const Sidebar = () => {
               type="button"
               value="Randomize"
               onClick={() => {
+                initSpins()
                 setup(router.asPath);
               }}
             />
@@ -590,7 +582,7 @@ const Sidebar = () => {
             // settings.simulation ? endSimulation() : setConfirm(true);
             // simulation.running ? simulation.set(produce(simulation, (draft) => { draft.running = false })) : setConfirm(true);
             // simulation.running ? simulation.set({ ...simulation, running: false }) : setConfirm(true);
-            simulation.running ? setEndScreen(true) : null;
+            simulation.running ? setEndScreen(true) : setConfirm(true);
           }}
           disabled={simulation.freePlay ? true : false}
           className={`${simulation.running

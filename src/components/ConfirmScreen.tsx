@@ -1,10 +1,7 @@
-import useStore, { useSettings, useSimulation } from "../stores/hooks";
-import { runner } from "../helpers/runner";
-import { useRouter } from "next/router";
+import useStore from "../stores/hooks";
 import type { Dispatch, SetStateAction } from "react";
-import { newChart } from "./Graph";
-import produce from "immer";
 import React from "react";
+import { runner } from "../helpers/runner";
 
 interface Props {
   open: boolean;
@@ -12,12 +9,9 @@ interface Props {
 }
 
 const ConfirmScreen: React.FC<Props> = ({ open, setOpen }: Props) => {
-  // const { settings, setSettings, initDashboard, graph, setGraph } = useStore(
-  //   (state) => state
-  // );
-  const settings = useSettings()
-  const simulation = useSimulation()
-  const router = useRouter();
+  const settings = useStore(state => state.settings);
+  const simulation = useStore(state => state.simulation);
+  const set = useStore(state => state.dashboard).set
 
   const checkTemp = (): JSX.Element => {
     if (settings.tempStep! < 0 && settings.initialTemp! < settings.finalTemp!) {
@@ -42,17 +36,13 @@ const ConfirmScreen: React.FC<Props> = ({ open, setOpen }: Props) => {
       <button
         className="bg-green-500 text-white rounded mt-4 w-32 h-8"
         onClick={() => {
-          // simulation.set(produce(simulation, (draft) => {
-          //   draft.running = true
-          // }))
-          simulation.set({ ...simulation, simulation: true })
-          // setSettings({ ...settings, simulation: true });
-          // if (!settings.simulation) {
-          //   initDashboard();
-          //   const chart = newChart(graph);
-          //   setGraph(chart);
-          // }
-          // runner(router.asPath);
+          simulation.set({ ...simulation, running: true })
+          const totalFrames = (settings.finalTemp! - settings.initialTemp!) / settings.tempStep!;
+          set({
+            cycles: { totalCycles: settings.numberOfCycles!, currentCycle: 1 },
+            framesInfo: { totalFrames, savedFrames: 1 }
+          })
+          runner(Date.now())
           setOpen(!open);
         }}
       >

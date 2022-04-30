@@ -1,6 +1,7 @@
 import { GetState, SetState } from "zustand";
 import type { settings } from "../types/settings";
-import { MyState, Optional } from "../types/store2";
+import { MyState } from "../types/store2";
+import { Optional } from "../types/utils";
 
 const Settings = ((set: SetState<MyState>, get: GetState<MyState>): settings => ({
     initialTemp: 2.27,

@@ -1,10 +1,9 @@
 import create from "zustand";
 import { getCouplingConstant } from "../helpers/coupling-constant";
-import Store2 from "../types/store2";
+import Store2 from "../stores/store2";
 
 export const colorBEG = (i: number, j: number, spins: Array<Array<number>>) => {
   let { context, width } = create(Store2).getState().canvas;
-  // const { context, width } = Canvas.getState()
 
   if (spins[i][j] == 1) {
     context!.fillStyle = "#FE0105"; // purple
@@ -79,24 +78,11 @@ export const ComputeEforBEG = () => {
   return { Ecurrent, Mcurrent };
 };
 
-// ;
-// let {
-//   settings,
-//   spins,
-//   dashboard,
-//   setDashboard,
-//   updateGraph,
-//   localMagnetic,
-//   incSteps,
-//   setSpins,
-// } = create(Store).getState();
-
-const BlumeCapel = (timemstamp: number) => {
+const BlumeCapel = () => {
   const { magneticField, latticeSize, magnetism, stepsPerFrame } = Store2.getState().settings;
   const { temperature, localMagnetic } = Store2.getState().simulation
 
   let { spins } = Store2.getState().simulation
-  let tempSpins = spins
   const CouplingConstant = getCouplingConstant(magnetism);
 
   //energy change with local magnetic field
@@ -153,75 +139,11 @@ const BlumeCapel = (timemstamp: number) => {
     }
   };
 
-  // if (settings.freePlay || settings.simulation) {
   for (let a = 0; a < stepsPerFrame!; a++) {
     model();
   }
-
-  console.log("Double check before return", spins === tempSpins)
 
   return { spins, temperature, localMagnetic };
 }
 
 export default BlumeCapel;
-
-//   if (settings.simulation) {
-//     // this code runs the model
-
-//     let { Ecurrent, Mcurrent } = ComputeEforBEG();
-//     const sigmaEnergy = Math.sqrt(
-//       (dashboard.energy * dashboard.energy) /
-//       (dashboard.frames.savedFrames + 1) -
-//       dashboard.averageEnergy * dashboard.averageEnergy
-//     );
-
-//     const sigmaMagnetisation = Math.sqrt(
-//       (dashboard.magnetization * dashboard.magnetization) /
-//       (dashboard.frames.savedFrames + 1) -
-//       dashboard.averageMagnetization * dashboard.averageMagnetization
-//     );
-
-//     setDashboard({
-//       ...dashboard,
-//       energy: Ecurrent / 10000,
-//       magnetization: Mcurrent / 10000,
-//       totalMagnetization: dashboard.totalMagnetization + Mcurrent / 10000,
-//       averageEnergy: dashboard.totalEnergy / dashboard.steps,
-//       averageMagnetization: dashboard.totalMagnetization / dashboard.steps,
-//       totalEnergy: dashboard.totalEnergy + Ecurrent / 10000,
-//       sigmaEnergy: isNaN(sigmaEnergy) ? null : sigmaEnergy,
-//       sigmaMagnetisation: isNaN(sigmaMagnetisation)
-//         ? null
-//         : sigmaMagnetisation,
-//     });
-
-//     temperatureInc();
-
-//     updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
-//     incSteps();
-//     window.requestAnimationFrame(BlumeCapel);
-//   }
-//   if (settings.freePlay) {
-//     const { Ecurrent, Mcurrent } = ComputeEforBEG();
-
-//     console.log(dashboard.temperature)
-
-//     setDashboard({
-//       ...dashboard,
-//       energy: Ecurrent / settings.stepsPerFrame!,
-//       magnetization: Mcurrent / settings.stepsPerFrame!,
-//       temperature: dashboard.temperature!,
-//     });
-
-//     if (settings.freePlayIncrement) {
-//       incSteps();
-//       temperatureInc();
-//     }
-
-//     updateGraph({ x: dashboard.temperature, y: dashboard.magnetization });
-//     window.requestAnimationFrame(BlumeCapel);
-//   }
-// }
-// setSpins(newSpins);
-// };
-

@@ -1,7 +1,3 @@
-import create from "zustand";
-import Canvas from "../stores/canvas";
-import Settings from "../stores/settings";
-import Simulation from "../stores/simulation";
 import Store2 from "../stores/store2";
 
 /**
@@ -18,7 +14,6 @@ export const color = (i: number, j: number) => {
     context!.fillStyle == "green";
   } else {
     if (settings.magnetism == "Biparite" && i % 2 == j % 2) {
-      console.log(spins[i][j])
       if (spins[i][j] == 1) context!.fillStyle = primaryColor;
       else context!.fillStyle = secondaryColor;
     } else {

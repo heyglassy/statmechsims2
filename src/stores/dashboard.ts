@@ -1,6 +1,6 @@
 import { dashboard } from "../types/dashboard";
 import { GetState, SetState } from "zustand";
-import { MyState } from "../types/store2";
+import { MyState } from "./store2";
 
 const calculateTotalFrames = (initialTemp: number, tempStep: number, finalTemp: number, numberOfCycles: number) => {
     let diff;
@@ -31,7 +31,7 @@ const Dashboard = ((set: SetState<MyState>, get: GetState<MyState>): dashboard =
     totalMagnetization: 0,
     averageMagnetization: 0,
     sigmaMagnetisation: 0,
-    reset: () => set({}, true),
+    reset: () => set({}),
     // init: () => set(dashboard => produce(dashboard, state => {
     //     state.temperature = get().initialTemp!;
     //     state.cycles.totalCycles = get().numberOfCycles!

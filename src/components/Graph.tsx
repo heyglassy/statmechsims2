@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Chart, ScriptableContext } from "chart.js";
+import { Chart, LinearScale, LineController, LineElement, PointElement, ScatterController, ScriptableContext, Title } from "chart.js";
 import useStore from "../stores/hooks";
 import { plotPoint } from "../types/graphs";
 
@@ -15,6 +15,8 @@ export const newChart = () => {
       return point.y > 0 ? "#3772FF" : "black";
     }
   };
+
+  Chart.register(LineController, LineElement, LinearScale, Title, ScatterController, PointElement);
 
   const chart = new Chart("temp_vs_mag_graph", {
     type: "scatter",
@@ -38,11 +40,18 @@ export const newChart = () => {
     },
     options: {
       scales: {
+        x: {
+          beginAtZero: true,
+          min: 0,
+          max: 5,
+        },
         y: {
           beginAtZero: true,
+          min: -1,
+          max: 1,
         },
       },
-    },
+    }
   });
 
   return chart;
@@ -52,7 +61,7 @@ const Graphs = () => {
   const { graphs } = useStore();
 
   useEffect(() => {
-    graphs.current.destroy();
+    if (graphs.current) graphs.current.destroy();
     const chart = newChart();
     graphs.set({ current: chart });
   }, []);

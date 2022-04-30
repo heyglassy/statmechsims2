@@ -1,6 +1,7 @@
 import { GetState, SetState } from "zustand";
 import { simulation } from "../types/simulation";
-import { MyState, Optional } from "../types/store2";
+import { MyState } from "../types/store2";
+import { Optional } from "../types/utils";
 
 const Simulation = ((set: SetState<MyState>, get: GetState<MyState>): simulation => ({
     currentUrl: "/model/metropolis",

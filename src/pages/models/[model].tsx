@@ -16,7 +16,6 @@ const Model = () => {
     if (router.query) {
       const modelInfo = Models.find((model) => model.url == router.asPath)!
       if (modelInfo) {
-
         set({ currentUrl: router.asPath, calcStats: modelInfo.calcStats, algo: modelInfo.algo })
       }
     }

@@ -1,14 +1,8 @@
-import Canvas from "../stores/canvas";
-import create from "zustand/vanilla"
-import type { canvas } from "./canvas";
-import { dashboard } from "./dashboard";
-import { settings } from "./settings";
-import Dashboard from "../stores/dashboard";
-import Settings from "../stores/settings";
-import Graphs from "../stores/graph";
-import { simulation } from "./simulation";
-import Simulation from "../stores/simulation";
-import { graphs } from "./graphs";
+import { canvas } from "./canvas"
+import { dashboard } from "./dashboard"
+import { graphs } from "./graphs"
+import { settings } from "./settings"
+import { simulation } from "./simulation"
 
 export type MyState = {
     canvas: canvas,
@@ -17,18 +11,6 @@ export type MyState = {
     graphs: graphs,
     simulation: simulation
 }
-
-export type Optional<T> = { [K in keyof T]+?: T[K] };
-
-const Store2 = create<MyState>((set, get) => ({
-    canvas: Canvas(set, get),
-    dashboard: Dashboard(set, get),
-    settings: Settings(set, get),
-    graphs: Graphs(set, get),
-    simulation: Simulation(set, get),
-}))
-
-export default Store2
 
 // export type MyState = canvas & settings & dashboard & graphs & simulation;
 

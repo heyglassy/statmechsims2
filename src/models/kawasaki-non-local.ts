@@ -1,7 +1,7 @@
 import { color } from "../helpers/color";
 import { getCouplingConstant } from "../helpers/coupling-constant";
 import { getBottom, getLeft, getRight, getTop } from "../helpers/dipoles";
-import Store2 from "../types/store2";
+import Store2 from "../stores/store2";
 
 export const ComputeEforKawasaki = () => {
   const { magneticField, latticeSize, magnetism } = Store2.getState().settings;
@@ -144,7 +144,6 @@ const deltaUforKawasaki = (i1: number, j1: number, i2: number, j2: number, spins
       2.0 * thisS * (magneticField! + localMagnetic[i2][j2])
     )
   } else {
-    console.log("?????")
     return (
       2.0 * CouplingConstant * thisS * (bottom1 + top1 + left1 + right1) +
       2.0 * CouplingConstant * thatS * (bottom2 + top2 + left2 + right2) +
