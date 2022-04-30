@@ -33,8 +33,8 @@ const appRouter = trpc
       try {
         s3.send(new PutObjectCommand(params));
       } catch (e) {
-        console.log(e);
         link = "Error";
+        throw new Error(`${e}`)
       }
 
       return {
@@ -111,8 +111,8 @@ const appRouter = trpc
       try {
         s3.send(new PutObjectCommand(params));
       } catch (e) {
-        console.log(e);
         link = "Error";
+        throw new Error(`${e}`)
       }
       return {
         link: `https://${BUCKET}.s3.amazonaws.com${input.pathname}/${input.date}/data/data.json`,

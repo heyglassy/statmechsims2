@@ -1,7 +1,8 @@
-import useStore from "../store/useStore";
+import useStore from "../stores/hooks";
 
 const DataSidebar = () => {
-  const { dashboard, initDashboard } = useStore();
+  const { dashboard } = useStore();
+
   return (
     <div className="flex flex-wrap m-3 items-center w-5/6 ">
       <h1 className="text-2xl font-bold text-white">Data</h1>
@@ -9,7 +10,7 @@ const DataSidebar = () => {
       <div className="w-24 h-16 p-2 text-center text-xs bg-white rounded m-2">
         <h1>Saved Frames</h1>
         <h1>
-          {dashboard.frames.savedFrames}/{dashboard.frames.totalFrames}
+          {dashboard.framesInfo.savedFrames}/{dashboard.framesInfo.totalFrames}
         </h1>
       </div>
       <div className="w-24 h-16 p-2 text-center text-xs bg-white rounded m-2">
@@ -54,7 +55,7 @@ const DataSidebar = () => {
         type="button"
         value="Reset Stats"
         className="text-white bg-blue-500 h-10 w-24 rounded"
-        onClick={initDashboard}
+        onClick={dashboard.reset}
       />
     </div>
   );

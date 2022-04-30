@@ -1,15 +1,12 @@
-import Store from "../store/store";
-import create from "zustand";
 import qpotts from "../models/q-potts";
 import wolff from "../models/wolff";
 import transverse from "../models/transverse-field-ising";
-import { color, color2 } from "./color";
+import { color, color2 } from "./store";
 import { colorBEG } from "../models/blume-capel";
-import { alogPicker } from "./runner";
+import Store2 from "../stores/store";
 
 export const setup = (model: string) => {
-  const { settings, context, setWall, setNearestNeighs, setSpins, width } =
-    create(Store).getState();
+  const { settings, simulation, canvas: { context, width } } = Store2.getState();
 
   if (
     model == "/models/metropolis" ||
@@ -25,12 +22,14 @@ export const setup = (model: string) => {
       model == "/models/kawasaki-local" ||
       model == "/models/kawasaki-non-local"
     ) {
-      let nearestneighs = new Object();
-      for (var m = 0; m < settings.latticeSize; m++) {
-        for (var n = 0; n < settings.latticeSize; n++) {
-          var pair = [];
-          var indexNeighs = [];
-          for (var zz = 0; zz < 4; zz++) {
+      // let nearestneighs = new Array<Array<number>>(settings.latticeSize);
+      // nearestneighs.fill(new Array<number>(settings.latticeSize).fill(0))
+      let nearestneighs = new Object()
+      for (let m = 0; m < settings.latticeSize; m++) {
+        for (let n = 0; n < settings.latticeSize; n++) {
+          let pair = [];
+          let indexNeighs = [];
+          for (let zz = 0; zz < 4; zz++) {
             if (zz == 0) {
               //look up
               if (m == 0) {
@@ -78,13 +77,13 @@ export const setup = (model: string) => {
           }
         }
       }
-      setNearestNeighs(nearestneighs);
+      simulation.set({ ...simulation, nearestNeighs: nearestneighs })
     }
   } else if (model == "/models/blume-capel") {
     let local_spins = new Array(settings.latticeSize);
     for (let i = 0; i < settings.latticeSize; i++) {
       local_spins[i] = new Array(settings.latticeSize);
-      for (var j = 0; j < settings.latticeSize; j++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
         let randy = Math.random();
         if (randy <= settings.proportionSpin.positive!) {
           local_spins[i][j] = 1;
@@ -101,7 +100,7 @@ export const setup = (model: string) => {
       }
     }
 
-    setSpins(local_spins);
+    simulation.set({ spins: local_spins })
 
     for (let a = 0; a < settings.latticeSize; a++) {
       for (let b = 0; b < settings.latticeSize; b++) {
@@ -148,7 +147,7 @@ export const setup = (model: string) => {
 
       t_spin[i] = Math.random() < 0.5 ? 1 : -1;
     }
-    setWall(wall);
+    simulation.set({ wall })
     window.requestAnimationFrame(transverse);
   } else if (model == "/models/q-potts") {
     window.requestAnimationFrame(qpotts);
@@ -160,25 +159,22 @@ export const setup = (model: string) => {
       s[i] = new Array(settings.latticeSize);
       for (let j = 0; j < settings.latticeSize; j++) {
         s[i][j] = Math.random() * 2 * Math.PI;
-        var c = Math.random() * 360;
+        let c = Math.random() * 360;
         context!.fillStyle = `hsl(${c}, 100%, 50%)`;
         context!.fillRect(i * width, j * width, width, width);
       }
     }
-    setSpins(s);
+
+    simulation.set({ spins: s })
   }
 };
 
 export const alignSpins = (model: string) => {
-  const {
-    settings,
-    context,
-    spin,
-    setNearestNeighs,
-    setSpins,
-    setSpin,
-    width,
-  } = create(Store).getState();
+
+  const settings = Store2.getState().settings
+  const { spin } = Store2.getState().simulation
+  const simulation = Store2.getState().simulation
+  const { context, width } = Store2.getState().canvas
 
   if (
     model == "/models/metropolis" ||
@@ -199,7 +195,7 @@ export const alignSpins = (model: string) => {
       }
     }
 
-    setSpins(local_spins);
+    simulation.set({ spins: local_spins })
 
     for (let i = 0; i < settings.latticeSize; i++) {
       for (let j = 0; j < settings.latticeSize; j++) {
@@ -212,11 +208,11 @@ export const alignSpins = (model: string) => {
       model == "/models/kawasaki-non-local"
     ) {
       let nearestneighs = new Object();
-      for (var m = 0; m < settings.latticeSize; m++) {
-        for (var n = 0; n < settings.latticeSize; n++) {
-          var pair = [];
-          var indexNeighs = [];
-          for (var zz = 0; zz < 4; zz++) {
+      for (let m = 0; m < settings.latticeSize; m++) {
+        for (let n = 0; n < settings.latticeSize; n++) {
+          let pair = [];
+          let indexNeighs = [];
+          for (let zz = 0; zz < 4; zz++) {
             if (zz == 0) {
               //look up
               if (m == 0) {
@@ -264,7 +260,7 @@ export const alignSpins = (model: string) => {
           }
         }
       }
-      setNearestNeighs(nearestneighs);
+      simulation.set({ nearestNeighs: nearestneighs })
     }
 
     return local_spins;
@@ -273,7 +269,7 @@ export const alignSpins = (model: string) => {
     let randy = Math.random();
     for (let i = 0; i < settings.latticeSize; i++) {
       local_spins[i] = new Array(settings.latticeSize);
-      for (var j = 0; j < settings.latticeSize; j++) {
+      for (let j = 0; j < settings.latticeSize; j++) {
         if (randy <= settings.proportionSpin.positive!) {
           local_spins[i][j] = 1;
         } else if (
@@ -289,7 +285,7 @@ export const alignSpins = (model: string) => {
       }
     }
 
-    setSpins(local_spins);
+    simulation.set({ spins: local_spins })
 
     for (let a = 0; a < settings.latticeSize; a++) {
       for (let b = 0; b < settings.latticeSize; b++) {
@@ -316,7 +312,7 @@ export const alignSpins = (model: string) => {
         color2(i, j, c);
       }
     }
-    setSpin(spin);
+    simulation.set({ spin })
     return spin;
   } else if (model == "/models/xy") {
     let random = Math.random();
@@ -328,7 +324,7 @@ export const alignSpins = (model: string) => {
         local_spins[i][j] = random * 2 * Math.PI;
       }
     }
-    setSpins(local_spins);
+    simulation.set({ spins: local_spins })
     for (let i = 0; i < settings.latticeSize; i++) {
       for (let j = 0; j < settings.latticeSize; j++) {
         color2(i, j, c);
@@ -340,21 +336,10 @@ export const alignSpins = (model: string) => {
 };
 
 export const nanotube = (model: string) => {
-  const {
-    settings,
-    spin,
-    context,
-    width,
-    localMagnetic,
-    setLocalMagnetic,
-    setSpins,
-  } = create(Store).getState();
+  const settings = Store2.getState().settings
+  const { context, width } = Store2.getState().canvas
 
-  // Don't ask me why this is here, I have not a clue.  ¯\_(ツ)_/¯
-  if (settings.nanotubeSimulation.spin) {
-    let algo = alogPicker(model);
-    window.requestAnimationFrame(algo!);
-  }
+  let { spin, localMagnetic, set } = Store2.getState().simulation
 
   let nSpin;
   settings.nanotubeSimulation.spin ? (nSpin = 1) : (nSpin = -100);
@@ -409,16 +394,15 @@ export const nanotube = (model: string) => {
     }
   }
 
-  setSpins(spins!);
-  setLocalMagnetic(localMagnetic);
+  set({ spins, localMagnetic })
 };
 
 export const setSpin = (i: number, j: number, page: string) => {
-  const { settings, spins, setSpins, localMagnetic, setLocalMagnetic } =
-    create(Store).getState();
+  const settings = Store2.getState().settings
+  let { spins, set, localMagnetic } = Store2.getState().simulation
 
   if (settings.localMagneticField! == 0.0) {
-    spins[i][j] *= -1;
+    spins[i][j] *= -1
   } else {
     if (spins[i][j] == 1 && settings.localMagneticField! < -0.1) {
       spins[i][j] *= -1;
@@ -434,11 +418,11 @@ export const setSpin = (i: number, j: number, page: string) => {
     }
 
     spins[i][j] = spin;
-    spins[i][j] = colorBEG(i, j, spins);
+    colorBEG(i, j, spins);
   } else {
     color(i, j);
   }
+
   localMagnetic[i][j] = settings.localMagneticField!;
-  setLocalMagnetic(localMagnetic);
-  setSpins(spins);
+  set({ localMagnetic })
 };

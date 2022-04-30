@@ -1,14 +1,13 @@
 import { useEffect, useRef } from "react";
-import useStore from "../store/useStore";
 import { setSpin, setup } from "../helpers/setup";
 import { useRouter } from "next/router";
+import initSpins from "../helpers/initializers/spins";
+import useStore from "../stores/hooks";
 
 const Canvas = () => {
   const router = useRouter();
-  const canvas = useRef<HTMLCanvasElement>(null);
-  let { initSpins, setContext, settings, setSettings } = useStore(
-    (state) => state
-  );
+  const newCanvas = useRef<HTMLCanvasElement>(null);
+  const { settings, canvas } = useStore();
 
   let mousedown = false;
 
@@ -45,7 +44,7 @@ const Canvas = () => {
     setSpin(i, j, router.asPath);
   };
 
-  const mouseUp = (event: MouseEvent) => {
+  const mouseUp = () => {
     mousedown = false;
   };
 
@@ -60,25 +59,25 @@ const Canvas = () => {
   };
 
   useEffect(() => {
-    setSettings({ ...settings, freePlay: false });
-    const context = canvas.current?.getContext("2d", { alpha: false });
+    const context = newCanvas.current!.getContext("2d", { alpha: false });
 
     if (context != null || context != undefined) {
-      initSpins();
-      setContext(canvas.current!);
+      initSpins()
+      canvas.init(newCanvas.current!)
       setup(router.asPath);
-      canvas.current!.onmousedown = coords;
-      canvas.current!.onmouseup = mouseUp;
-      canvas.current!.onmousemove = mousemove;
+
+      newCanvas.current!.onmousedown = coords;
+      newCanvas.current!.onmouseup = mouseUp;
+      newCanvas.current!.onmousemove = mousemove;
     }
-  }, [settings.latticeSize, router.asPath]);
+  }, [settings.latticeSize, router.asPath, newCanvas]);
 
   return (
     <canvas
       className=" w-600 h-600 bg-white ml-5 mt-5"
       width="600px"
       height="600px"
-      ref={canvas}
+      ref={newCanvas}
     ></canvas>
   );
 };

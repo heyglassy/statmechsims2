@@ -1,23 +1,32 @@
-import create from "zustand";
-import Store from "../store/store";
-import { temperatureInc } from "../helpers/runner";
+// import { colorStore, Store } from "../stores/store";
+import Store2 from "../stores/store";
 
-const transverse = (timestamp: number) => {
-  let { settings, context, setDashboard, dashboard, incSteps, color } =
-    create(Store).getState();
+const transverse = () => {
+  // let { settings, context, setDashboard, dashboard, incSteps } =
+  //   create(Store).getState();
 
-  var l = 125;
-  var w = 600 / l - 1;
-  var y = 600;
+  // const { primaryColor, secondaryColor } = create(colorStore).getState();
 
-  var n_spin = 125;
-  var temp = settings.initialTemp!;
-  var gamma = settings.magneticField!;
+  //TODO: Disable canvas painting.
+  // const { context, primaryColor, secondaryColor } = Canvas.getState();
+  // const settings = Settings.getState()
 
-  var spin = new Array(n_spin);
-  var wall = new Array(n_spin);
+  const { magneticField } = Store2.getState().settings;
+  const { temperature } = Store2.getState().simulation
+  const { context, secondaryColor, primaryColor } = Store2.getState().canvas
 
-  for (var i = 0; i < n_spin; ++i) {
+  let l = 125;
+  let w = 600 / l - 1;
+  let y = 600;
+
+  let n_spin = 125;
+  let temp = temperature!;
+  let gamma = magneticField!;
+
+  let spin = new Array(n_spin);
+  let wall = new Array(n_spin);
+
+  for (let i = 0; i < n_spin; ++i) {
     spin[i] = Math.random() < 0.5 ? 1 : -1;
     wall[i] = init_wall();
   }
@@ -31,10 +40,10 @@ const transverse = (timestamp: number) => {
   }
 
   function make_wall() {
-    var theta = temp / gamma;
-    var pos = exp_dist(theta);
-    var width;
-    var wall = new Array();
+    let theta = temp / gamma;
+    let pos = exp_dist(theta);
+    let width;
+    let wall = new Array();
     while (pos < 1.0) {
       width = exp_dist(theta);
       wall.push(pos);
@@ -44,22 +53,22 @@ const transverse = (timestamp: number) => {
   }
 
   function init_wall() {
-    var wall = make_wall();
+    let wall = make_wall();
     if (wall.length % 2 > 0) wall.pop();
     wall.push(1.0);
     return wall;
   }
 
   function create_cluster(idx: any) {
-    var w0 = wall[idx];
-    var w1 = make_wall();
+    let w0 = wall[idx];
+    let w1 = make_wall();
     w1.push(1.0);
 
-    var x0, x1;
-    var x = 0.0;
-    var i0 = 0;
-    var i1 = 0;
-    var w = new Array();
+    let x0, x1;
+    let x = 0.0;
+    let i0 = 0;
+    let i1 = 0;
+    let w = new Array();
     while (x < 1.0) {
       x0 = w0[i0];
       x1 = w1[i1];
@@ -72,9 +81,9 @@ const transverse = (timestamp: number) => {
       }
       w.push(x);
     }
-    var spin = new Array(w.length);
-    var ene = new Array(w.length);
-    for (var i = 0; i < ene.length; ++i) ene[i] = 0.0;
+    let spin = new Array(w.length);
+    let ene = new Array(w.length);
+    for (let i = 0; i < ene.length; ++i) ene[i] = 0.0;
 
     return {
       num: w.length,
@@ -85,14 +94,14 @@ const transverse = (timestamp: number) => {
   }
 
   function add_ene(cluster: any, idx: any) {
-    var w1 = wall[idx];
-    var i1 = 0;
-    var x1 = w1[i1++];
-    var s1 = spin[idx];
+    let w1 = wall[idx];
+    let i1 = 0;
+    let x1 = w1[i1++];
+    let s1 = spin[idx];
 
-    var bottom = 0.0,
+    let bottom = 0.0,
       top = 0.0;
-    for (i = 0; i < cluster.num; ++i) {
+    for (let i = 0; i < cluster.num; ++i) {
       top = cluster.wall[i];
 
       while (x1 < top) {
@@ -111,7 +120,7 @@ const transverse = (timestamp: number) => {
   }
 
   function flip_cluster(cluster: any) {
-    var p;
+    let p;
     if (cluster.num == 1) {
       p = prob(cluster.ene[0]);
     } else {
@@ -120,21 +129,21 @@ const transverse = (timestamp: number) => {
     cluster.spin[0] = Math.random() < p ? +1 : -1;
     cluster.spin[cluster.num - 1] = cluster.spin[0];
 
-    for (i = 1; i < cluster.num - 1; ++i) {
+    for (let i = 1; i < cluster.num - 1; ++i) {
       p = prob(cluster.ene[i]);
       cluster.spin[i] = Math.random() < p ? +1 : -1;
     }
   }
 
   function update_spin(idx: any) {
-    var cluster = create_cluster(idx);
+    let cluster = create_cluster(idx);
     add_ene(cluster, (idx + 1) % n_spin);
     add_ene(cluster, (idx - 1 + n_spin) % n_spin);
     flip_cluster(cluster);
 
     spin[idx] = cluster.spin[0];
     wall[idx] = new Array();
-    for (i = 0; i < cluster.num - 1; ++i) {
+    for (let i = 0; i < cluster.num - 1; ++i) {
       if (cluster.spin[i] != cluster.spin[i + 1]) {
         wall[idx].push(cluster.wall[i]);
       }
@@ -143,18 +152,18 @@ const transverse = (timestamp: number) => {
   }
 
   function update() {
-    for (var i = 0; i < n_spin; ++i) {
-      var idx = Math.floor(Math.random() * n_spin);
+    for (let i = 0; i < n_spin; ++i) {
+      let idx = Math.floor(Math.random() * n_spin);
       update_spin(idx);
     }
   }
   function draw() {
     let y0, y1;
-    for (var i = 0; i < l; ++i) {
-      context!.fillStyle = spin[i] > 0 ? color[0] : color[1];
+    for (let i = 0; i < l; ++i) {
+      context!.fillStyle = spin[i] > 0 ? secondaryColor : primaryColor;
       context!.fillRect(i * (w + 1), 0, w, y);
-      context!.fillStyle = spin[i] > 0 ? color[1] : color[0];
-      for (var j = 0; j < wall[i].length; j += 2) {
+      context!.fillStyle = spin[i] > 0 ? primaryColor : secondaryColor;
+      for (let j = 0; j < wall[i].length; j += 2) {
         y0 = wall[i][j] * y;
         y1 = wall[i][j + 1] * y;
         context!.fillRect(i * (w + 1), y0, w, y1 - y0);
@@ -164,26 +173,26 @@ const transverse = (timestamp: number) => {
   update();
   draw();
 
-  if (settings.freePlay || settings.simulation) {
-    if (settings.simulation) {
-      temperatureInc();
+  // if (settings.freePlay || settings.simulation) {
+  //   if (settings.simulation) {
+  //     temperatureInc();
 
-      incSteps();
-      setTimeout(() => {
-        window.requestAnimationFrame(transverse);
-      }, 60);
-    }
+  //     incSteps();
+  //     setTimeout(() => {
+  //       window.requestAnimationFrame(transverse);
+  //     }, 60);
+  //   }
 
-    if (settings.freePlay) {
-      setDashboard({
-        ...dashboard,
-        temperature: settings.initialTemp!,
-      });
-      setTimeout(() => {
-        window.requestAnimationFrame(transverse);
-      }, 60);
-    }
-  }
+  //   if (settings.freePlay) {
+  //     setDashboard({
+  //       ...dashboard,
+  //       temperature: settings.initialTemp!,
+  //     });
+  //     setTimeout(() => {
+  //       window.requestAnimationFrame(transverse);
+  //     }, 60);
+  //   }
+  // }
 };
 
 export default transverse;

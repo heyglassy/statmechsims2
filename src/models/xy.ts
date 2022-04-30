@@ -1,6 +1,5 @@
-import create from "zustand";
-import Store from "../store/store";
-import { color2 } from "../helpers/color";
+import { color2 } from "../helpers/store";
+import Store2 from "../stores/store";
 
 const wrap = "none"; // TODO: Add TOR and PRO XY model features
 
@@ -34,24 +33,32 @@ const torind = (arr: Array<Array<number>>, i: number, j: number) => {
   return arr[mod(i, arr.length)][mod(j, arr[0].length)];
 };
 
-const model = () => {
-  const { settings, spins, setSpins, dashboard } = create(Store).getState();
-  let newphases = new Array(settings.latticeSize);
-  for (let i = 0; i < settings.latticeSize; i++) {
-    newphases[i] = new Array(settings.latticeSize);
-    for (let j = 0; j < settings.latticeSize; j++) {
+const xy = () => {
+  const { magneticField, latticeSize, couplingStrength } = Store2.getState().settings;
+  const { temperature } = Store2.getState().simulation
+
+  let { spins } = Store2.getState().simulation
+
+
+  //TODO: Fix initial state
+
+  // const { settings, spins, setSpins, dashboard } = create(Store).getState();
+  let newphases = new Array(latticeSize);
+  for (let i = 0; i < latticeSize; i++) {
+    newphases[i] = new Array(latticeSize);
+    for (let j = 0; j < latticeSize; j++) {
       let f = 0;
 
       switch (wrap) {
         case "none":
           f += i > 0 ? Math.sin(spins[i][j] - spins[i - 1][j]) : 0;
           f +=
-            i < settings.latticeSize - 1
+            i < latticeSize - 1
               ? Math.sin(spins[i][j] - spins[i + 1][j])
               : 0;
           f += j > 0 ? Math.sin(spins[i][j] - spins[i][j - 1]) : 0;
           f +=
-            j < settings.latticeSize - 1
+            j < latticeSize - 1
               ? Math.sin(spins[i][j] - spins[i][j + 1])
               : 0;
           break;
@@ -69,63 +76,66 @@ const model = () => {
           break;
       }
 
-      f *= settings.couplingStrength;
-      f += dashboard.temperature * (2 * Math.random() - 1);
-      f += settings.magneticField! * Math.sin(spins[i][j]);
+      f *= couplingStrength;
+      f += temperature * (2 * Math.random() - 1);
+      f += magneticField! * Math.sin(spins[i][j]);
 
       newphases[i][j] = spins[i][j] - f;
       const c = rad2deg(newphases[i][j]);
       color2(i, j, c);
     }
   }
-  setSpins(newphases);
+  // setSpins(newphases);
+
+  return { spins: newphases };
 };
 
-const xy = () => {
-  const {
-    settings,
-    dashboard,
-    updatePayload,
-    incFrames,
-    endSimulation,
-    incCycles,
-    incSteps,
-    canvas,
-    setDashboard,
-  } = create(Store).getState();
+// const xy = () => {
+//   // const {
+//   //   settings,
+//   //   dashboard,
+//   //   updatePayload,
+//   //   incFrames,
+//   //   endSimulation,
+//   //   incCycles,
+//   //   incSteps,
+//   //   canvas,
+//   //   setDashboard,
+//   // } = create(Store).getState();
 
-  model();
 
-  if (settings.freePlay || settings.simulation) {
-    if (settings.simulation) {
-      if (
-        dashboard.steps % settings.stepsPerFrame! == 0 &&
-        dashboard.steps != 0
-      ) {
-        // this code updaetes the dashboard and resets values to continue the experiment
-        let frame = canvas!.toDataURL();
-        updatePayload(frame);
-        dashboard.frames.savedFrames++;
-        incFrames(); // This increments the temperature as well.
-        if (dashboard.temperature == settings.finalTemp!) {
-          if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
-            endSimulation();
-          } else {
-            incCycles(); // This also resets temperature to start the next cycle.
-          }
-        }
-      }
-      incSteps();
-      window.requestAnimationFrame(xy);
-    }
-    if (settings.freePlay) {
-      setDashboard({
-        ...dashboard,
-        temperature: settings.initialTemp!,
-      });
-      window.requestAnimationFrame(xy);
-    }
-  }
-};
+//   model();
+
+//   // if (settings.freePlay || settings.simulation) {
+//   //   if (settings.simulation) {
+//   //     if (
+//   //       dashboard.steps % settings.stepsPerFrame! == 0 &&
+//   //       dashboard.steps != 0
+//   //     ) {
+//   //       // this code updaetes the dashboard and resets values to continue the experiment
+//   //       let frame = canvas!.toDataURL();
+//   //       updatePayload(frame);
+//   //       dashboard.frames.savedFrames++;
+//   //       incFrames(); // This increments the temperature as well.
+//   //       if (dashboard.temperature == settings.finalTemp!) {
+//   //         if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
+//   //           endSimulation();
+//   //         } else {
+//   //           incCycles(); // This also resets temperature to start the next cycle.
+//   //         }
+//   //       }
+//   //     }
+//   //     incSteps();
+//   //     window.requestAnimationFrame(xy);
+//   //   }
+//   //   if (settings.freePlay) {
+//   //     setDashboard({
+//   //       ...dashboard,
+//   //       temperature: settings.initialTemp!,
+//   //     });
+//   //     window.requestAnimationFrame(xy);
+//   //   }
+//   // }
+// };
 
 export default xy;

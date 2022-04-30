@@ -1,85 +1,75 @@
+// TODO: Replace this entire file
 import { Switch } from "@headlessui/react";
-import { runner } from "../helpers/runner";
 import { setup, alignSpins, nanotube } from "../helpers/setup";
 import { useRouter } from "next/router";
-import boundarySetup from "../helpers/boundaries";
 import { useState } from "react";
 import ConfirmScreen from "./ConfirmScreen";
 import EndSimulation from "./EndSimulation";
-import useStore from "../store/useStore";
+import produce from "immer"
+import freePlay from "../helpers/freePlay";
+import useStore from "../stores/hooks";
+import initSpins from "../helpers/initializers/spins";
+import boundarySetup from "../helpers/boundaries";
+import { MakePattern } from "../helpers/patternSelect";
 
 const Sidebar = () => {
-  let {
-    settings,
-    endSimulation,
-    setSettings,
-    initDashboard,
-    initSpins,
-    endScreen,
-  } = useStore((state) => state);
   const router = useRouter();
   const [confirm, setConfirm] = useState(false);
+  const [endScreen, setEndScreen] = useState(false);
+  const { settings, simulation } = useStore();
 
   return (
     <nav className="flex flex-col h-screen w-80">
       <div className="h-3/4 left-0 bg-white overflow-y-scroll overscroll-y-auto p-3">
-        <h1 className="text-3xl font-bold">Settings</h1>
         <Switch.Group>
-          <div className="flex items-center my-1 justify-between">
+          <div className="flex items-center justify-between">
             <Switch.Label
-              className="text-md mr-3 text-black font-bold text-opacity-50"
+              className="text-lg text-black font-bold text-opacity-50"
               passive
             >
-              Set Freeplay Mode
+              Freeplay Mode
             </Switch.Label>
 
             <Switch
-              disabled={settings.simulation ? true : false}
-              checked={settings.freePlay}
+              disabled={simulation.running ? true : false}
+              checked={simulation.freePlay}
               onChange={() => {
-                setSettings({
-                  ...settings,
-                  freePlay: !settings.freePlay,
-                  simulation: false,
-                });
-                initDashboard();
-                runner(router.asPath);
+                // dashboard.reset(); 
+                simulation.set({ freePlay: !simulation.freePlay, running: false })
+                freePlay(Date.now())
               }}
-              className={`${settings.freePlay ? "bg-green-400" : "bg-gray-500"
+              className={`${simulation.freePlay ? "bg-green-400" : "bg-gray-500"
                 } relative inline-flex items-center h-6 rounded-full w-11`}
             >
               <span className="sr-only">Set Freeplay</span>
               <span
-                className={`${settings.freePlay ? "translate-x-6" : "translate-x-1"
+                className={`${simulation.freePlay ? "translate-x-6" : "translate-x-1"
                   } inline-block w-4 h-4 transform bg-white rounded-full`}
               ></span>
             </Switch>
           </div>
 
-          <div className="flex items-center my-1 justify-between">
+          <div className="flex items-center justify-between">
             <Switch.Label
-              className="text-sm mr-3 text-black font-bold text-opacity-50"
+              className="text-md text-black font-bold text-opacity-50"
               passive
             >
-              Increment
+              Increment Mode
             </Switch.Label>
 
             <Switch
-              disabled={settings.simulation ? true : false}
-              checked={settings.freePlayIncrement}
+              disabled={simulation.running ? true : false}
+              checked={simulation.freePlayIncrememt}
               onChange={() => {
-                setSettings({
-                  ...settings,
-                  freePlayIncrement: !settings.freePlayIncrement,
-                });
+                simulation.set({ freePlayIncrememt: !simulation.freePlayIncrememt })
               }}
-              className={`${settings.freePlayIncrement ? "bg-green-400" : "bg-gray-500"
-                } relative inline-flex items-center h-6 rounded-full w-11`}
+              className={`${simulation.freePlayIncrememt ? "bg-green-400" : "bg-gray-500"
+                } relative inline-flex items-center h-5 rounded-full w-8`}
             >
               <span className="sr-only">Set Freeplay Increment</span>
               <span
-                className={`${settings.freePlayIncrement ? "translate-x-6" : "translate-x-1"
-                  } inline-block w-4 h-4 transform bg-white rounded-full`}
+                className={`${simulation.freePlayIncrememt ? "translate-x-4" : "translate-x-1"
+                  } inline-block w-3 h-3 transform bg-white rounded-full`}
               ></span>
             </Switch>
           </div>
@@ -95,23 +85,20 @@ const Sidebar = () => {
             value={settings.initialTemp!}
             min="0"
             max="5"
-            step="0.01"
+            step="0.001"
             onChange={(e) =>
-              setSettings({ ...settings, initialTemp: Number(e.target.value) })
+              settings.set({ initialTemp: Number(e.target.value) })
             }
           />
           <input
             min="0"
             max="5"
-            step="0.01"
+            step="0.001"
             type="number"
             name="temp"
             value={settings.initialTemp!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                initialTemp: e.target.value ? Number(e.target.value) : null,
-              })
+              settings.set({ initialTemp: Number(e.target.value) })
             }
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
@@ -124,9 +111,10 @@ const Sidebar = () => {
             name="temp"
             min="0"
             max="5"
+            step="0.001"
             value={settings.finalTemp!}
             onChange={(e) =>
-              setSettings({ ...settings, finalTemp: Number(e.target.value) })
+              settings.set({ finalTemp: Number(e.target.value) })
             }
           />
           <input
@@ -134,14 +122,11 @@ const Sidebar = () => {
             name="temp"
             min="0"
             max="5"
+            step="0.001"
             value={settings.finalTemp!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                finalTemp: e.target.value ? Number(e.target.value) : null,
-              })
+              settings.set({ finalTemp: Number(e.target.value) })
             }
-            step="0.1"
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
         </div>
@@ -157,7 +142,7 @@ const Sidebar = () => {
                 max="10"
                 value={settings.qpotts}
                 onChange={(e) =>
-                  setSettings({ ...settings, qpotts: Number(e.target.value) })
+                  settings.set({ qpotts: Number(e.target.value) })
                 }
               />
               <input
@@ -167,7 +152,7 @@ const Sidebar = () => {
                 max="10"
                 value={settings.qpotts}
                 onChange={(e) =>
-                  setSettings({ ...settings, qpotts: Number(e.target.value) })
+                  settings.set({ qpotts: Number(e.target.value) })
                 }
                 step="0.1"
                 className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -180,7 +165,7 @@ const Sidebar = () => {
           <h1>Temperature Step</h1>
           <select
             onChange={(e) =>
-              setSettings({ ...settings, tempStep: Number(e.target.value) })
+              settings.set({ tempStep: Number(e.target.value) })
             }
           >
             <option>1</option>
@@ -203,21 +188,13 @@ const Sidebar = () => {
             max="5000"
             value={settings.equilibriationDelay!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                equilibriationDelay: Number(e.target.value),
-              })
+              settings.set({ equilibriationDelay: Number(e.target.value) })
             }
           />
           <input
             value={settings.equilibriationDelay!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                equilibriationDelay: e.target.value
-                  ? Number(e.target.value)
-                  : null,
-              })
+              settings.set({ equilibriationDelay: Number(e.target.value) })
             }
             type="number"
             name="temp"
@@ -231,10 +208,7 @@ const Sidebar = () => {
           <input
             value={settings.numberOfCycles!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                numberOfCycles: e.target.value ? Number(e.target.value) : null,
-              })
+              settings.set({ numberOfCycles: e.target.value ? Number(e.target.value) : null })
             }
             type="number"
             name="temp"
@@ -248,7 +222,7 @@ const Sidebar = () => {
           <select
             value={settings.latticeSize}
             onChange={(e) =>
-              setSettings({ ...settings, latticeSize: Number(e.target.value) })
+              settings.set({ latticeSize: Number(e.target.value) })
             }
           >
             <option>3</option>
@@ -271,10 +245,7 @@ const Sidebar = () => {
           <select
             value={settings.stepsPerFrame!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                stepsPerFrame: Number(e.target.value),
-              })
+              settings.set({ stepsPerFrame: Number(e.target.value) })
             }
           >
             <option>10</option>
@@ -296,10 +267,7 @@ const Sidebar = () => {
             min="-20"
             max="20"
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                magneticField: Number(e.target.value),
-              })
+              settings.set({ magneticField: Number(e.target.value) })
             }
           />
           <input
@@ -309,10 +277,7 @@ const Sidebar = () => {
             name="temp"
             value={settings.magneticField!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                magneticField: e.target.value ? Number(e.target.value) : null,
-              })
+              settings.set({ magneticField: Number(e.target.value) })
             }
             step="0.1"
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -332,10 +297,7 @@ const Sidebar = () => {
                 max="0.4"
                 step="0.1"
                 onChange={(e) =>
-                  setSettings({
-                    ...settings,
-                    couplingStrength: Number(e.target.value),
-                  })
+                  settings.set({ couplingStrength: Number(e.target.value) })
                 }
               />
               <input
@@ -345,10 +307,7 @@ const Sidebar = () => {
                 name="temp"
                 value={settings.couplingStrength}
                 onChange={(e) =>
-                  setSettings({
-                    ...settings,
-                    couplingStrength: Number(e.target.value),
-                  })
+                  settings.set({ couplingStrength: Number(e.target.value) })
                 }
                 step="0.1"
                 className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -366,10 +325,7 @@ const Sidebar = () => {
             min="0"
             max="10"
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                localMagneticField: Number(e.target.value),
-              })
+              settings.set({ localMagneticField: Number(e.target.value) })
             }
           />
           <input
@@ -379,12 +335,13 @@ const Sidebar = () => {
             name="temp"
             value={settings.localMagneticField!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                localMagneticField: e.target.value
-                  ? Number(e.target.value)
-                  : null,
-              })
+              // setSettings({
+              //   ...settings,
+              //   localMagneticField: e.target.value
+              //     ? Number(e.target.value)
+              //     : null,
+              // })
+              settings.set({ localMagneticField: e.target.value ? Number(e.target.value) : null })
             }
             step="0.1"
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -395,7 +352,11 @@ const Sidebar = () => {
           <h1>Magnetism</h1>
           <select
             onChange={(e) => {
-              setSettings({ ...settings, magnetism: e.target.value });
+              // setSettings({ ...settings, magnetism: e.target.value });
+              settings.set(produce(settings, (draft) => {
+                draft.magnetism = e.target.value;
+              }))
+
             }}
           >
             <option>Ferromagnetic</option>
@@ -409,10 +370,7 @@ const Sidebar = () => {
           <select
             className="w-48"
             onChange={(e) => {
-              setSettings({
-                ...settings,
-                boundariesConditions: e.target.value,
-              });
+              settings.set({ boundariesConditions: e.target.value });
               initSpins();
               setup(router.asPath);
               boundarySetup();
@@ -433,10 +391,8 @@ const Sidebar = () => {
           <h1>Geometic Pattern</h1>
           <select
             onChange={(e) => {
-              setSettings({
-                ...settings,
-                geometicPattern: e.target.value,
-              });
+              settings.set({ geometicPattern: e.target.value });
+              MakePattern(e.target.value)
             }}
           >
             <option selected>Random</option>
@@ -469,13 +425,9 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  setSettings({
-                    ...settings,
-                    nanotubeSimulation: {
-                      ...settings.nanotubeSimulation,
-                      width: e.target.value ? Number(e.target.value) : null,
-                    },
-                  });
+                  settings.set(produce(settings, (draft) => {
+                    draft.nanotubeSimulation.width = e.target.value ? Number(e.target.value) : null;
+                  }))
                 }}
               />
             </div>
@@ -488,13 +440,9 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  setSettings({
-                    ...settings,
-                    nanotubeSimulation: {
-                      ...settings.nanotubeSimulation,
-                      diameter: e.target.value ? Number(e.target.value) : null,
-                    },
-                  });
+                  settings.set(produce(settings, (draft) => {
+                    draft.nanotubeSimulation.diameter = e.target.value ? Number(e.target.value) : null;
+                  }))
                 }}
               />
             </div>
@@ -507,13 +455,9 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  setSettings({
-                    ...settings,
-                    nanotubeSimulation: {
-                      ...settings.nanotubeSimulation,
-                      height: e.target.value ? Number(e.target.value) : null,
-                    },
-                  });
+                  settings.set(produce(settings, (draft) => {
+                    draft.nanotubeSimulation.height = e.target.value ? Number(e.target.value) : null;
+                  }))
                 }}
               />
             </div>
@@ -523,13 +467,9 @@ const Sidebar = () => {
               <select
                 className="border border-black rounded"
                 onChange={(e) => {
-                  setSettings({
-                    ...settings,
-                    nanotubeSimulation: {
-                      ...settings.nanotubeSimulation,
-                      spin: Number(e.target.value) == 1 ? true : false,
-                    },
-                  });
+                  settings.set(produce(settings, (draft) => {
+                    draft.nanotubeSimulation.spin = Number(e.target.value) == 1 ? true : false
+                  }))
                 }}
               >
                 <option value={1}>Positive</option>
@@ -560,15 +500,6 @@ const Sidebar = () => {
           <div>
           </div></div>
         <div className="bg-black my-2 w-full h-px"></div> */}
-        <div className="flex items-center">
-          <h1>Show Fixed Spin</h1>
-          <input
-            className="ml-5 bg-gray-100 border border-black rounded"
-            type="checkbox"
-            name="temp"
-          />
-        </div>
-        <div className="bg-black my-2 w-full h-px"></div>
         <div className="flex">
           <h1>Proportion +1 Spin</h1>
           <input
@@ -577,13 +508,9 @@ const Sidebar = () => {
             type="number"
             value={settings.proportionSpin.positive!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                proportionSpin: {
-                  ...settings.proportionSpin,
-                  positive: e.target.value ? Number(e.target.value) : null,
-                },
-              })
+              settings.set(produce(settings, (draft) => {
+                draft.proportionSpin.positive = e.target.value ? Number(e.target.value) : null;
+              }))
             }
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
@@ -597,13 +524,9 @@ const Sidebar = () => {
             type="number"
             value={settings.proportionSpin.negative!}
             onChange={(e) =>
-              setSettings({
-                ...settings,
-                proportionSpin: {
-                  ...settings.proportionSpin,
-                  negative: e.target.value ? Number(e.target.value) : null,
-                },
-              })
+              settings.set(produce(settings, (draft) => {
+                draft.proportionSpin.negative = e.target.value ? Number(e.target.value) : null;
+              }))
             }
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
@@ -617,7 +540,6 @@ const Sidebar = () => {
               type="button"
               value="Align Spins"
               onClick={() => {
-                initSpins();
                 alignSpins(router.asPath);
               }}
             />
@@ -626,7 +548,7 @@ const Sidebar = () => {
               type="button"
               value="Randomize"
               onClick={() => {
-                initSpins();
+                initSpins()
                 setup(router.asPath);
               }}
             />
@@ -650,27 +572,30 @@ const Sidebar = () => {
         <input
           type="button"
           value={
-            settings.simulation
+            simulation.running
               ? "Stop Simulation"
-              : settings.freePlay
+              : simulation.freePlay
                 ? "Turn Freeplay Mode off to run simulations"
                 : "Run Simulation"
           }
           onClick={() => {
-            settings.simulation ? endSimulation() : setConfirm(true);
+            // settings.simulation ? endSimulation() : setConfirm(true);
+            // simulation.running ? simulation.set(produce(simulation, (draft) => { draft.running = false })) : setConfirm(true);
+            // simulation.running ? simulation.set({ ...simulation, running: false }) : setConfirm(true);
+            simulation.running ? setEndScreen(true) : setConfirm(true);
           }}
-          disabled={settings.freePlay ? true : false}
-          className={`${settings.simulation
+          disabled={simulation.freePlay ? true : false}
+          className={`${simulation.running
             ? "bg-red-500 text-xl"
-            : settings.freePlay
+            : simulation.freePlay
               ? "bg-gray-500 text-xs"
               : "bg-green-500 text-xl"
             } h-20 w-64 rounded`}
         />
       </div>
       {confirm ? <ConfirmScreen open={confirm} setOpen={setConfirm} /> : null}
-      {endScreen ? <EndSimulation /> : null}
-    </nav>
+      {endScreen ? <EndSimulation setOpen={setEndScreen} /> : null}
+    </nav >
   );
 };
 export default Sidebar;

@@ -1,12 +1,14 @@
-import { useRouter } from "next/router";
-import useStore from "../store/useStore";
+import React, { Dispatch, SetStateAction } from "react";
+import useStore from "../stores/hooks";
 import { trpc } from "../utils/trpc";
 
-const EndSimulation = () => {
-  const { dashboard, settings, payloads, frames, graph, initDashboard } = useStore(
-    (state) => state
-  );
-  const router = useRouter();
+interface Props {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const EndSimulation: React.FC<Props> = ({ setOpen }) => {
+  const dashboard = useStore().dashboard;
+  const { set } = useStore().simulation;
 
   const submitImage = trpc.useMutation(["imageupload"]);
   const submitData = trpc.useMutation(["dataupload"]);
@@ -15,7 +17,7 @@ const EndSimulation = () => {
     <div className="bg-gray-200 absolute inset-y-auto inset-x-1/3 h-3/5 w-1/3 p-6 rounded-md drop-shadow-2xl">
       <h1 className="text-2xl font-bold">Experiment Finished</h1>
       <h1>
-        Frame {dashboard.frames.savedFrames} of {dashboard.frames.totalFrames}{" "}
+        Frame {dashboard.framesInfo.savedFrames} of {dashboard.framesInfo.totalFrames}{" "}
         collected.
       </h1>
       <div className="flex flex-row justify-evenly mt-10">
@@ -24,22 +26,24 @@ const EndSimulation = () => {
             className="rounded bg-blue-500 text-white w-36 h-12"
             onClick={() => {
               const date = new Date().toISOString();
-              submitData.mutate({
-                pathname: router.asPath,
-                settings: settings,
-                data: payloads,
-                date: date,
-              });
-              frames.forEach((image, index) => {
-                submitImage.mutateAsync({
-                  image: image,
-                  pathname: router.asPath,
-                  index: index,
-                  date: date,
-                });
-              });
-              graph.clear();
-              initDashboard();
+              // submitData.mutate({
+              //   pathname: router.asPath,
+              //   settings: settings,
+              //   data: payloads,
+              //   date: date,
+              // });
+              // frames.forEach((image, index) => {
+              //   submitImage.mutateAsync({
+              //     image: image,
+              //     pathname: router.asPath,
+              //     index: index,
+              //     date: date,
+              //   });
+              // });
+              // graph.clear();
+              // initDashboard();
+              setOpen(false)
+              set({ running: false })
             }}
           >
             Save to Database
@@ -48,8 +52,8 @@ const EndSimulation = () => {
         <button
           className="rounded bg-gray-500 text-white w-36 h-12"
           onClick={() => {
-            graph.clear();
-            initDashboard();
+            setOpen(false)
+            set({ running: false })
           }}
         >
           Discard

@@ -1,19 +1,17 @@
-import useStore from "../store/useStore";
-import { runner } from "../helpers/runner";
-import { useRouter } from "next/router";
+import useStore from "../stores/hooks";
 import type { Dispatch, SetStateAction } from "react";
-import { newChart } from "./Graph";
+import React from "react";
+import { runner } from "../helpers/runner";
 
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const ConfirmScreen = ({ open, setOpen }: Props) => {
-  const { settings, setSettings, initDashboard, graph, setGraph } = useStore(
-    (state) => state
-  );
-  const router = useRouter();
+const ConfirmScreen: React.FC<Props> = ({ open, setOpen }: Props) => {
+  const settings = useStore(state => state.settings);
+  const simulation = useStore(state => state.simulation);
+  const set = useStore(state => state.dashboard).set
 
   const checkTemp = (): JSX.Element => {
     if (settings.tempStep! < 0 && settings.initialTemp! < settings.finalTemp!) {
@@ -38,13 +36,13 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
       <button
         className="bg-green-500 text-white rounded mt-4 w-32 h-8"
         onClick={() => {
-          setSettings({ ...settings, simulation: true });
-          if (!settings.simulation) {
-            initDashboard();
-            const chart = newChart(graph);
-            setGraph(chart);
-          }
-          runner(router.asPath);
+          simulation.set({ ...simulation, running: true })
+          const totalFrames = (settings.finalTemp! - settings.initialTemp!) / settings.tempStep!;
+          set({
+            cycles: { totalCycles: settings.numberOfCycles!, currentCycle: 1 },
+            framesInfo: { totalFrames, savedFrames: 1 }
+          })
+          runner(Date.now())
           setOpen(!open);
         }}
       >
@@ -56,18 +54,18 @@ const ConfirmScreen = ({ open, setOpen }: Props) => {
   return (
     <div className="bg-gray-200 absolute inset-y-auto inset-x-1/3 h-full flex flex-col justify-evenly w-1/3 p-6 rounded-md drop-shadow-2xl">
       <h1 className="text-2xl font-bold">Confirm Simulation Settings</h1>
-      <h1>Initial Temperature: {settings.initialTemp}</h1>
-      <h1>Final Temperature: {settings.finalTemp}</h1>
-      <h1>Temperature Step: {settings.tempStep}</h1>
-      <h1>Cycle {settings.numberOfCycles}</h1>
-      <h1>Total Frames</h1>
-      <h1>Equilibriation Delay: {settings.equilibriationDelay}</h1>
-      <h1>Lattice Size {settings.latticeSize}</h1>
-      <h1>Magnetic Field: {settings.magneticField}</h1>
-      <h1>Local Magnetic Field {settings.localMagneticField}</h1>
-      <h1>Magnetism: {settings.magnetism}</h1>
-      <h1>Boundaries {settings.boundariesConditions}</h1>
-      <h1>Pattern: {settings.geometicPattern}</h1>
+      <p>Initial Temperature: {settings.initialTemp}</p>
+      <p>Final Temperature: {settings.finalTemp}</p>
+      <p>Temperature Step: {settings.tempStep}</p>
+      <p>Cycle {settings.numberOfCycles}</p>
+      <p>Total Frames</p>
+      <p>Equilibriation Delay: {settings.equilibriationDelay}</p>
+      <p>Lattice Size {settings.latticeSize}</p>
+      <p>Magnetic Field: {settings.magneticField}</p>
+      <p>Local Magnetic Field {settings.localMagneticField}</p>
+      <p>Magnetism: {settings.magnetism}</p>
+      <p>Boundaries {settings.boundariesConditions}</p>
+      <p>Pattern: {settings.geometicPattern}</p>
       <div className="flex flex-col items-start">
         {checkTemp()}
         <button

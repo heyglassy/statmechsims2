@@ -1,9 +1,6 @@
-import { dashboard } from "./dashboard";
+import { Optional } from "./utils";
 
 export interface settings {
-  freePlay: boolean;
-  freePlayIncrement: boolean;
-  simulation: boolean;
   initialTemp: number | null;
   finalTemp: number | null;
   tempStep: number | null;
@@ -30,4 +27,6 @@ export interface settings {
     height: number | null;
     spin: boolean;
   };
+  reset: () => void;
+  set: (update: Optional<settings>) => void;
 };

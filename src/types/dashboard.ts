@@ -1,5 +1,7 @@
+import { Optional } from "./utils";
+
 export interface dashboard {
-  frames: {
+  framesInfo: {
     savedFrames: number;
     totalFrames: number;
   };
@@ -17,4 +19,6 @@ export interface dashboard {
   totalMagnetization: number;
   averageMagnetization: number;
   sigmaMagnetisation: number | null;
+  reset: () => void;
+  set: (update: Optional<dashboard>) => void;
 }

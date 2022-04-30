@@ -1,8 +1,12 @@
-import create from "zustand";
-import Store from "../store/store";
+import Store2 from "../stores/store";
 
 export const getLeft = (i: number, j: number) => {
-  const { settings, spins } = create(Store).getState();
+  // const { settings, spins } = create(Store).getState();
+  // const settings = Settings.getState()
+  // const { spins } = Simulation.getState()
+
+  const { simulation: { spins }, settings } = Store2.getState();
+
   if (j == 0) {
     if (
       settings.boundariesConditions ==
@@ -19,7 +23,11 @@ export const getLeft = (i: number, j: number) => {
 };
 
 export const getRight = (i: number, j: number) => {
-  const { settings, spins } = create(Store).getState();
+  // const { settings, spins } = create(Store).getState();
+  // const settings = Settings.getState()
+  // const { spins } = Simulation.getState()
+
+  const { simulation: { spins }, settings } = Store2.getState();
 
   if (j == settings.latticeSize - 1) {
     if (
@@ -37,7 +45,11 @@ export const getRight = (i: number, j: number) => {
 };
 
 export const getTop = (i: number, j: number) => {
-  const { settings, spins } = create(Store).getState();
+  // const { settings, spins } = create(Store).getState();
+  // const settings = Settings.getState()
+  // const { spins } = Simulation.getState()
+
+  const { simulation: { spins }, settings } = Store2.getState();
 
   if (i == 0) {
     if (
@@ -58,7 +70,11 @@ export const getTop = (i: number, j: number) => {
 };
 
 export const getBottom = (i: number, j: number) => {
-  const { settings, spins } = create(Store).getState();
+  // const { settings, spins } = create(Store).getState();
+  // const settings = Settings.getState()
+  // const { spins } = Simulation.getState()
+
+  const { simulation: { spins }, settings } = Store2.getState();
 
   if (i == settings.latticeSize - 1) {
     if (
