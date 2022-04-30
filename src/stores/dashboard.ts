@@ -1,6 +1,6 @@
 import { dashboard } from "../types/dashboard";
 import { GetState, SetState } from "zustand";
-import { MyState } from "./store2";
+import { MyState } from "./store";
 
 const calculateTotalFrames = (initialTemp: number, tempStep: number, finalTemp: number, numberOfCycles: number) => {
     let diff;

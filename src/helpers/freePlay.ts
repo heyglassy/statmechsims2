@@ -1,4 +1,4 @@
-import Store2 from "../stores/store2";
+import Store2 from "../stores/store";
 
 const freePlay = (timestamp: number) => {
     const { simulation, settings: { initialTemp, stepsPerFrame, tempStep, set }, graphs, dashboard } = Store2.getState();

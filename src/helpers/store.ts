@@ -1,4 +1,4 @@
-import Store2 from "../stores/store2";
+import Store2 from "../stores/store";
 
 /**
  * This function colors the canvas for Metropolis and both Kawasaki models.

@@ -1,5 +1,5 @@
-import Store2 from "../stores/store2";
-import { color } from "./color";
+import Store2 from "../stores/store";
+import { color } from "./store";
 
 const boundarySetup = () => {
   const settings = Store2.getState().settings

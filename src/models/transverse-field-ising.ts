@@ -1,5 +1,5 @@
 // import { colorStore, Store } from "../stores/store";
-import Store2 from "../stores/store2";
+import Store2 from "../stores/store";
 
 const transverse = () => {
   // let { settings, context, setDashboard, dashboard, incSteps } =

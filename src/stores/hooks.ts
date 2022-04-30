@@ -1,5 +1,5 @@
 import create from "zustand";
-import Store2 from "./store2";
+import Store2 from "./store";
 
 const useStore = create(Store2);
 

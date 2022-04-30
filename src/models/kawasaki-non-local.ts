@@ -1,7 +1,7 @@
-import { color } from "../helpers/color";
+import { color } from "../helpers/store";
 import { getCouplingConstant } from "../helpers/coupling-constant";
 import { getBottom, getLeft, getRight, getTop } from "../helpers/dipoles";
-import Store2 from "../stores/store2";
+import Store2 from "../stores/store";
 
 export const ComputeEforKawasaki = () => {
   const { magneticField, latticeSize, magnetism } = Store2.getState().settings;

@@ -1,9 +1,9 @@
 import qpotts from "../models/q-potts";
 import wolff from "../models/wolff";
 import transverse from "../models/transverse-field-ising";
-import { color, color2 } from "./color";
+import { color, color2 } from "./store";
 import { colorBEG } from "../models/blume-capel";
-import Store2 from "../stores/store2";
+import Store2 from "../stores/store";
 
 export const setup = (model: string) => {
   const { settings, simulation, canvas: { context, width } } = Store2.getState();

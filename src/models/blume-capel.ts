@@ -1,6 +1,6 @@
 import create from "zustand";
 import { getCouplingConstant } from "../helpers/coupling-constant";
-import Store2 from "../stores/store2";
+import Store2 from "../stores/store";
 
 export const colorBEG = (i: number, j: number, spins: Array<Array<number>>) => {
   let { context, width } = create(Store2).getState().canvas;

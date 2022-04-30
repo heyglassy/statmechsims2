@@ -1,4 +1,4 @@
-import Store2 from "../../stores/store2";
+import Store2 from "../../stores/store";
 
 const initSpins = () => {
     const { settings, simulation } = Store2.getState()

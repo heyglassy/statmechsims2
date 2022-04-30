@@ -1,5 +1,5 @@
 import produce from "immer";
-import Store2 from "../stores/store2";
+import Store2 from "../stores/store";
 
 export const runner = (timestamp: number) => {
   const { simulation, settings: { stepsPerFrame, tempStep, initialTemp, finalTemp }, graphs, dashboard } = Store2.getState();

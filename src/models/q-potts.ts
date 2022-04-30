@@ -1,11 +1,11 @@
 import create from "zustand";
-import { color2 } from "../helpers/color";
+import { color2 } from "../helpers/store";
 import { temperatureInc } from "../helpers/runner";
 import Settings from "../stores/settings";
 import Simulation from "../stores/simulation";
 import Dashboard from "../stores/dashboard";
 import produce from "immer";
-import Store2 from "../stores/store2";
+import Store2 from "../stores/store";
 
 const qpotts = () => {
   // const { settings, spin, dashboard, incSteps, setSpin, setDashboard } =

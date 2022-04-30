@@ -1,6 +1,6 @@
 import { colorBEG } from "../models/blume-capel";
-import Store2 from "../stores/store2";
-import { color } from "./color";
+import Store2 from "../stores/store";
+import { color } from "./store";
 import initSpins from "./initializers/spins";
 import { alignSpins, setup } from "./setup";
 
