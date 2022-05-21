@@ -1,11 +1,13 @@
 import { graphs } from "../types/graphs";
 import { GetState, SetState } from "zustand";
 import { MyState } from "../types/store";
+import { Optional } from "../types/utils";
 
 const Graphs = (set: SetState<MyState>, get: GetState<MyState>): graphs => ({
   graphData: [],
   plotPoint: { x: 1, y: 1 },
-  set: (update) => set({ graphs: { ...get().graphs, ...update } }),
+  set: (update: Optional<graphs>) =>
+    set({ graphs: { ...get().graphs, ...update } }),
   update: (plotPoint) =>
     set(({ graphs: graphs }) => {
       graphs.plotPoint = plotPoint;
