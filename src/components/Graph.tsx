@@ -79,19 +79,20 @@ const Graphs = () => {
     destroy();
     const chart = newChart();
     set({ current: chart });
-  }, [destroy, set]);
+  });
 
   return (
     <div className="mx-3 mb-3 w-5/6">
       <div>
-        <h1 className="text-2xl text-white font-bold">Graphs</h1>
-        {/* <input type="" */}
-        {/* <select onClick={ }>
-          <option>Magnetization</option>
-          <option>Magnetic susceptibility</option>
-        </select> */}
+        <div className="flex flex-row">
+          <h1 className="text-2xl text-white font-bold">Graphs</h1>
+          {/* <select>
+            <option>Magnetization</option>
+            <option>Magnetic susceptibility</option>
+          </select> */}
+        </div>
       </div>
-      {/* <div className="bg-white my-1 w-full h-px"></div> */}
+      <div className="bg-white my-1 w-full h-px"></div>
       <canvas id="temp_vs_mag_graph" className="m-3 bg-white"></canvas>
     </div>
   );
