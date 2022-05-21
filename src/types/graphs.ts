@@ -9,4 +9,5 @@ export interface graphs {
   graphData: Array<plotPoint>;
   set: (update: Optional<graphs>) => void;
   update: (plotPoint: plotPoint) => void;
+  destroy: () => void;
 }
