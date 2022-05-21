@@ -1,4 +1,4 @@
-import Sidebar from "../../components/Sidebar"
+import Sidebar from "../../components/Sidebar";
 import { useRouter } from "next/router";
 import Canvas from "../../components/Canvas";
 import { useEffect } from "react";
@@ -9,17 +9,17 @@ import { Models } from "../../helpers/models";
 
 const Model = () => {
   const router = useRouter();
-  const { simulation: { set } } = useStore()
+  const { set } = useStore((state) => state.simulation);
 
-  //TODO SIMPLIFY
   useEffect(() => {
-    if (router.query) {
-      const modelInfo = Models.find((model) => model.url == router.asPath)!
-      if (modelInfo) {
-        set({ currentUrl: router.asPath, calcStats: modelInfo.calcStats, algo: modelInfo.algo })
-      }
-    }
-  }, [set, router.query, router.asPath])
+    const modelInfo = Models.find((model) => model.url == router.asPath)!;
+    modelInfo &&
+      set({
+        currentUrl: router.asPath,
+        calcStats: modelInfo.calcStats,
+        algo: modelInfo.algo,
+      });
+  }, [set, router.query, router.asPath]);
 
   return (
     <div className="w-screen flex">
@@ -30,19 +30,7 @@ const Model = () => {
         <Graphs />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Model
-
-  // if (router.query) {
-  //   // simulation.set(produce(simulation, (draft) => {
-  //   //   draft.currentUrl = router.asPath;
-  //   // }))
-  //   // simulation.set({ ...simulation, currentUrl: router.asPath })
-  // }
-
-      // simulation.set(produce(simulation, (draft) => {
-      //   draft.currentUrl = router.asPath;
-      // }))
-      // set({ ...simulation, currentUrl: router.asPath })
+export default Model;
