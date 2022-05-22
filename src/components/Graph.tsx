@@ -79,7 +79,7 @@ const Graphs = () => {
     destroy();
     const chart = newChart();
     set({ current: chart });
-  });
+  }, [destroy, set]);
 
   return (
     <div className="mx-3 mb-3 w-5/6">
