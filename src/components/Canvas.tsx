@@ -55,7 +55,7 @@ const Canvas = () => {
 
   const mousemove = useCallback(
     (event: MouseEvent) => {
-      if (mousedown) {
+      if (mousedown.current) {
         const { x, y } = findCoords(event);
         const i = Math.floor(x);
         const j = Math.floor(y);
@@ -73,17 +73,12 @@ const Canvas = () => {
       initSpins();
       init(currentCanvas.current!);
       setup(asPath);
+
+      currentCanvas.current!.onmousedown = coords;
+      currentCanvas.current!.onmouseup = mouseup;
+      currentCanvas.current!.onmousemove = mousemove;
     }
-  }, [
-    latticeSize,
-    asPath,
-    currentCanvas,
-    init,
-    coords,
-    mouseup,
-    mousemove,
-    mousedown,
-  ]);
+  }, [latticeSize, asPath, currentCanvas, init, coords, mouseup, mousemove]);
 
   return (
     <canvas
