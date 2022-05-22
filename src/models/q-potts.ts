@@ -1,24 +1,11 @@
-import create from "zustand";
 import { color2 } from "../helpers/store";
-import { temperatureInc } from "../helpers/runner";
-import Settings from "../stores/settings";
-import Simulation from "../stores/simulation";
-import Dashboard from "../stores/dashboard";
-import produce from "immer";
-import Store2 from "../stores/store";
+import Store from "../stores/store";
 
 const qpotts = () => {
-  // const { settings, spin, dashboard, incSteps, setSpin, setDashboard } =
-  //   create(Store).getState();
-
-  //TODO: Fix initial state
-
-  const { magneticField, latticeSize, magnetism, qpotts } = Store2.getState().settings;
-  const { spin, temperature } = Store2.getState().simulation
+  const { magneticField, latticeSize, qpotts } = Store.getState().settings;
+  const { spin, temperature } = Store.getState().simulation;
 
   const model = () => {
-    // simulation.set(produce(simulation, (draft) => {
-
     const N = latticeSize * latticeSize;
 
     const get_index = (x: number, y: number) => {
@@ -73,28 +60,9 @@ const qpotts = () => {
       const c = (360 / qpotts) * spin[j];
       color2(x, y, c);
     }
-
-    // }))
-  }
+  };
 
   model();
-
-  // if (settings.freePlay || settings.simulation) {
-  //   if (settings.simulation) {
-  //     temperatureInc();
-
-  //     incSteps();
-  //     window.requestAnimationFrame(qpotts);
-  //   }
-
-  //   if (settings.freePlay) {
-  //     setDashboard({
-  //       ...dashboard,
-  //       temperature: settings.initialTemp!,
-  //     });
-  //     window.requestAnimationFrame(qpotts);
-  //   }
-  // }
 };
 
 export default qpotts;
