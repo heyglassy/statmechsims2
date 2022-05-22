@@ -1,38 +1,11 @@
-import produce from "immer";
-import create from "zustand";
-import { getCouplingConstant } from "../helpers/coupling-constant";
-// import { colorStore, Store } from "../stores/store";
-import { temperatureInc } from "../helpers/runner";
-import Canvas from "../stores/canvas";
-import Dashboard from "../stores/dashboard";
-import Settings from "../stores/settings";
-import Simulation from "../stores/simulation";
-import Store2 from "../stores/store";
+import Store from "../stores/store";
 
 const wolff = () => {
-  // let {
-  //   settings,
-  //   spin,
-  //   context,
-  //   dashboard,
-  //   spinBefore,
-  //   clusteredChildren,
-  //   setDashboard,
-  //   incSteps,
-  // } = create(Store).getState();
+  const { latticeSize } = Store.getState().settings;
+  const { temperature } = Store.getState().simulation;
+  const { context, secondaryColor, primaryColor } = Store.getState().canvas;
 
-  // const settings = Settings.getState();
-  // const simulation = Simulation.getState()
-  // const dashboard = Dashboard.getState()
-
-  // const { primaryColor, secondaryColor } = create(colorStore).getState();
-  // const { context, primaryColor, secondaryColor } = Canvas.getState();
-
-  const { latticeSize } = Store2.getState().settings;
-  const { temperature } = Store2.getState().simulation
-  const { context, secondaryColor, primaryColor } = Store2.getState().canvas
-
-  let { spinBefore, spin, clusteredChildren } = Store2.getState().simulation
+  let { spinBefore, spin, clusteredChildren } = Store.getState().simulation;
 
   let sizeSquaredW = latticeSize * latticeSize;
   let width = 600 / latticeSize;
@@ -52,16 +25,9 @@ const wolff = () => {
         }
       }
     }
-    // for (let i = 0; i < sizeSquaredW; ++i) {
-    // spinBefore[i] = spin[i];
-    // simulation.set(produce(simulation, (draft) => {
-    //   draft.spinBefore = simulation.spin
-    // }));
-    // }
   }
 
   const model = () => {
-
     let prob = 1.0 - Math.exp(-2.0 / temperature);
     let InnerLoopCountLocal = 0;
 
@@ -124,31 +90,10 @@ const wolff = () => {
       return Math.floor(Math.random() * (max - min)) + min;
     }
     // }))
-  }
+  };
 
   model();
   draw();
-
-  // if (settings.freePlay || settings.simulation) {
-  //   if (settings.simulation) {
-  //     temperatureInc();
-
-  //     incSteps();
-  //     setTimeout(() => {
-  //       window.requestAnimationFrame(wolff);
-  //     }, 60);
-  //   }
-
-  //   if (settings.freePlay) {
-  //     setDashboard({
-  //       ...dashboard,
-  //       temperature: settings.initialTemp!,
-  //     });
-  //     setTimeout(() => {
-  //       window.requestAnimationFrame(wolff);
-  //     }, 60);
-  //   }
-  // }
 };
 
 export default wolff;

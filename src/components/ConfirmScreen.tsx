@@ -9,9 +9,9 @@ interface Props {
 }
 
 const ConfirmScreen: React.FC<Props> = ({ open, setOpen }: Props) => {
-  const settings = useStore(state => state.settings);
-  const simulation = useStore(state => state.simulation);
-  const set = useStore(state => state.dashboard).set
+  const settings = useStore((state) => state.settings);
+  const simulation = useStore((state) => state.simulation);
+  const { set } = useStore((state) => state.dashboard);
 
   const checkTemp = (): JSX.Element => {
     if (settings.tempStep! < 0 && settings.initialTemp! < settings.finalTemp!) {
@@ -36,13 +36,14 @@ const ConfirmScreen: React.FC<Props> = ({ open, setOpen }: Props) => {
       <button
         className="bg-green-500 text-white rounded mt-4 w-32 h-8"
         onClick={() => {
-          simulation.set({ ...simulation, running: true })
-          const totalFrames = (settings.finalTemp! - settings.initialTemp!) / settings.tempStep!;
+          simulation.set({ ...simulation, running: true });
+          const totalFrames =
+            (settings.finalTemp! - settings.initialTemp!) / settings.tempStep!;
           set({
             cycles: { totalCycles: settings.numberOfCycles!, currentCycle: 1 },
-            framesInfo: { totalFrames, savedFrames: 1 }
-          })
-          runner(Date.now())
+            framesInfo: { totalFrames, savedFrames: 1 },
+          });
+          runner(Date.now());
           setOpen(!open);
         }}
       >

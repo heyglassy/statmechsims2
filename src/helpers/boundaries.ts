@@ -1,9 +1,9 @@
-import Store2 from "../stores/store";
+import Store from "../stores/store";
 import { color } from "./store";
 
 const boundarySetup = () => {
-  const settings = Store2.getState().settings
-  let { localMagnetic, spins, set } = Store2.getState().simulation
+  const settings = Store.getState().settings;
+  let { localMagnetic, spins, set } = Store.getState().simulation;
 
   if (
     settings.boundariesConditions == "Plus-Minus Boundaries (one direction)"
@@ -66,11 +66,11 @@ const boundarySetup = () => {
     }
   }
 
-  set({ localMagnetic, spins })
+  set({ localMagnetic, spins });
 
   for (let i = 0; i < settings.latticeSize; i++) {
     for (let j = 0; j < settings.latticeSize; j++) {
-      color(i, j)
+      color(i, j);
     }
   }
 };

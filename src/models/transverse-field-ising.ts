@@ -1,19 +1,9 @@
-// import { colorStore, Store } from "../stores/store";
-import Store2 from "../stores/store";
+import Store from "../stores/store";
 
 const transverse = () => {
-  // let { settings, context, setDashboard, dashboard, incSteps } =
-  //   create(Store).getState();
-
-  // const { primaryColor, secondaryColor } = create(colorStore).getState();
-
-  //TODO: Disable canvas painting.
-  // const { context, primaryColor, secondaryColor } = Canvas.getState();
-  // const settings = Settings.getState()
-
-  const { magneticField } = Store2.getState().settings;
-  const { temperature } = Store2.getState().simulation
-  const { context, secondaryColor, primaryColor } = Store2.getState().canvas
+  const { magneticField } = Store.getState().settings;
+  const { temperature } = Store.getState().simulation;
+  const { context, secondaryColor, primaryColor } = Store.getState().canvas;
 
   let l = 125;
   let w = 600 / l - 1;
@@ -172,27 +162,6 @@ const transverse = () => {
   }
   update();
   draw();
-
-  // if (settings.freePlay || settings.simulation) {
-  //   if (settings.simulation) {
-  //     temperatureInc();
-
-  //     incSteps();
-  //     setTimeout(() => {
-  //       window.requestAnimationFrame(transverse);
-  //     }, 60);
-  //   }
-
-  //   if (settings.freePlay) {
-  //     setDashboard({
-  //       ...dashboard,
-  //       temperature: settings.initialTemp!,
-  //     });
-  //     setTimeout(() => {
-  //       window.requestAnimationFrame(transverse);
-  //     }, 60);
-  //   }
-  // }
 };
 
 export default transverse;

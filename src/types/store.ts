@@ -1,16 +1,16 @@
-import { canvas } from "./canvas"
-import { dashboard } from "./dashboard"
-import { graphs } from "./graphs"
-import { settings } from "./settings"
-import { simulation } from "./simulation"
+import { canvas } from "./canvas";
+import { dashboard } from "./dashboard";
+import { graphs } from "./graphs";
+import { settings } from "./settings";
+import { simulation } from "./simulation";
 
 export type MyState = {
-    canvas: canvas,
-    settings: settings,
-    dashboard: dashboard,
-    graphs: graphs,
-    simulation: simulation
-}
+  canvas: canvas;
+  settings: settings;
+  dashboard: dashboard;
+  graphs: graphs;
+  simulation: simulation;
+};
 
 // export type MyState = canvas & settings & dashboard & graphs & simulation;
 
@@ -27,7 +27,6 @@ export type MyState = {
 //     typeof Graphs,
 //     typeof Simulation
 // ]>;
-
 
 // export type CreateState<T extends [...any]> = T extends [infer F, ...(infer R)]
 //     ? F extends (...args: any) => object

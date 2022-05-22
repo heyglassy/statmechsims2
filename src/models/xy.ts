@@ -1,5 +1,5 @@
 import { color2 } from "../helpers/store";
-import Store2 from "../stores/store";
+import Store from "../stores/store";
 
 const wrap = "none"; // TODO: Add TOR and PRO XY model features
 
@@ -34,11 +34,11 @@ const torind = (arr: Array<Array<number>>, i: number, j: number) => {
 };
 
 const xy = () => {
-  const { magneticField, latticeSize, couplingStrength } = Store2.getState().settings;
-  const { temperature } = Store2.getState().simulation
+  const { magneticField, latticeSize, couplingStrength } =
+    Store.getState().settings;
+  const { temperature } = Store.getState().simulation;
 
-  let { spins } = Store2.getState().simulation
-
+  let { spins } = Store.getState().simulation;
 
   //TODO: Fix initial state
 
@@ -53,14 +53,10 @@ const xy = () => {
         case "none":
           f += i > 0 ? Math.sin(spins[i][j] - spins[i - 1][j]) : 0;
           f +=
-            i < latticeSize - 1
-              ? Math.sin(spins[i][j] - spins[i + 1][j])
-              : 0;
+            i < latticeSize - 1 ? Math.sin(spins[i][j] - spins[i + 1][j]) : 0;
           f += j > 0 ? Math.sin(spins[i][j] - spins[i][j - 1]) : 0;
           f +=
-            j < latticeSize - 1
-              ? Math.sin(spins[i][j] - spins[i][j + 1])
-              : 0;
+            j < latticeSize - 1 ? Math.sin(spins[i][j] - spins[i][j + 1]) : 0;
           break;
         case "tor":
           f += Math.sin(newphases[i][j] - torind(newphases, i - 1, j));
@@ -89,53 +85,5 @@ const xy = () => {
 
   return { spins: newphases };
 };
-
-// const xy = () => {
-//   // const {
-//   //   settings,
-//   //   dashboard,
-//   //   updatePayload,
-//   //   incFrames,
-//   //   endSimulation,
-//   //   incCycles,
-//   //   incSteps,
-//   //   canvas,
-//   //   setDashboard,
-//   // } = create(Store).getState();
-
-
-//   model();
-
-//   // if (settings.freePlay || settings.simulation) {
-//   //   if (settings.simulation) {
-//   //     if (
-//   //       dashboard.steps % settings.stepsPerFrame! == 0 &&
-//   //       dashboard.steps != 0
-//   //     ) {
-//   //       // this code updaetes the dashboard and resets values to continue the experiment
-//   //       let frame = canvas!.toDataURL();
-//   //       updatePayload(frame);
-//   //       dashboard.frames.savedFrames++;
-//   //       incFrames(); // This increments the temperature as well.
-//   //       if (dashboard.temperature == settings.finalTemp!) {
-//   //         if (dashboard.cycles.currentCycle == dashboard.cycles.totalCycles) {
-//   //           endSimulation();
-//   //         } else {
-//   //           incCycles(); // This also resets temperature to start the next cycle.
-//   //         }
-//   //       }
-//   //     }
-//   //     incSteps();
-//   //     window.requestAnimationFrame(xy);
-//   //   }
-//   //   if (settings.freePlay) {
-//   //     setDashboard({
-//   //       ...dashboard,
-//   //       temperature: settings.initialTemp!,
-//   //     });
-//   //     window.requestAnimationFrame(xy);
-//   //   }
-//   // }
-// };
 
 export default xy;

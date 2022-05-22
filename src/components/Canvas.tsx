@@ -1,83 +1,91 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { setSpin, setup } from "../helpers/setup";
 import { useRouter } from "next/router";
 import initSpins from "../helpers/initializers/spins";
 import useStore from "../stores/hooks";
 
+// TODO: Rename mouse events for consistency
+
 const Canvas = () => {
-  const router = useRouter();
-  const newCanvas = useRef<HTMLCanvasElement>(null);
-  const { settings, canvas } = useStore();
+  const { latticeSize } = useStore((state) => state.settings);
+  const { init } = useStore((state) => state.canvas);
+  const { asPath } = useRouter();
 
-  let mousedown = false;
+  const currentCanvas = useRef<HTMLCanvasElement>(null);
+  const mousedown = useRef<Boolean>(false);
 
-  const findCoords = (event: MouseEvent) => {
-    let x = 0;
-    let y = 0;
+  const findCoords = useCallback(
+    (event: MouseEvent) => {
+      let x = 0;
+      let y = 0;
 
-    if (event.offsetX < 600 / settings.latticeSize!) x = 0;
-    else if (event.offsetX > 600) x = settings.latticeSize - 1;
-    else {
-      x =
-        (event.offsetX - 600 / settings.latticeSize!) /
-        (600 / settings.latticeSize!);
-    }
+      if (event.offsetX < 600 / latticeSize!) x = 0;
+      else if (event.offsetX > 600) x = latticeSize - 1;
+      else {
+        x = (event.offsetX - 600 / latticeSize!) / (600 / latticeSize!);
+      }
 
-    if (event.offsetY < 600 / settings.latticeSize) y = 0;
-    else if (event.offsetY > 600) y = settings.latticeSize - 1;
-    else {
-      y =
-        (event.offsetY - 600 / settings.latticeSize!) /
-        (600 / settings.latticeSize!);
-    }
+      if (event.offsetY < 600 / latticeSize) y = 0;
+      else if (event.offsetY > 600) y = latticeSize - 1;
+      else {
+        y = (event.offsetY - 600 / latticeSize!) / (600 / latticeSize!);
+      }
 
-    return { x, y };
-  };
+      return { x, y };
+    },
+    [latticeSize]
+  );
 
-  const coords = (event: MouseEvent) => {
-    mousedown = true;
+  const coords = useCallback(
+    (event: MouseEvent) => {
+      mousedown.current = true;
 
-    const { x, y } = findCoords(event);
-    const i = Math.floor(x);
-    const j = Math.floor(y);
-
-    setSpin(i, j, router.asPath);
-  };
-
-  const mouseUp = () => {
-    mousedown = false;
-  };
-
-  const mousemove = (event: MouseEvent) => {
-    if (mousedown) {
       const { x, y } = findCoords(event);
       const i = Math.floor(x);
       const j = Math.floor(y);
 
-      setSpin(i, j, router.asPath);
-    }
-  };
+      setSpin(i, j, asPath);
+    },
+    [asPath, findCoords, mousedown]
+  );
+
+  const mouseup = useCallback(() => {
+    mousedown.current = false;
+  }, [mousedown]);
+
+  const mousemove = useCallback(
+    (event: MouseEvent) => {
+      if (mousedown.current) {
+        const { x, y } = findCoords(event);
+        const i = Math.floor(x);
+        const j = Math.floor(y);
+
+        setSpin(i, j, asPath);
+      }
+    },
+    [asPath, findCoords, mousedown]
+  );
 
   useEffect(() => {
-    const context = newCanvas.current!.getContext("2d", { alpha: false });
+    const context = currentCanvas.current!.getContext("2d", { alpha: false });
 
     if (context != null || context != undefined) {
-      initSpins()
-      canvas.init(newCanvas.current!)
-      setup(router.asPath);
+      initSpins();
+      init(currentCanvas.current!);
+      setup(asPath);
 
-      newCanvas.current!.onmousedown = coords;
-      newCanvas.current!.onmouseup = mouseUp;
-      newCanvas.current!.onmousemove = mousemove;
+      currentCanvas.current!.onmousedown = coords;
+      currentCanvas.current!.onmouseup = mouseup;
+      currentCanvas.current!.onmousemove = mousemove;
     }
-  }, [settings.latticeSize, router.asPath, newCanvas]);
+  }, [latticeSize, asPath, currentCanvas, init, coords, mouseup, mousemove]);
 
   return (
     <canvas
       className=" w-600 h-600 bg-white ml-5 mt-5"
       width="600px"
       height="600px"
-      ref={newCanvas}
+      ref={currentCanvas}
     ></canvas>
   );
 };

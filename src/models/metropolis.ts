@@ -1,7 +1,7 @@
 import { color } from "../helpers/store";
 import { getCouplingConstant } from "../helpers/coupling-constant";
 import { getBottom, getLeft, getRight, getTop } from "../helpers/dipoles";
-import Store2 from "../stores/store";
+import Store from "../stores/store";
 
 /*
 jX jY = 1
@@ -9,8 +9,8 @@ anti ferromagnetic jx = -1, jy = -1
 */
 
 export const ComputeEforMetropolis = () => {
-  const { magneticField, latticeSize, magnetism } = Store2.getState().settings;
-  const { spins } = Store2.getState().simulation
+  const { magneticField, latticeSize, magnetism } = Store.getState().settings;
+  const { spins } = Store.getState().simulation;
   const CouplingConstant = getCouplingConstant(magnetism);
 
   let Ecurrent = 0.0;
@@ -29,14 +29,15 @@ export const ComputeEforMetropolis = () => {
     }
   }
   return { Ecurrent, Mcurrent };
-}
+};
 
 const metropolis = () => {
-  const { magneticField, magnetism, latticeSize, stepsPerFrame } = Store2.getState().settings;
-  const { localMagnetic, temperature } = Store2.getState().simulation
+  const { magneticField, magnetism, latticeSize, stepsPerFrame } =
+    Store.getState().settings;
+  const { temperature } = Store.getState().simulation;
   const CouplingConstant = getCouplingConstant(magnetism);
 
-  let { spins } = Store2.getState().simulation
+  let { spins, localMagnetic } = Store.getState().simulation;
 
   const deltaUofM = (i: number, j: number) => {
     const left = getLeft(i, j);
@@ -70,13 +71,13 @@ const metropolis = () => {
     ) {
       spins[i][j] *= -1;
       color(i, j);
-    };
-  }
+    }
+  };
 
   for (let a = 0; a < stepsPerFrame!; a++) {
     model();
   }
 
-  return { spins, temperature, localMagnetic }
-}
+  return { spins, localMagnetic };
+};
 export default metropolis;

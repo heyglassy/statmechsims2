@@ -1,6 +1,6 @@
 import create from "zustand";
-import Store2 from "./store";
+import Store from "./store";
 
-const useStore = create(Store2);
+const useStore = create(Store);
 
-export default useStore
+export default useStore;

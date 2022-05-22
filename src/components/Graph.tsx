@@ -1,8 +1,16 @@
 import { useEffect } from "react";
-import { Chart, LinearScale, LineController, LineElement, PointElement, ScatterController, ScriptableContext, Title } from "chart.js";
+import {
+  Chart,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  ScatterController,
+  ScriptableContext,
+  Title,
+} from "chart.js";
 import useStore from "../stores/hooks";
 import { plotPoint } from "../types/graphs";
-
 
 // jX jY
 // Fix Blume Capel, Wolff
@@ -16,7 +24,14 @@ export const newChart = () => {
     }
   };
 
-  Chart.register(LineController, LineElement, LinearScale, Title, ScatterController, PointElement);
+  Chart.register(
+    LineController,
+    LineElement,
+    LinearScale,
+    Title,
+    ScatterController,
+    PointElement
+  );
 
   const chart = new Chart("temp_vs_mag_graph", {
     type: "scatter",
@@ -51,32 +66,33 @@ export const newChart = () => {
           max: 1,
         },
       },
-    }
+    },
   });
 
   return chart;
 };
 
 const Graphs = () => {
-  const { graphs } = useStore();
+  const { set, destroy } = useStore((store) => store.graphs);
 
   useEffect(() => {
-    if (graphs.current) graphs.current.destroy();
+    destroy();
     const chart = newChart();
-    graphs.set({ current: chart });
-  }, []);
+    set({ current: chart });
+  }, [destroy, set]);
 
   return (
     <div className="mx-3 mb-3 w-5/6">
       <div>
-        <h1 className="text-2xl text-white font-bold">Graphs</h1>
-        {/* <input type="" */}
-        {/* <select onClick={ }>
-          <option>Magnetization</option>
-          <option>Magnetic susceptibility</option>
-        </select> */}
+        <div className="flex flex-row">
+          <h1 className="text-2xl text-white font-bold">Graphs</h1>
+          {/* <select>
+            <option>Magnetization</option>
+            <option>Magnetic susceptibility</option>
+          </select> */}
+        </div>
       </div>
-      {/* <div className="bg-white my-1 w-full h-px"></div> */}
+      <div className="bg-white my-1 w-full h-px"></div>
       <canvas id="temp_vs_mag_graph" className="m-3 bg-white"></canvas>
     </div>
   );
