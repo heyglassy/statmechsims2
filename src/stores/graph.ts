@@ -18,7 +18,7 @@ const Graphs = (set: SetState<MyState>, get: GetState<MyState>): graphs => ({
       graphs.graphData.concat(plotPoint);
     }),
   destroy: () => {
-    get().graphs.current!.destroy();
+    get().graphs.current?.destroy();
   },
 });
 
