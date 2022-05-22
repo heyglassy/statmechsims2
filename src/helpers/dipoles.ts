@@ -1,18 +1,15 @@
-import Store2 from "../stores/store";
+import Store from "../stores/store";
 
 export const getLeft = (i: number, j: number) => {
-  // const { settings, spins } = create(Store).getState();
-  // const settings = Settings.getState()
-  // const { spins } = Simulation.getState()
-
-  const { simulation: { spins }, settings } = Store2.getState();
+  const { spins } = Store.getState().simulation;
+  const settings = Store.getState().settings;
 
   if (j == 0) {
     if (
       settings.boundariesConditions ==
-      "Anti-periodic Boundaries (both directions)" ||
+        "Anti-periodic Boundaries (both directions)" ||
       settings.boundariesConditions ==
-      "Anti-periodic Boundaries (one directions)"
+        "Anti-periodic Boundaries (one directions)"
     )
       return -spins[i][settings.latticeSize - 1];
     if (settings.boundariesConditions == "Isolated Boundaries") return 0;
@@ -23,18 +20,15 @@ export const getLeft = (i: number, j: number) => {
 };
 
 export const getRight = (i: number, j: number) => {
-  // const { settings, spins } = create(Store).getState();
-  // const settings = Settings.getState()
-  // const { spins } = Simulation.getState()
-
-  const { simulation: { spins }, settings } = Store2.getState();
+  const { spins } = Store.getState().simulation;
+  const settings = Store.getState().settings;
 
   if (j == settings.latticeSize - 1) {
     if (
       settings.boundariesConditions ==
-      "Anti-periodic Boundaries (both directions)" ||
+        "Anti-periodic Boundaries (both directions)" ||
       settings.boundariesConditions ==
-      "Anti-periodic Boundaries (one directions)"
+        "Anti-periodic Boundaries (one directions)"
     )
       return -spins[i][0];
     if (settings.boundariesConditions == "Isolated Boundaries") return 0;
@@ -45,11 +39,8 @@ export const getRight = (i: number, j: number) => {
 };
 
 export const getTop = (i: number, j: number) => {
-  // const { settings, spins } = create(Store).getState();
-  // const settings = Settings.getState()
-  // const { spins } = Simulation.getState()
-
-  const { simulation: { spins }, settings } = Store2.getState();
+  const { spins } = Store.getState().simulation;
+  const settings = Store.getState().settings;
 
   if (i == 0) {
     if (
@@ -70,11 +61,8 @@ export const getTop = (i: number, j: number) => {
 };
 
 export const getBottom = (i: number, j: number) => {
-  // const { settings, spins } = create(Store).getState();
-  // const settings = Settings.getState()
-  // const { spins } = Simulation.getState()
-
-  const { simulation: { spins }, settings } = Store2.getState();
+  const { spins } = Store.getState().simulation;
+  const settings = Store.getState().settings;
 
   if (i == settings.latticeSize - 1) {
     if (
