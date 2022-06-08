@@ -1,14 +1,18 @@
 import { Optional } from "./utils";
 
+interface framesInfo {
+  savedFrames: number;
+  totalFrames: number;
+}
+
+interface cycles {
+  currentCycle: number;
+  totalCycles: number;
+}
+
 export interface dashboard {
-  framesInfo: {
-    savedFrames: number;
-    totalFrames: number;
-  };
-  cycles: {
-    currentCycle: number;
-    totalCycles: number;
-  };
+  framesInfo: framesInfo;
+  cycles: cycles;
   steps: number;
   temperature: number;
   energy: number;

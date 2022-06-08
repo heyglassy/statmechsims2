@@ -2,6 +2,8 @@ import { Optional } from "./utils";
 
 // TODO: Union type on currentURL
 
+type test = Optional<simulation>;
+
 export interface simulation {
   currentUrl: string;
   localMagnetic: Array<Array<number>>;

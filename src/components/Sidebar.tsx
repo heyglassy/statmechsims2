@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import ConfirmScreen from "./ConfirmScreen";
 import EndSimulation from "./EndSimulation";
-import produce from "immer"
 import freePlay from "../helpers/freePlay";
 import useStore from "../stores/hooks";
 import initSpins from "../helpers/initializers/spins";
@@ -34,17 +33,22 @@ const Sidebar = () => {
               disabled={simulation.running ? true : false}
               checked={simulation.freePlay}
               onChange={() => {
-                // dashboard.reset(); 
-                simulation.set({ freePlay: !simulation.freePlay, running: false })
-                freePlay(Date.now())
+                // dashboard.reset();
+                simulation.set({
+                  freePlay: !simulation.freePlay,
+                  running: false,
+                });
+                freePlay(Date.now());
               }}
-              className={`${simulation.freePlay ? "bg-green-400" : "bg-gray-500"
-                } relative inline-flex items-center h-6 rounded-full w-11`}
+              className={`${
+                simulation.freePlay ? "bg-green-400" : "bg-gray-500"
+              } relative inline-flex items-center h-6 rounded-full w-11`}
             >
               <span className="sr-only">Set Freeplay</span>
               <span
-                className={`${simulation.freePlay ? "translate-x-6" : "translate-x-1"
-                  } inline-block w-4 h-4 transform bg-white rounded-full`}
+                className={`${
+                  simulation.freePlay ? "translate-x-6" : "translate-x-1"
+                } inline-block w-4 h-4 transform bg-white rounded-full`}
               ></span>
             </Switch>
           </div>
@@ -61,15 +65,21 @@ const Sidebar = () => {
               disabled={simulation.running ? true : false}
               checked={simulation.freePlayIncrememt}
               onChange={() => {
-                simulation.set({ freePlayIncrememt: !simulation.freePlayIncrememt })
+                simulation.set({
+                  freePlayIncrememt: !simulation.freePlayIncrememt,
+                });
               }}
-              className={`${simulation.freePlayIncrememt ? "bg-green-400" : "bg-gray-500"
-                } relative inline-flex items-center h-5 rounded-full w-8`}
+              className={`${
+                simulation.freePlayIncrememt ? "bg-green-400" : "bg-gray-500"
+              } relative inline-flex items-center h-5 rounded-full w-8`}
             >
               <span className="sr-only">Set Freeplay Increment</span>
               <span
-                className={`${simulation.freePlayIncrememt ? "translate-x-4" : "translate-x-1"
-                  } inline-block w-3 h-3 transform bg-white rounded-full`}
+                className={`${
+                  simulation.freePlayIncrememt
+                    ? "translate-x-4"
+                    : "translate-x-1"
+                } inline-block w-3 h-3 transform bg-white rounded-full`}
               ></span>
             </Switch>
           </div>
@@ -164,9 +174,7 @@ const Sidebar = () => {
         <div className="inline-flex">
           <h1>Temperature Step</h1>
           <select
-            onChange={(e) =>
-              settings.set({ tempStep: Number(e.target.value) })
-            }
+            onChange={(e) => settings.set({ tempStep: Number(e.target.value) })}
           >
             <option>1</option>
             <option>0.1</option>
@@ -208,7 +216,9 @@ const Sidebar = () => {
           <input
             value={settings.numberOfCycles!}
             onChange={(e) =>
-              settings.set({ numberOfCycles: e.target.value ? Number(e.target.value) : null })
+              settings.set({
+                numberOfCycles: e.target.value ? Number(e.target.value) : null,
+              })
             }
             type="number"
             name="temp"
@@ -335,13 +345,11 @@ const Sidebar = () => {
             name="temp"
             value={settings.localMagneticField!}
             onChange={(e) =>
-              // setSettings({
-              //   ...settings,
-              //   localMagneticField: e.target.value
-              //     ? Number(e.target.value)
-              //     : null,
-              // })
-              settings.set({ localMagneticField: e.target.value ? Number(e.target.value) : null })
+              settings.set({
+                localMagneticField: e.target.value
+                  ? Number(e.target.value)
+                  : null,
+              })
             }
             step="0.1"
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
@@ -352,11 +360,9 @@ const Sidebar = () => {
           <h1>Magnetism</h1>
           <select
             onChange={(e) => {
-              // setSettings({ ...settings, magnetism: e.target.value });
-              settings.set(produce(settings, (draft) => {
-                draft.magnetism = e.target.value;
-              }))
-
+              settings.set({
+                magnetism: e.target.value,
+              });
             }}
           >
             <option>Ferromagnetic</option>
@@ -392,7 +398,7 @@ const Sidebar = () => {
           <select
             onChange={(e) => {
               settings.set({ geometicPattern: e.target.value });
-              MakePattern(e.target.value)
+              MakePattern(e.target.value);
             }}
           >
             <option selected>Random</option>
@@ -425,9 +431,11 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  settings.set(produce(settings, (draft) => {
-                    draft.nanotubeSimulation.width = e.target.value ? Number(e.target.value) : null;
-                  }))
+                  settings.set({
+                    nanotubeSimulation: {
+                      width: e.target.value ? Number(e.target.value) : null,
+                    },
+                  });
                 }}
               />
             </div>
@@ -440,9 +448,11 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  settings.set(produce(settings, (draft) => {
-                    draft.nanotubeSimulation.diameter = e.target.value ? Number(e.target.value) : null;
-                  }))
+                  settings.set({
+                    nanotubeSimulation: {
+                      diameter: e.target.value ? Number(e.target.value) : null,
+                    },
+                  });
                 }}
               />
             </div>
@@ -455,9 +465,11 @@ const Sidebar = () => {
                 min="0"
                 max={settings.latticeSize}
                 onChange={(e) => {
-                  settings.set(produce(settings, (draft) => {
-                    draft.nanotubeSimulation.height = e.target.value ? Number(e.target.value) : null;
-                  }))
+                  settings.set({
+                    nanotubeSimulation: {
+                      height: e.target.value ? Number(e.target.value) : null,
+                    },
+                  });
                 }}
               />
             </div>
@@ -467,9 +479,11 @@ const Sidebar = () => {
               <select
                 className="border border-black rounded"
                 onChange={(e) => {
-                  settings.set(produce(settings, (draft) => {
-                    draft.nanotubeSimulation.spin = Number(e.target.value) == 1 ? true : false
-                  }))
+                  settings.set({
+                    nanotubeSimulation: {
+                      spin: Number(e.target.value) === 1,
+                    },
+                  });
                 }}
               >
                 <option value={1}>Positive</option>
@@ -508,9 +522,16 @@ const Sidebar = () => {
             type="number"
             value={settings.proportionSpin.positive!}
             onChange={(e) =>
-              settings.set(produce(settings, (draft) => {
-                draft.proportionSpin.positive = e.target.value ? Number(e.target.value) : null;
-              }))
+              // settings.set(
+              //   produce(settings, (draft) => {
+              //     draft.proportionSpin.positive = e.target.value
+              //       ? Number(e.target.value)
+              //       : null;
+              //   })
+              // )
+              settings.set({
+                fixedSpin: false,
+              })
             }
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
@@ -524,9 +545,11 @@ const Sidebar = () => {
             type="number"
             value={settings.proportionSpin.negative!}
             onChange={(e) =>
-              settings.set(produce(settings, (draft) => {
-                draft.proportionSpin.negative = e.target.value ? Number(e.target.value) : null;
-              }))
+              settings.set({
+                proportionSpin: {
+                  negative: e.target.value ? Number(e.target.value) : null,
+                },
+              })
             }
             className="px-3 py-1 w-20 h-6 bg-gray-100 border border-black rounded"
           />
@@ -548,7 +571,7 @@ const Sidebar = () => {
               type="button"
               value="Randomize"
               onClick={() => {
-                initSpins()
+                initSpins();
                 setup(router.asPath);
               }}
             />
@@ -575,8 +598,8 @@ const Sidebar = () => {
             simulation.running
               ? "Stop Simulation"
               : simulation.freePlay
-                ? "Turn Freeplay Mode off to run simulations"
-                : "Run Simulation"
+              ? "Turn Freeplay Mode off to run simulations"
+              : "Run Simulation"
           }
           onClick={() => {
             // settings.simulation ? endSimulation() : setConfirm(true);
@@ -585,17 +608,18 @@ const Sidebar = () => {
             simulation.running ? setEndScreen(true) : setConfirm(true);
           }}
           disabled={simulation.freePlay ? true : false}
-          className={`${simulation.running
-            ? "bg-red-500 text-xl"
-            : simulation.freePlay
+          className={`${
+            simulation.running
+              ? "bg-red-500 text-xl"
+              : simulation.freePlay
               ? "bg-gray-500 text-xs"
               : "bg-green-500 text-xl"
-            } h-20 w-64 rounded`}
+          } h-20 w-64 rounded`}
         />
       </div>
       {confirm ? <ConfirmScreen open={confirm} setOpen={setConfirm} /> : null}
       {endScreen ? <EndSimulation setOpen={setEndScreen} /> : null}
-    </nav >
+    </nav>
   );
 };
 export default Sidebar;
