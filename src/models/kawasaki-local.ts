@@ -99,7 +99,7 @@ const KawasakiLocal = () => {
   const model = () => {
     let i1 = Math.floor(Math.random() * latticeSize);
     let j1 = Math.floor(Math.random() * latticeSize);
-    let dictkey = [i1][j1];
+    let dictkey = [i1, j1];
     let tryit = nearestNeighs[dictkey]; // nearestneighs is defined below this function, Inherited from previous model, FIX
     let randtry = tryit[Math.floor(Math.random() * 4)];
     let i2 = randtry[0];
