@@ -16,7 +16,7 @@ const appRouter = trpc
       date: z.string(),
     }),
     resolve({ input }) {
-      let link;
+      console.log("?????");
       const buf = Buffer.from(
         input.image.replace(/^data:image\/\w+;base64,/, ""),
         "base64"
@@ -33,8 +33,7 @@ const appRouter = trpc
       try {
         s3.send(new PutObjectCommand(params));
       } catch (e) {
-        link = "Error";
-        throw new Error(`${e}`)
+        throw new Error(`${e}`);
       }
 
       return {
@@ -47,8 +46,6 @@ const appRouter = trpc
       pathname: z.string(),
       date: z.string(),
       settings: z.object({
-        freePlay: z.boolean(),
-        simulation: z.boolean(),
         initialTemp: z.number().nullish(),
         finalTemp: z.number().nullish(),
         tempStep: z.number().nullish(),
@@ -100,7 +97,7 @@ const appRouter = trpc
       ),
     }),
     resolve({ input }) {
-      let link;
+      console.log("?????");
       let params = {
         Key: `${input.pathname}/${input.date}/data.json`,
         Bucket: BUCKET,
@@ -111,8 +108,7 @@ const appRouter = trpc
       try {
         s3.send(new PutObjectCommand(params));
       } catch (e) {
-        link = "Error";
-        throw new Error(`${e}`)
+        throw new Error(`${e}`);
       }
       return {
         link: `https://${BUCKET}.s3.amazonaws.com${input.pathname}/${input.date}/data/data.json`,
@@ -124,5 +120,9 @@ export type AppRouter = typeof appRouter;
 
 export default trpcNext.createNextApiHandler({
   router: appRouter,
+  batching: {
+    enabled: false,
+  },
+  maxBodySize: 100000,
   createContext: () => null,
 });

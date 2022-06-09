@@ -7,12 +7,15 @@ export const runner = (timestamp: number) => {
     settings: { stepsPerFrame, tempStep, initialTemp, finalTemp },
     graphs,
     dashboard,
+    canvas,
   } = Store.getState();
 
   simulation.set({
     ...simulation.algo(),
     temperature: simulation.temperature + tempStep!,
     loopCount: simulation.loopCount + stepsPerFrame!,
+    payloads: simulation.payloads.concat(dashboard),
+    frames: simulation.frames.concat(canvas.current!.toDataURL()),
   });
 
   if (simulation.calcStats) {
@@ -53,7 +56,9 @@ export const runner = (timestamp: number) => {
         draft.cycles.currentCycle++;
       })
     );
-    simulation.set({ temperature: initialTemp! });
+    simulation.set({
+      temperature: initialTemp!,
+    });
   }
 
   if (dashboard.cycles.currentCycle > dashboard.cycles.totalCycles) {

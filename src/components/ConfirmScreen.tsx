@@ -36,7 +36,12 @@ const ConfirmScreen: React.FC<Props> = ({ open, setOpen }: Props) => {
       <button
         className="bg-green-500 text-white rounded mt-4 w-32 h-8"
         onClick={() => {
-          simulation.set({ ...simulation, running: true });
+          simulation.set({
+            ...simulation,
+            running: true,
+            payloads: [],
+            frames: [],
+          });
           const totalFrames =
             (settings.finalTemp! - settings.initialTemp!) / settings.tempStep!;
           set({

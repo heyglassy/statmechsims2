@@ -17,6 +17,32 @@ const Sidebar = () => {
   const [endScreen, setEndScreen] = useState(false);
   const { settings, simulation } = useStore();
 
+  // const a = useStore.subscribe((state) => {
+  //   if (state.simulation.payloads.length === 250) {
+  //     const date = new Date().toISOString();
+  //     console.log(date);
+  //     submitData.mutate({
+  //       pathname: router.pathname,
+  //       settings: settings,
+  //       data: state.simulation.payloads,
+  //       date: date,
+  //     });
+  //     state.simulation.frames.forEach((image, index) => {
+  //       submitImage.mutateAsync({
+  //         image: image,
+  //         pathname: router.pathname,
+  //         index: index,
+  //         date: date,
+  //       });
+  //     });
+
+  //     state.simulation.set({
+  //       payloads: [],
+  //       frames: [],
+  //     });
+  //   }
+  // });
+
   return (
     <nav className="flex flex-col h-screen w-80">
       <div className="h-3/4 left-0 bg-white overflow-y-scroll overscroll-y-auto p-3">
@@ -605,7 +631,12 @@ const Sidebar = () => {
             // settings.simulation ? endSimulation() : setConfirm(true);
             // simulation.running ? simulation.set(produce(simulation, (draft) => { draft.running = false })) : setConfirm(true);
             // simulation.running ? simulation.set({ ...simulation, running: false }) : setConfirm(true);
-            simulation.running ? setEndScreen(true) : setConfirm(true);
+            simulation.running
+              ? (() => {
+                  simulation.set({ running: false });
+                  setEndScreen(true);
+                })()
+              : setConfirm(true);
           }}
           disabled={simulation.freePlay ? true : false}
           className={`${

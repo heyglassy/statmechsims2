@@ -25,6 +25,7 @@ const Simulation = (
   magnetism: 0,
   totalMagnetism: 0,
   loopCount: 0,
+  payloads: [],
   calcStats: () => {},
   algo: () => {},
   set: (update: Optional<simulation>) =>
