@@ -49,7 +49,7 @@ const DataSidebar = () => {
       </div>
       <div className="w-24 h-16 p-2 text-center text-xs bg-white rounded m-2">
         <h1>Sigma Magnetism</h1>
-        <h1>{Math.round(dashboard.sigmaMagnetisation! * 10000) / 10000}</h1>
+        <h1>{Math.round(dashboard.sigmaMagnetization! * 10000) / 10000}</h1>
       </div>
       <input
         type="button"

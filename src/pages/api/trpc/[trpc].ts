@@ -21,7 +21,7 @@ const appRouter = trpc
       index: z.number(),
       date: z.string(),
     }),
-    resolve({ input }) {
+    async resolve({ input }) {
       const buf = Buffer.from(
         input.image.replace(/^data:image\/\w+;base64,/, ""),
         "base64"
@@ -36,7 +36,7 @@ const appRouter = trpc
       };
 
       try {
-        s3.send(new PutObjectCommand(params));
+        await s3.send(new PutObjectCommand(params));
       } catch (e) {
         throw new Error(`${e}`);
       }
@@ -51,57 +51,57 @@ const appRouter = trpc
       pathname: z.string(),
       date: z.string(),
       settings: z.object({
-        initialTemp: z.number().nullish(),
-        finalTemp: z.number().nullish(),
-        tempStep: z.number().nullish(),
-        qpotts: z.number(),
+        initialTemp: z.number().nullable(),
+        finalTemp: z.number().nullable(),
+        tempStep: z.number().nullable(),
         fixedTemp: z.boolean(),
-        equilibriationDelay: z.number().nullish(),
-        numberOfCycles: z.number().nullish(),
+        qpotts: z.number(),
+        equilibriationDelay: z.number().nullable(),
+        numberOfCycles: z.number().nullable(),
         latticeSize: z.number(),
-        stepsPerFrame: z.number().nullish(),
+        stepsPerFrame: z.number().nullable(),
         couplingStrength: z.number(),
-        magneticField: z.number().nullish(),
-        localMagneticField: z.number().nullish(),
+        magneticField: z.number().nullable(),
+        localMagneticField: z.number().nullable(),
         magnetism: z.string(),
         boundariesConditions: z.string(),
         geometicPattern: z.string(),
+        fixedSpin: z.boolean(),
         nanotubeSimulation: z.object({
-          width: z.number().nullish(),
-          height: z.number().nullish(),
-          diameter: z.number().nullish(),
+          width: z.number().nullable(),
+          height: z.number().nullable(),
+          diameter: z.number().nullable(),
           spin: z.boolean(),
         }),
-        fixedSpin: z.boolean(),
         proportionSpin: z.object({
-          positive: z.number().nullish(),
-          negative: z.number().nullish(),
+          positive: z.number().nullable(),
+          negative: z.number().nullable(),
         }),
       }),
       data: z.array(
         z.object({
-          averageEnergy: z.number(),
-          averageMagnetization: z.number(),
           cycles: z.object({
             currentCycle: z.number(),
             totalCycles: z.number(),
           }),
-          energy: z.number(),
-          frames: z.object({
+          framesInfo: z.object({
             savedFrames: z.number(),
             totalFrames: z.number(),
           }),
-          magnetization: z.number(),
-          sigmaEnergy: z.number().nullish(),
-          sigmaMagnetization: z.number().nullish(),
           steps: z.number(),
           temperature: z.number(),
+          energy: z.number(),
           totalEnergy: z.number(),
-          totalMagnetization: z.number(),
+          averageEnergy: z.number().nullable(),
+          sigmaEnergy: z.number().nullable(),
+          magnetization: z.number(),
+          totalMagnetization: z.number().nullable(),
+          averageMagnetization: z.number().nullable(),
+          sigmaMagnetization: z.number().nullable(),
         })
       ),
     }),
-    resolve({ input }) {
+    async resolve({ input }) {
       let params = {
         Key: `${input.pathname}/${input.date}/data.json`,
         Bucket: BUCKET,
@@ -110,7 +110,7 @@ const appRouter = trpc
         ContentType: "text/plain",
       };
       try {
-        s3.send(new PutObjectCommand(params));
+        await s3.send(new PutObjectCommand(params));
       } catch (e) {
         throw new Error(`${e}`);
       }

@@ -1,4 +1,5 @@
 import produce from "immer";
+import { omit } from "lodash";
 import Store from "../stores/store";
 
 export const runner = (timestamp: number) => {
@@ -14,7 +15,7 @@ export const runner = (timestamp: number) => {
     ...simulation.algo(),
     temperature: simulation.temperature + tempStep!,
     loopCount: simulation.loopCount + stepsPerFrame!,
-    payloads: simulation.payloads.concat(dashboard),
+    payloads: simulation.payloads.concat(omit(dashboard, ["set", "reset"])),
     frames: simulation.frames.concat(canvas.current!.toDataURL()),
   });
 
@@ -37,7 +38,7 @@ export const runner = (timestamp: number) => {
       averageMagnetization: avgMag,
       sigmaEnergy:
         (Ecurrent * Ecurrent) / simulation.loopCount - avgEng * avgEng,
-      sigmaMagnetisation:
+      sigmaMagnetization:
         (Mcurrent * Mcurrent) / simulation.loopCount - avgMag * avgMag,
       steps: simulation.loopCount,
       framesInfo: {

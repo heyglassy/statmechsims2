@@ -1,3 +1,4 @@
+import { dashboard } from "./dashboard";
 import { Optional } from "./utils";
 
 // TODO: Union type on currentURL
@@ -22,6 +23,6 @@ export interface simulation {
   magnetism: number;
   totalMagnetism: number;
   loopCount: number;
-  payloads: Array<any>;
+  payloads: Array<Omit<dashboard, "set" | "reset">>;
   set: (update: Optional<simulation>) => void;
 }

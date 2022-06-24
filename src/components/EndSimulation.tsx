@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction } from "react";
 import useStore from "../stores/hooks";
 import { trpc } from "../utils/trpc";
+import { omit } from "lodash";
 
 interface Props {
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -31,7 +32,7 @@ const EndSimulation: React.FC<Props> = ({ setOpen }) => {
               const date = new Date().toISOString();
               submitData.mutate({
                 pathname: router.pathname,
-                settings: settings,
+                settings: omit(settings, ["set", "reset"]),
                 data: simulation.payloads,
                 date: date,
               });

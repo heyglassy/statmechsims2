@@ -39,7 +39,7 @@ const Dashboard = (
   magnetization: 0,
   totalMagnetization: 0,
   averageMagnetization: 0,
-  sigmaMagnetisation: 0,
+  sigmaMagnetization: 0,
   reset: () => set({}),
   // init: () => set(dashboard => produce(dashboard, state => {
   //     state.temperature = get().initialTemp!;
