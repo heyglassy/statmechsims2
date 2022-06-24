@@ -3,7 +3,13 @@ import * as trpcNext from "@trpc/server/adapters/next";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { z } from "zod";
 
-const s3 = new S3Client({ region: "us-east-1" });
+const s3 = new S3Client({
+  region: "us-east-1",
+  credentials: {
+    accessKeyId: process.env.AWS_ID!,
+    secretAccessKey: process.env.AWS_KEY!,
+  },
+});
 const BUCKET = "isingmodeldata";
 
 const appRouter = trpc
@@ -16,7 +22,6 @@ const appRouter = trpc
       date: z.string(),
     }),
     resolve({ input }) {
-      console.log("?????");
       const buf = Buffer.from(
         input.image.replace(/^data:image\/\w+;base64,/, ""),
         "base64"
@@ -97,7 +102,6 @@ const appRouter = trpc
       ),
     }),
     resolve({ input }) {
-      console.log("?????");
       let params = {
         Key: `${input.pathname}/${input.date}/data.json`,
         Bucket: BUCKET,
