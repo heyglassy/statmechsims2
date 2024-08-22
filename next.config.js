@@ -6,12 +6,10 @@ module.exports = {
         ignoreBuildErrors: true,
     },
     async redirects() {
-        return [
-            {
-                source: "/",
-                destination: "/models/metropolis",
-                permanent: false,
-            }
-        ]
-    }
+        return [{
+            source: "/",
+            destination: "/models/metropolis",
+            permanent: false,
+        }, ];
+    },
 };

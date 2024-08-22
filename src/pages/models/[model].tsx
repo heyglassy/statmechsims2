@@ -6,6 +6,7 @@ import useStore from "../../stores/hooks";
 import DataSidebar from "../../components/DataSidebar";
 import Graphs from "../../components/Graph";
 import { Models } from "../../helpers/models";
+import { heatbath } from "../../models/heatbath";
 
 const Model = () => {
   const router = useRouter();

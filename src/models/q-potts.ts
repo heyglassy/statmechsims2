@@ -1,6 +1,14 @@
 import { color2 } from "../helpers/store";
 import Store from "../stores/store";
 
+// This function is used to update the spin array in the simulation model. It
+// takes a single index 'i' as an argument and updates the spin value at that
+// index. It uses the 'temperature', 'magneticField', and 'latticeSize' values
+// from the simulation settings to calculate the probability of a spin flipping
+// to a particular state. It uses the 'spin' array from the simulation state to
+// generate the spin state for the lattice. It uses the 'color2' function to
+// update the color of the lattice.
+
 const qpotts = () => {
   const { magneticField, latticeSize, qpotts } = Store.getState().settings;
   const { spin, temperature } = Store.getState().simulation;

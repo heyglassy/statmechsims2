@@ -1,3 +1,3 @@
 export type Optional<T> = {
-  [K in keyof T]+?: Optional<T[K]>;
+  [A in keyof T]?: T extends object ? Optional<T[A]> : T[A];
 };
